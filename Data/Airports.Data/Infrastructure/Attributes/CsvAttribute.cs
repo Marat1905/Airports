@@ -15,13 +15,13 @@ namespace Airports.Data.Infrastructure.Attributes
         /// <summary>
         /// Имя свойства или поля.
         /// </summary>
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         /// <summary>
         /// Инициализирует новый экземпляр класса <see cref="CsvAttribute"/>.
         /// </summary>
         /// <param name="name">Имя свойства или поля.</param>
-        public CsvAttribute(string name) => Name = name;
+        public CsvAttribute(string? name) => Name = name;
 
         /// <summary>
         /// Инициализирует новый экземпляр класса <see cref="CsvAttribute"/>.
