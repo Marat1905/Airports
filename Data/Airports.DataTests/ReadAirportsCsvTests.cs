@@ -66,7 +66,7 @@ namespace Airports.Data.Tests
                 Actuals.Add(item);
             }
             //Assert
-
+            //Проверка количество записей
             Assert.AreEqual(Expecteds.Count, Actuals.Count);
 
             for (int i = 0; i < Expecteds.Count; i++)
@@ -97,7 +97,7 @@ namespace Airports.Data.Tests
                 Actuals.Add(item);
             }
             //Assert
-
+            //Проверка количество записей
             Assert.AreEqual(Expecteds.Count, Actuals.Count);
 
             for (int i = 0; i < Expecteds.Count; i++)
@@ -128,7 +128,7 @@ namespace Airports.Data.Tests
                 Actuals.Add(item);
             }
             //Assert
-
+            //Проверка количество записей
             Assert.AreEqual(Expecteds.Count, Actuals.Count);
 
             for (int i = 0; i < Expecteds.Count; i++)
@@ -159,7 +159,7 @@ namespace Airports.Data.Tests
                 Actuals.Add(item);
             }
             //Assert
-
+            //Проверка количество записей
             Assert.AreEqual(Expecteds.Count, Actuals.Count);
 
             for (int i = 0; i < Expecteds.Count; i++)
@@ -190,7 +190,7 @@ namespace Airports.Data.Tests
                 Actuals.Add(item);
             }
             //Assert
-
+            //Проверка количество записей
             Assert.AreEqual(Expecteds.Count, Actuals.Count);
 
             for (int i = 0; i < Expecteds.Count; i++)
