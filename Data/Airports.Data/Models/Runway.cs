@@ -1,9 +1,5 @@
 ﻿using Airports.Data.Infrastructure.Attributes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Airports.Data.Models
 {
@@ -26,7 +22,7 @@ namespace Airports.Data.Models
         /// Видимая извне строка внешнего ключа, соответствующая столбцу ident для связанного аэропорта в airports.csv 
         /// </summary>
         [Csv("airport_ident")]
-        public string? AirportIdent { get; set; }
+        public string AirportIdent { get; set; }
 
         /// <summary>
         /// Длина всей поверхности взлетно-посадочной полосы (включая смещенные пороги, зоны выбега и т. д.) в футах.
@@ -44,7 +40,7 @@ namespace Airports.Data.Models
         /// Код типа покрытия взлетно-посадочной полосы. Это еще не контролируемый словарь, но, вероятно, скоро будет. Некоторые общие значения включают «ASP» (асфальт), «TURF» (дерн), «CON» (бетон), «GRS» (трава), «GRE» (гравий), «WATER» (вода) и «UNK». (неизвестный).
         /// </summary>
         [Csv("surface")]
-        public string? Surface { get; set; }
+        public string Surface { get; set; }
 
         /// <summary>
         /// 1, если поверхность освещена ночью, 0 в противном случае. (Обратите внимание, что это не соответствует файлу airports.csv, в котором вместо 1 и 0 используются «да» и «нет».)
@@ -62,7 +58,7 @@ namespace Airports.Data.Models
         /// Идентификатор конца взлетно-посадочной полосы с меньшим номером.
         /// </summary>
         [Csv("le_ident")]
-        public string? LeIdent { get; set; }
+        public string LeIdent { get; set; }
 
         /// <summary>
         /// Широта центра конца взлетно-посадочной полосы с низким номером в десятичных градусах (положительное значение означает север), если доступно.
@@ -98,7 +94,7 @@ namespace Airports.Data.Models
         /// Идентификатор конца взлетно-посадочной полосы с большим номером.
         /// </summary>
         [Csv("he_ident")]
-        public string? HeIdent { get; set; }
+        public string HeIdent { get; set; }
 
         /// <summary>
         /// Широта центра конца взлетно-посадочной полосы с высоким номером в десятичных градусах (положительное значение означает север), если доступно.
@@ -136,7 +132,5 @@ namespace Airports.Data.Models
                 $"{LeLongitudeDeg} ; {LeElevationFt} ; {LeHeadingDegT} ; {LeDisplacedThresholdFt} ; {HeIdent} ; {HeLatitudeDeg} ; {HeLongitudeDeg} ; " +
                 $"{HeElevationFt} ; {HeHeadingDegT} ; {HeDisplacedThresholdFt}";
         }
-
-
     }
 }
