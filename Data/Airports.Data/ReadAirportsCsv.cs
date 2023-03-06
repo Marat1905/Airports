@@ -1,13 +1,10 @@
 ﻿using Airports.Data.Infrastructure.Attributes;
-using System;
-using System.Collections.Generic;
+using Airports.Data.Infrastructure.Helper;
 using System.Globalization;
 using System.IO.Compression;
-using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace Airports.Data
 {
@@ -160,9 +157,20 @@ namespace Airports.Data
             {
                 if (mapProp.Value.Name == map.Key)
                 {
-                    Type t = Nullable.GetUnderlyingType(mapProp.Key.PropertyType) ?? mapProp.Key.PropertyType;
-                    object safeValue = (string.IsNullOrEmpty(value)) ? null : Convert.ChangeType(value, t, CultureInfo.InvariantCulture);
-                    mapProp.Key.SetValue(result, safeValue, null);
+                    if (mapProp.Key.PropertyType.IsEnum)
+                    {
+                        Type enumType = mapProp.Key.PropertyType;
+                        var en = enumType.GetFields();
+                        var t = EnumHelper.GetValueFromDescription(enumType, value);
+                        mapProp.Key.SetValue(result, Enum.Parse(mapProp.Key.PropertyType, t.Name));
+                    }
+                    else
+                    {
+                        Type t = Nullable.GetUnderlyingType(mapProp.Key.PropertyType) ?? mapProp.Key.PropertyType;
+                        object safeValue = (string.IsNullOrEmpty(value)) ? null : Convert.ChangeType(value, t, CultureInfo.InvariantCulture);
+                        mapProp.Key.SetValue(result, safeValue, null);
+                    }
+
                 }
             }
         }
