@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Reflection;
 
 namespace Airports.Data.Infrastructure.Helper
@@ -48,5 +49,25 @@ namespace Airports.Data.Infrastructure.Helper
             return field == null ? default : field.Field;
         }
 
+        /// <summary>Получаем атрибут </summary>
+        /// <param name="type"></param>
+        /// <param name="value">Перечислитель</param>
+        /// <returns>возвращаем атрибут</returns>
+        /// <exception cref="ArgumentException"></exception>
+        public static string GetDescription(Type type, object value)
+        {
+            if (!type.IsEnum)
+                throw new ArgumentException();
+            FieldInfo[] fields = type.GetFields();
+            var field = fields
+                       .SelectMany(f => f.GetCustomAttributes(
+                           typeof(DescriptionAttribute), false), (
+                               f, a) => new { Field = f, Att = a })
+                       .Where(f => ((FieldInfo)f.Field)
+                           .Name == value.ToString()).SingleOrDefault();
+            if(field.Att is DescriptionAttribute attribute)
+            return attribute.Description; 
+           return null;
+        }
     }
 }
