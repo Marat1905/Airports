@@ -1,9 +1,6 @@
-﻿using Airports.Data.Infrastructure.Attributes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Airports.Data.Enums;
+using Airports.Data.Infrastructure.Attributes;
+using Airports.Data.Infrastructure.Helper;
 
 namespace Airports.Data.Models
 {
@@ -24,7 +21,7 @@ namespace Airports.Data.Models
         /// начинающийся с кода страны ISO2, за которым следует тире и четырехзначное 
         /// число. </summary>
         [Csv("ident")]
-        public string? Ident { get; set; }
+        public string Ident { get; set; }
 
         /// <summary>
         /// Тип аэропорта. Допустимые значения: «closed_airport», «heliport»,
@@ -32,13 +29,13 @@ namespace Airports.Data.Models
         /// См. легенду карты для определения каждого типа.
         /// </summary>
         [Csv("type")]
-        public string? Type { get; set; }
+        public TypeAirport Type { get; set; }
 
         /// <summary>
         /// Официальное название аэропорта, включая «Аэропорт», «Взлетно-посадочная полоса» и т. д.
         /// </summary>
         [Csv("name")]
-        public string? Name { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
         /// Широта аэропорта в градусах (положительное значение для севера).
@@ -62,17 +59,17 @@ namespace Airports.Data.Models
         /// Код континента, на котором (в основном) расположен аэропорт.
         /// </summary>
         [Csv("continent")]
-        public string? Continent { get; set; }
+        public ContinentCode Continent { get; set; }
 
         //TODO: Изменить код страны.
         /// <summary>
-        /// Двух символьный код ISO 3166:1-alpha2 для страны, в которой (в основном) 
+        /// Двухсимвольный код ISO 3166:1-alpha2 для страны, в которой (в основном) 
         /// расположен аэропорт. Также используется несколько неофициальных кодов,
         /// не относящихся к ISO, например «XK» для Косово . 
         /// Указывает на столбец кода в country.csv .
         /// </summary>
         [Csv("iso_country")]
-        public string? IsoCountry { get; set; }
+        public string IsoCountry { get; set; }
 
         //TODO: Изменить код региона.
         /// <summary>
@@ -84,7 +81,7 @@ namespace Airports.Data.Models
         /// но также включают некоторые пользовательские коды. См. документацию по region.csv .
         /// </summary>   
         [Csv("iso_region")]
-        public string? IsoRegion { get; set; }
+        public string IsoRegion { get; set; }
 
         /// <summary>
         /// Основной муниципалитет, который обслуживает аэропорт (при наличии). 
@@ -92,14 +89,14 @@ namespace Airports.Data.Models
         /// в котором физически расположен аэропорт.
         /// </summary>
         [Csv("municipality")]
-        public string? Municipality { get; set; }
+        public string Municipality { get; set; }
 
         //TODO: Можно попробовать Enum.
         /// <summary>
         /// «да», если аэропорт в настоящее время обслуживает регулярные авиалинии; "нет" иначе.
         /// </summary>
         [Csv("scheduled_service")]
-        public string? ScheduledService { get; set; }
+        public string ScheduledService { get; set; }
 
         /// <summary>
         /// Код, который авиационная база данных GPS (например, Jeppesen или Garmin)
@@ -108,32 +105,32 @@ namespace Airports.Data.Models
         /// глобально уникальность этого столбца не гарантируется.
         /// </summary>
         [Csv("gps_code")]
-        public string? GpsCode { get; set; }
+        public string GpsCode { get; set; }
 
         //TODO: Проверить. код IATA
         /// <summary>
         /// Трех буквенный код IATA аэропорта (если он есть).
         /// </summary>
         [Csv("iata_code")]
-        public string? IataCode { get; set; }
+        public string IataCode { get; set; }
 
         /// <summary>
         /// Местный код страны для аэропорта, если он отличается от полей gps_code и iata_code (используется в основном для аэропортов США).
         /// </summary>
         [Csv("local_code")]
-        public string? LocalCode { get; set; }
+        public string LocalCode { get; set; }
 
         /// <summary>
         /// URL-адрес официальной домашней страницы аэропорта в Интернете, если таковая существует.
         /// </summary>
         [Csv("home_link")]
-        public string? HomeLink { get; set; }
+        public string HomeLink { get; set; }
 
         /// <summary>
         /// URL-адрес страницы аэропорта в Википедии, если таковая существует.
         /// </summary>
         [Csv("wikipedia_link")]
-        public string? WikipediaLink { get; set; }
+        public string WikipediaLink { get; set; }
 
         /// <summary>
         /// Дополнительные ключевые слова/фразы для облегчения поиска, 
@@ -142,12 +139,12 @@ namespace Airports.Data.Models
         /// близлежащие туристические направления и т. д.
         /// </summary>
         [Csv("keywords")]
-        public string? Keywords { get; set; }
+        public string Keywords { get; set; }
 
 
         public override string ToString()
         {
-            return $"{Id} ; {Ident} ; {Type} ; {Name} ;" +
+            return $"{Id} ; {Ident} ; {Type.ToName()} ; {Name} ;" +
                 $" {LatitudeDeg} ; {LongitudeDeg} ; {ElevationFt} ; {Continent} ; " +
                 $"{IsoCountry} ; {IsoRegion} ; {Municipality} ; {ScheduledService} ; " +
                 $"{GpsCode} ; {IataCode} ; {LocalCode} ; {HomeLink} ; {WikipediaLink} ; {Keywords}";
