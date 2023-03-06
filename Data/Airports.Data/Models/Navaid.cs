@@ -1,9 +1,6 @@
-﻿using Airports.Data.Infrastructure.Attributes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Airports.Data.Enums;
+using Airports.Data.Infrastructure.Attributes;
+using Airports.Data.Infrastructure.Helper;
 
 namespace Airports.Data.Models
 {
@@ -20,25 +17,25 @@ namespace Airports.Data.Models
         /// Это уникальный строковый идентификатор, составленный из названия навигационного средства и страны и используемый в URL-адресе OurAirports.
         /// </summary>
         [Csv("filename")]
-        public string? Filename { get; set; }
+        public string Filename { get; set; }
 
         /// <summary>
         /// Идентификатор из 1-3 символов, который передает навигационное средство.
         /// </summary>
         [Csv("ident")]
-        public string? Ident { get; set; }
+        public string Ident { get; set; }
 
         /// <summary>
         /// Название навигационного средства, исключая его тип.
         /// </summary>
         [Csv("name")]
-        public string? Name { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
         /// Тип навигационного средства. 
         /// </summary>
         [Csv("type")]
-        public string? Type { get; set; }
+        public RadioNavigationAids Type { get; set; }
 
         /// <summary>
         /// Частота навигационного средства в килогерцах . Если навигационное средство работает в диапазоне УКВ (VOR, VOR-DME) или работает в диапазоне УВЧ с парной частотой УКВ (DME, TACAN, VORTAC), то вам нужно разделить это число на 1000, чтобы получить частоту в мегагерцах ( 115,3 МГц в этом примере). Для NDB или NDB-DME вы можете использовать эту частоту напрямую.
@@ -65,10 +62,10 @@ namespace Airports.Data.Models
         public int? ElevationFt { get; set; }
 
         /// <summary>
-        /// Двух символьный код ISO 3166:1-alpha2 для страны, в которой эксплуатируется навигационное средство. Также используется несколько неофициальных кодов, не относящихся к ISO, например «XK» для Косово .
+        /// Двухсимвольный код ISO 3166:1-alpha2 для страны, в которой эксплуатируется навигационное средство. Также используется несколько неофициальных кодов, не относящихся к ISO, например «XK» для Косово .
         /// </summary>
         [Csv("iso_country")]
-        public string? IsoCountry { get; set; }
+        public string IsoCountry { get; set; }
 
         /// <summary>
         /// Парная частота VHF для DME (или TACAN) в килогерцах. Разделите на 1000, чтобы получить парную частоту VHF в мегагерцах (например, 115,3 МГц).
@@ -80,7 +77,7 @@ namespace Airports.Data.Models
         /// Канал DME (альтернативный способ настройки дальномерной аппаратуры).
         /// </summary>
         [Csv("dme_channel")]
-        public string? DmeChannel { get; set; }
+        public string DmeChannel { get; set; }
 
         /// <summary>
         /// Широта соответствующего DME в десятичных градусах (отрицательное значение для юга). Если отсутствует, предположим, что значение такое же, как latitude_deg .
@@ -116,23 +113,23 @@ namespace Airports.Data.Models
         /// Основная функция навигационных средств в системе воздушного пространства. Варианты включают «HI» (высотные воздушные трассы, на эшелоне полета 180 или выше), «LO» (низковысотные воздушные трассы), «BOTH» (высотные и малые воздушные трассы), «TERM» (терминальная навигация). только) и "RNAV" (зональная навигация без GPS).
         /// </summary>
         [Csv("usageType")]
-        public string? UsageType { get; set; }
+        public string UsageType { get; set; }
 
         /// <summary>
         /// Уровень выходной мощности навигационного средства. Варианты включают «ВЫСОКИЙ», «СРЕДНИЙ», «НИЗКИЙ» и «НЕИЗВЕСТНО».
         /// </summary>
         [Csv("power")]
-        public string? Power { get; set; }
+        public string Power { get; set; }
 
         /// <summary>
         /// Текстовый идентификатор OurAirports (обычно код ИКАО) для аэропорта, связанного с навигационным средством. Ссылки на столбец ident в airports.csv .
         /// </summary>
         [Csv("associated_airport")]
-        public string? AssociatedAirport { get; set; }
+        public string AssociatedAirport { get; set; }
 
         public override string ToString()
         {
-            return $"{Id} ; {Filename} ; {Ident} ; {Name} ; {Type} ; {FrequencyKhz} ; {LatitudeDeg} ; {LongitudeDeg} ; {ElevationFt} ; {IsoCountry} ; " +
+            return $"{Id} ; {Filename} ; {Ident} ; {Name} ; {Type.ToName()} ; {FrequencyKhz} ; {LatitudeDeg} ; {LongitudeDeg} ; {ElevationFt} ; {IsoCountry} ; " +
                 $"{DmeFrequencyKhz} ; {DmeChannel} ; {DmeLatitudeDeg} ; {DmeLongitudeDeg} ; {DmeElevationFt} ; {SlavedVariationDeg} ; {MagneticVariationDeg} ; " +
                 $"{UsageType} ; {Power} ; {AssociatedAirport}";
         }
