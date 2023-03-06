@@ -106,7 +106,7 @@ namespace Airports.Data.Models
         /// Долгота центра конца взлетно-посадочной полосы с высоким номером в десятичных градусах (положительное значение означает восток), если доступно.
         /// </summary>
         [Csv("he_longitude_deg")]
-        public double? HeLongitudeDeg { get; set; }
+        public decimal? HeLongitudeDeg { get; set; }
 
         /// <summary>
         /// Высота над уровнем моря конца взлетно-посадочной полосы с большим номером в футах.
