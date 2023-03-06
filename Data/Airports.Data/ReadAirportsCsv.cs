@@ -63,12 +63,10 @@ namespace Airports.Data
             return ReadZip().Any(x => x.Name == fileName);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <summary> </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="fileName"></param>
-        /// <param name="separator"></param>
+        /// <param name="fileName">Имя файла с расширением</param>
+        /// <param name="separator">Разделитель</param>
         /// <returns></returns>
         public IEnumerable<T> GetCsv<T>(string fileName, string separator = ",") where T : class, new()
         {
@@ -135,12 +133,10 @@ namespace Airports.Data
 
             }
         }
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <summary></summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="fileArhive"></param>
-        /// <param name="separator"></param>
+        /// <param name="fileArhive">Имя файла с расширением</param>
+        /// <param name="separator">Разделитель</param>
         /// <returns></returns>
         public IEnumerable<T> GetCsv<T>(ZipArchiveEntry fileArhive, string separator = ",") where T : class, new()
         {
