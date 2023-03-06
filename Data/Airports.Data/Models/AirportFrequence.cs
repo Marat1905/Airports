@@ -23,19 +23,19 @@ namespace Airports.Data.Models
         /// Видимая извне строка внешнего ключа, соответствующая столбцу ident для связанного аэропорта в airports.csv .
         /// </summary>
         [Csv("airport_ident")]
-        public string? AirportIdent { get; set; }
+        public string AirportIdent { get; set; }
 
         /// <summary>
         /// Код типа частоты. Это не (в настоящее время) контролируемый словарь, но, вероятно, скоро будет. 
         /// </summary>
         [Csv("type")]
-        public string? Type { get; set; }
+        public string Type { get; set; }
 
         /// <summary>
         /// Описание частоты, как правило, так, как пилот открывает на ней вызов.
         /// </summary>
         [Csv("description")]
-        public string? Description { get; set; }
+        public string Description { get; set; }
 
         /// <summary>
         /// Частота радиоголоса в мегагерцах. Обратите внимание, что одна и та же частота может появляться несколько раз для аэропорта, выполняя разные функции.
