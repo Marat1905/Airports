@@ -12,16 +12,14 @@ namespace Airports.Data.Infrastructure.Attributes
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
     internal class CsvAttribute : Attribute
     {
-        /// <summary>
-        /// Имя свойства или поля.
-        /// </summary>
-        public string? Name { get; set; }
-
+        /// <summary>Имя свойства или поля.</summary>
+        public string Name { get; set; }
+       
         /// <summary>
         /// Инициализирует новый экземпляр класса <see cref="CsvAttribute"/>.
         /// </summary>
         /// <param name="name">Имя свойства или поля.</param>
-        public CsvAttribute(string? name) => Name = name;
+        public CsvAttribute(string name) => Name = name;
 
         /// <summary>
         /// Инициализирует новый экземпляр класса <see cref="CsvAttribute"/>.
