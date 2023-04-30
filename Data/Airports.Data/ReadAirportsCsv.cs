@@ -42,17 +42,14 @@ namespace Airports.Data
         /// <exception cref="FileNotFoundException"> Если не правильно указан путь к файлу за архивированного файла</exception>
         public IEnumerable<ZipArchiveEntry> ReadZip()
         {
-            List<ZipArchiveEntry> result = new List<ZipArchiveEntry>();
             //Проверяем правильность указания пути к архиву.
             FileInfo file = new FileInfo(ZipPath);
             if (!file.Exists)
                 throw new FileNotFoundException("Не правильно указан путь к архиву", ZipPath);
             //Получаем список файлов в архиве
             using (ZipArchive archive = ZipFile.OpenRead(ZipPath))
-            {
-                result.AddRange(archive.Entries);
-            }
-            return result;
+                foreach(var entry in archive.Entries)
+                    yield return entry;
         }
 
         /// <summary>Проверяет наличие файла в архиве</summary>
