@@ -6,8 +6,10 @@ using System.Diagnostics;
 using System.Diagnostics.Metrics;
 
 Console.Title = "MyProg";
+string exePath = AppDomain.CurrentDomain.BaseDirectory;
+string zipPath =  Path.Combine(exePath, "..\\..\\..\\Airports.zip");
+//string zipPath = @"C:\Users\Marat\Downloads\Airports.zip";
 
-string zipPath = @"C:\Users\Marat\Downloads\Airports.zip";
 string fileCountries = "countries.csv";
 string fileRegions = "regions.csv";
 string fileAirports = "airports.csv";
