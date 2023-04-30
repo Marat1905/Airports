@@ -1,8 +1,10 @@
 ﻿using Airports.Data.Infrastructure.Attributes;
 using Airports.Data.Infrastructure.Helper;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO.Compression;
 using System.Reflection;
+using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -60,6 +62,8 @@ namespace Airports.Data
             return ReadZip().Any(x => x.Name == fileName);
         }
 
+       
+
         /// <summary> </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="fileName">Имя файла с расширением</param>
@@ -76,32 +80,17 @@ namespace Airports.Data
                     {
                         using (StreamReader reader = new StreamReader(zipEntryStream, Encoding.Default))
                         {
-                            //Получаем массив свойств текущего объекта
-                            var properties = typeof(T).GetProperties();
-                            // Создаем словарь 
-                            Dictionary<string, int> myMap = new Dictionary<string, int>();
-                            // Создаем словарь информацией о свойствах и атрибутом
-                            Dictionary<PropertyInfo, CsvAttribute> MapProp = new Dictionary<PropertyInfo, CsvAttribute>();
-                            // Заполняем словарь свойством и атрибутами
-                            foreach (PropertyInfo property in properties)
-                            {
-                                CsvAttribute attribute =
-                                    Attribute.GetCustomAttribute(property, typeof(CsvAttribute)) as CsvAttribute;
-                                if (attribute != null)
-                                    MapProp[property] = attribute;
-                            }
-
+                            // Возвращаем словарь MapProp словарь с информацией о свойствах и атрибутом 
+                            Dictionary<PropertyInfo, CsvAttribute> MapProp = MapProperties(typeof(T));
+                                                  
                             // Получаем первую строку и делим ее на название столбцов
-                            string pattern = string.Format("{0}(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))", separator);
+                            string pattern = string.Format("{0}(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))", separator);                          
                             string? header = reader.ReadLine();
                             string[] headers = Regex.Split(header, pattern);
-                            // Убираем двойные кавычки в массиве 
-                            headers = headers.Select(x => x.Replace("\"", "")).ToArray();
-                            //Заполняем словарь название столбца и его положение 
-                            for (int i = 0; i < headers.Length; i++)
-                            {
-                                myMap[headers[i]] = i;// отслеживание индекса имени каждого столбца
-                            }
+
+                            //// Создаем словарь 
+                            Dictionary<string, int> myMap = MapHeaders(headers);
+                          
                             // читаем в цикле до конца файла
                             while (!reader.EndOfStream)
                             {
@@ -199,6 +188,41 @@ namespace Airports.Data
 
                 }
             }
+        }
+        /// <summary>Получаем словарь свойств и атрибутов</summary>
+        /// <param name="type">Получаем тип модели</param>
+        /// <returns>Возвращаем словарь свойств и атрибутами</returns>
+        private Dictionary<PropertyInfo, CsvAttribute>  MapProperties(Type type)
+        {
+            //Получаем массив свойств текущего объекта
+            var properties = type.GetProperties();
+            // Создаем словарь информацией о свойствах и атрибутом
+            Dictionary<PropertyInfo, CsvAttribute>  MapProp = new Dictionary<PropertyInfo, CsvAttribute>();
+            // Заполняем словарь свойством и атрибутами
+            foreach (PropertyInfo property in properties)
+            {
+                CsvAttribute attribute =
+                    Attribute.GetCustomAttribute(property, typeof(CsvAttribute)) as CsvAttribute;
+                if (attribute != null)
+                    MapProp[property] = attribute;
+            }
+            return MapProp;
+        }
+        /// <summary>Метод для получения словаря заголовков</summary>
+        /// <param name="header">Первая строка прочитанная</param>
+        /// <returns> Возвращаем словарь заголовков </returns>
+        private Dictionary<string, int> MapHeaders(string[] headers)
+        {
+            //// Создаем словарь 
+            Dictionary<string, int> myMap = new Dictionary<string, int>();
+            // Убираем двойные кавычки в массиве 
+            headers = headers.Select(x => x.Replace("\"", "")).ToArray();
+            //Заполняем словарь название столбца и его положение 
+            for (int i = 0; i < headers.Length; i++)
+            {
+                myMap[headers[i]] = i;// отслеживание индекса имени каждого столбца
+            }
+            return myMap;
         }
         #endregion
     }

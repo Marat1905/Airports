@@ -226,9 +226,5 @@ namespace Airports.Data.Tests
             }
         }
 
-       
-
-       
-
     }
 }
