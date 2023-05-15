@@ -14,7 +14,8 @@ namespace Airports.Data.Tests
     [TestClass()]
     public class ReadAirportsCsvTests
     {
-        string zipPath = @"C:\Users\Marat\Downloads\Airports.zip";
+        string zipPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\..\\..\\Tests\\TestConsole\\Airports.zip");
+        //string zipPath = @"C:\Users\Marat\Downloads\Airports.zip";
 
         [TestMethod()]
         public void ReadAirportsCsvTest()
@@ -225,10 +226,6 @@ namespace Airports.Data.Tests
                 }
             }
         }
-
-       
-
-       
 
     }
 }
