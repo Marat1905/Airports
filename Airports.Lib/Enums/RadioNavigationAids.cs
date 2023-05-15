@@ -1,6 +1,9 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Text;
 
-namespace Airports.Data.Enums
+namespace Airports.Lib.Enums
 {
     public enum RadioNavigationAids
     {

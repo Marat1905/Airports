@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace Airports.Data.Enums
+namespace Airports.Lib.Enums
 {
     /// <summary>
     /// Тип аэропорта.

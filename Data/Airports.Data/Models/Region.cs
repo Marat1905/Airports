@@ -1,6 +1,6 @@
-﻿using Airports.Data.Enums;
-using Airports.Data.Infrastructure.Attributes;
+﻿using Airports.Data.Infrastructure.Attributes;
 using Airports.Data.Infrastructure.Helper;
+using Airports.Lib.Enums;
 
 namespace Airports.Data.Models
 {

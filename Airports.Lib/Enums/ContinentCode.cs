@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 
-namespace Airports.Data.Enums
+
+namespace Airports.Lib.Enums
 {
     /// <summary>Код континента. </summary>
     public enum ContinentCode

@@ -6,4 +6,8 @@
     <Nullable>disable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Airports.Lib\Airports.Lib.csproj" />
+  </ItemGroup>
+
 </Project>
