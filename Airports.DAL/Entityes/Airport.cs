@@ -30,7 +30,7 @@ namespace Airports.DAL.Entityes
         /// <summary>
         /// Широта аэропорта в градусах (положительное значение для севера).
         /// </summary>
-        [Column(TypeName ="decimal(5,15)")]
+        [Column(TypeName ="float")]
         public decimal? LatitudeDeg { get; set; }
 
         /// <summary>
