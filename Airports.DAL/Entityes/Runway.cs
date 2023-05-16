@@ -1,4 +1,6 @@
 ﻿using Airports.DAL.Entityes.Base;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Airports.DAL.Entityes
 {
@@ -83,6 +85,7 @@ namespace Airports.DAL.Entityes
         /// <summary>
         /// Долгота центра конца взлетно-посадочной полосы с высоким номером в десятичных градусах (положительное значение означает восток), если доступно.
         /// </summary>
+        [Column(TypeName = "decimal(5,15)")]
         public decimal? HeLongitudeDeg { get; set; }
 
         /// <summary>

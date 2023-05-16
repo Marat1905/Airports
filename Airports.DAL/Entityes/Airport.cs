@@ -1,5 +1,6 @@
 ﻿using Airports.DAL.Entityes.Base;
 using Airports.Lib.Enums;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Airports.DAL.Entityes
 {
@@ -29,6 +30,7 @@ namespace Airports.DAL.Entityes
         /// <summary>
         /// Широта аэропорта в градусах (положительное значение для севера).
         /// </summary>
+        [Column(TypeName ="decimal(5,15)")]
         public decimal? LatitudeDeg { get; set; }
 
         /// <summary>
