@@ -132,9 +132,7 @@
 //    Console.ResetColor();
 //}
 
-using Airports.DAL.Context;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using TestConsole.Data;
@@ -142,17 +140,8 @@ using TestConsole.Data;
 internal class Program
 {
     private static IHost __Host;
-    private static void Main(string[] args)
+    private static async Task Main(string[] args)
     {
-
-
-        var configuration = new ConfigurationBuilder()
-              .AddJsonFile("appsettings.json")
-              .Build();
-
-        var db_options = new DbContextOptionsBuilder<AirpotsDB>()
-           .UseSqlServer(configuration.GetConnectionString("MSSQL"))
-           .Options;
 
         IHost Host = __Host ??= Program.CreateHostBuilder(Environment.GetCommandLineArgs()).Build();
 
@@ -162,12 +151,10 @@ internal class Program
 
         using (var scope = Services.CreateScope())
         {
-            scope.ServiceProvider.GetRequiredService<DbInitializer>().Initialize();
+           await scope.ServiceProvider.GetRequiredService<DbInitializer>().InitializeAsync();
         }
 
     }
-
-
 
     static void ConfigureServices(HostBuilderContext host, IServiceCollection services) => services
             .AddDatabase(host.Configuration.GetSection("Database"))

@@ -10,11 +10,11 @@ namespace TestConsole.Data
         {
             _db = db;
         }
-        public  void Initialize()
+        public  async Task InitializeAsync()
         {
-             _db.Database.EnsureDeleted();
+            await _db.Database.EnsureDeletedAsync().ConfigureAwait(false);
 
-             _db.Database.Migrate();
+             await _db.Database.MigrateAsync().ConfigureAwait(false);
 
         }
     }
