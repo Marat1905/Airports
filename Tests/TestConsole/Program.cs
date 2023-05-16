@@ -144,6 +144,8 @@ internal class Program
     private static IHost __Host;
     private static void Main(string[] args)
     {
+
+
         var configuration = new ConfigurationBuilder()
               .AddJsonFile("appsettings.json")
               .Build();
@@ -152,9 +154,19 @@ internal class Program
            .UseSqlServer(configuration.GetConnectionString("MSSQL"))
            .Options;
 
-         IHost Host = __Host ??= Program.CreateHostBuilder(Environment.GetCommandLineArgs()).Build();
+        IHost Host = __Host ??= Program.CreateHostBuilder(Environment.GetCommandLineArgs()).Build();
+
+
+        IServiceProvider Services = Host.Services;
+
+
+        using (var scope = Services.CreateScope())
+        {
+            scope.ServiceProvider.GetRequiredService<DbInitializer>().Initialize();
+        }
 
     }
+
 
 
     static void ConfigureServices(HostBuilderContext host, IServiceCollection services) => services

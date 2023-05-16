@@ -24,7 +24,7 @@ namespace TestConsole.Data
                        break;
                }
            })
-           //.AddTransient<DbInitializer>()
+           .AddTransient<DbInitializer>()
           // .AddRepositoriesInDB()
         ;
     }
