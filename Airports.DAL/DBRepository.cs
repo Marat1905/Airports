@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Airports.DAL
 {
-    public class DBRepository<T> : IRepository<T> where T : Entity, new()
+    internal class DBRepository<T> : IRepository<T> where T : Entity, new()
     {
         private readonly AirpotsDB _db;
         private readonly DbSet<T> _Set;
