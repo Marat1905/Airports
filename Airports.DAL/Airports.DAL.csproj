@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Airports.Interfaces\Airports.Interfaces.csproj" />
     <ProjectReference Include="..\Airports.Lib\Airports.Lib.csproj" />
   </ItemGroup>
 
