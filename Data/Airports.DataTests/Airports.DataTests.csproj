@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Tests\TestConsole\TestConsole.csproj" />
     <ProjectReference Include="..\Airports.Data\Airports.Data.csproj" />
   </ItemGroup>
 

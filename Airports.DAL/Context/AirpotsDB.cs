@@ -24,11 +24,11 @@ namespace Airports.DAL.Context
 
         public AirpotsDB(DbContextOptions<AirpotsDB> options) : base(options) { }
 
-        //protected override void OnModelCreating(ModelBuilder modelBuilder)
-        //{
-        //    modelBuilder.Entity<AirportDBModel>().Property(o => o.LatitudeDeg).HasPrecision(25, 16);
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<AirportDBModel>().Property(o => o.LatitudeDeg).HasPrecision(25, 16);
 
-        //    base.OnModelCreating(modelBuilder);
-        //}
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

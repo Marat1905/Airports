@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestConsole.Data
 {
-    internal class DbInitializer
+    public class DbInitializer
     {
         private readonly AirpotsDB _db;
         public DbInitializer(AirpotsDB db)

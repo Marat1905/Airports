@@ -147,74 +147,77 @@ using System.Reflection.Emit;
 using System.Reflection.Metadata;
 using TestConsole.Data;
 
-internal class Program
+namespace TestConsole
 {
-    private static IHost __Host;
-    private static async Task Main(string[] args)
+    public class Program
     {
-        Console.Title = "MyProg";
-        string exePath = AppDomain.CurrentDomain.BaseDirectory;
-        string zipPath = Path.Combine(exePath, "..\\..\\..\\Airports.zip");
-        //string zipPath = @"C:\Users\Marat\Downloads\Airports.zip";
-
-        string fileCountries = "countries.csv";
-        string fileRegions = "regions.csv";
-        string fileAirports = "airports.csv";
-        string fileAirportFrequencies = "airport-frequencies.csv";
-        string fileNavaids = "navaids.csv";
-        string fileRunways = "runways.csv";
-
-        Stopwatch stopwatch = new Stopwatch();
-
-        IHost Host = __Host ??= Program.CreateHostBuilder(Environment.GetCommandLineArgs()).Build();
-
-
-        IServiceProvider Services = Host.Services;
-
-
-        using (var scope = Services.CreateScope())
+        private static IHost __Host;
+        public static async Task Main(string[] args)
         {
-            await scope.ServiceProvider.GetRequiredService<DbInitializer>().InitializeAsync();
+            Console.Title = "MyProg";
+            string exePath = AppDomain.CurrentDomain.BaseDirectory;
+            string zipPath = Path.Combine(exePath, "..\\..\\..\\Airports.zip");
+            //string zipPath = @"C:\Users\Marat\Downloads\Airports.zip";
+
+            string fileCountries = "countries.csv";
+            string fileRegions = "regions.csv";
+            string fileAirports = "airports.csv";
+            string fileAirportFrequencies = "airport-frequencies.csv";
+            string fileNavaids = "navaids.csv";
+            string fileRunways = "runways.csv";
+
+            Stopwatch stopwatch = new Stopwatch();
+
+            IHost Host = __Host ??= Program.CreateHostBuilder(Environment.GetCommandLineArgs()).Build();
+
+
+            IServiceProvider Services = Host.Services;
+
+
+            using (var scope = Services.CreateScope())
+            {
+                await scope.ServiceProvider.GetRequiredService<DbInitializer>().InitializeAsync();
+            }
+
+
+            IRepository<AirportDBModel>? repositoryAirport = Services.CreateScope().ServiceProvider.GetService<IRepository<AirportDBModel>>();
+            int Counts = 0;
+            Console.Write("Нажмите Enter чтоб продолжить");
+            Console.ReadLine();
+            stopwatch.Start();
+            ReadAirportsCsv readAirports = new ReadAirportsCsv(zipPath);
+
+            // не сохраняем каждую запись
+            repositoryAirport!.AutoSaveChanges = false;
+            foreach (var item in readAirports.GetCsv<AirportInfo>(fileAirports))
+            {
+                Counts++;
+                repositoryAirport?.Add(item.ModelMap<AirportInfo, AirportDBModel>());
+                Console.WriteLine(item);
+            }
+            repositoryAirport.SaveAs();
+            stopwatch.Stop();
+            ConsoleWrite(Counts, stopwatch);
+
+            Console.ReadLine();
+
         }
 
-
-        IRepository<AirportDBModel>? repositoryAirport = Services.CreateScope().ServiceProvider.GetService<IRepository<AirportDBModel>>();
-        int Counts = 0;
-        Console.Write("Нажмите Enter чтоб продолжить");
-        Console.ReadLine();
-        stopwatch.Start();
-        ReadAirportsCsv readAirports = new ReadAirportsCsv(zipPath);
-
-        // не сохраняем каждую запись
-        repositoryAirport!.AutoSaveChanges = false;
-        foreach (var item in readAirports.GetCsv<AirportInfo>(fileAirports))
+        static void ConsoleWrite(int count, Stopwatch stopwatch)
         {
-            Counts++;
-            repositoryAirport?.Add(item.ModelMap<AirportInfo, AirportDBModel>());
-            Console.WriteLine(item);
+            TimeSpan timeTaken = stopwatch.Elapsed;
+            string foo = "Время выполнения: " + timeTaken.ToString(@"m\:ss\.fff");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"Всего записей {count}: {foo}");
+            Console.ResetColor();
         }
-        repositoryAirport.SaveAs();
-        stopwatch.Stop();
-        ConsoleWrite(Counts, stopwatch);
 
-        Console.ReadLine();
+        static void ConfigureServices(HostBuilderContext host, IServiceCollection services) => services
+                .AddDatabase(host.Configuration.GetSection("Database"))
+       ;
 
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+           Host.CreateDefaultBuilder(args)
+               .ConfigureServices(ConfigureServices);
     }
-
-    static void ConsoleWrite(int count, Stopwatch stopwatch)
-    {
-        TimeSpan timeTaken = stopwatch.Elapsed;
-        string foo = "Время выполнения: " + timeTaken.ToString(@"m\:ss\.fff");
-        Console.ForegroundColor = ConsoleColor.Red;
-        Console.WriteLine($"Всего записей {count}: {foo}");
-        Console.ResetColor();
-    }
-
-    static void ConfigureServices(HostBuilderContext host, IServiceCollection services) => services
-            .AddDatabase(host.Configuration.GetSection("Database"))
-   ;
-
-    public static IHostBuilder CreateHostBuilder(string[] args) =>
-       Host.CreateDefaultBuilder(args)
-           .ConfigureServices(ConfigureServices);
 }

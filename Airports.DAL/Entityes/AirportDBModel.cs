@@ -33,7 +33,7 @@ namespace Airports.DAL.Entityes
         /// Широта аэропорта в градусах (положительное значение для севера).
         /// </summary>
 
-        public double? LatitudeDeg { get; set; }
+        public decimal? LatitudeDeg { get; set; }
 
         /// <summary>
         /// Долгота аэропорта в градусах (положительная для востока).

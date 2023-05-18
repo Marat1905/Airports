@@ -13,9 +13,32 @@ namespace Airports.DAL.Extensions
 {
     public static class EntityExtension
     {
-        public static T ModelMap<T>(this IEntity Source) where T : class, new()
+        public static TTarget ModelMapInfo<TSource, TTarget>(this TSource Source) where TTarget : class, new()
+                                                                              where TSource : class, IEntity, new()
         {
-            return new T();
+            // Cоздаем объект
+            var target = new TTarget();
+            // Получает свойства объекта цель
+            PropertyInfo[] propertiesTarget = target.GetType().GetProperties();
+            // Получает свойства объекта источник
+            PropertyInfo[] propertiesSource = Source.GetType().GetProperties();
+            foreach (PropertyInfo propertyTarget in propertiesTarget)
+            {
+                foreach (var propertySource in propertiesSource)
+                {
+                    if (propertyTarget.PropertyType == propertySource.PropertyType)
+                    {
+                        if (propertyTarget.Name == propertySource.Name)
+                        {
+                            SetPropertyValue(target, Source, propertySource, propertyTarget);
+                            break;
+                        }
+                    }
+
+                }
+
+            }
+            return target;
         }
 
         public static TTarget ModelMap<TSource, TTarget>(this TSource Source) where TSource : class, new()

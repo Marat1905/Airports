@@ -60,8 +60,9 @@ namespace Airports.DAL.Migrations
                     b.Property<string>("Keywords")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double?>("LatitudeDeg")
-                        .HasColumnType("float");
+                    b.Property<decimal?>("LatitudeDeg")
+                        .HasPrecision(25, 16)
+                        .HasColumnType("decimal(25,16)");
 
                     b.Property<string>("LocalCode")
                         .HasColumnType("nvarchar(max)");
