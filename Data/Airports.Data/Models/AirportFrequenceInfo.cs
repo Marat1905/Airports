@@ -3,13 +3,13 @@
 namespace Airports.Data.Models
 {
     /// <summary>Радионавигационные средства и частоты. </summary>
-    public class AirportFrequence
+    public class AirportFrequenceInfo
     {
         /// <summary>
         /// Внутренний целочисленный идентификатор OurAirports для частоты. Это останется постоянным, даже если изменится радиочастота или описание.
         /// </summary>
         [Csv("id")]
-        public int Id { get; set; }
+        public int Identificator { get; set; }
 
         /// <summary>
         /// Внутренний целочисленный внешний ключ, 
@@ -45,7 +45,7 @@ namespace Airports.Data.Models
 
         public override string ToString()
         {
-            return $"{Id} ; {AirportRef} ; {AirportIdent} ; {Type} ; {Description} ;  {FrequencyMhz}";
+            return $"{Identificator} ; {AirportRef} ; {AirportIdent} ; {Type} ; {Description} ;  {FrequencyMhz}";
         }
     }
 }

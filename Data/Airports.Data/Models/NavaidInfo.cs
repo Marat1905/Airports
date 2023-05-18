@@ -5,13 +5,13 @@ using Airports.Lib.Enums;
 namespace Airports.Data.Models
 {
     /// <summary>Навигационное средство. </summary>
-    public class Navaid
+    public class NavaidInfo
     {
         /// <summary>
         /// Внутренний целочисленный идентификатор OurAirports для навигационного средства. Это останется постоянным, даже если идентификатор навигационного средства или частота изменятся.
         /// </summary>
         [Csv("id")]
-        public int Id { get; set; }
+        public int Identificator { get; set; }
 
         /// <summary>
         /// Это уникальный строковый идентификатор, составленный из названия навигационного средства и страны и используемый в URL-адресе OurAirports.
@@ -129,7 +129,7 @@ namespace Airports.Data.Models
 
         public override string ToString()
         {
-            return $"{Id} ; {Filename} ; {Ident} ; {Name} ; {Type.ToName()} ; {FrequencyKhz} ; {LatitudeDeg} ; {LongitudeDeg} ; {ElevationFt} ; {IsoCountry} ; " +
+            return $"{Identificator} ; {Filename} ; {Ident} ; {Name} ; {Type.ToName()} ; {FrequencyKhz} ; {LatitudeDeg} ; {LongitudeDeg} ; {ElevationFt} ; {IsoCountry} ; " +
                 $"{DmeFrequencyKhz} ; {DmeChannel} ; {DmeLatitudeDeg} ; {DmeLongitudeDeg} ; {DmeElevationFt} ; {SlavedVariationDeg} ; {MagneticVariationDeg} ; " +
                 $"{UsageType} ; {Power} ; {AssociatedAirport}";
         }

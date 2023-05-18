@@ -5,13 +5,13 @@ using Airports.Lib.Enums;
 namespace Airports.Data.Models
 {
     /// <summary>Страна </summary>
-    public class Country
+    public class CountryInfo
     {
         /// <summary>
         /// Внутренний целочисленный идентификатор OurAirports для страны.
         /// </summary>
         [Csv("id")]
-        public int Id { get; set; }
+        public int Identificator { get; set; }
 
         /// <summary>
         /// Двух символьный код страны по стандарту ISO 3166:1-alpha2 . Также используется несколько неофициальных кодов, не относящихся к ISO, например «XK» для Косово .
@@ -47,7 +47,7 @@ namespace Airports.Data.Models
 
         public override string ToString()
         {
-            return $"{Id} ; {Code} ; {Name} ; {Continent.ToName()} ; {WikipediaLink} ; {Keywords} ";
+            return $"{Identificator} ; {Code} ; {Name} ; {Continent.ToName()} ; {WikipediaLink} ; {Keywords} ";
         }
 
 

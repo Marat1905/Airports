@@ -5,14 +5,14 @@ using Airports.Lib.Enums;
 namespace Airports.Data.Models
 {
     /// <summary>Аэропорт. </summary>
-    public class Airport
+    public class AirportInfo
     {
         /// <summary>
         /// Внутренний целочисленный идентификатор OurAirports для аэропорта.
         /// Это останется постоянным, даже если код аэропорта изменится.
         /// </summary>
         [Csv("id")]
-        public int Id { get; set; }
+        public int Identificator { get; set; }
 
         /// <summary>Текстовый идентификатор, используемый в URL-адресе OurAirports.
         /// Это будет код ИКАО, если таковой имеется. 
@@ -144,7 +144,7 @@ namespace Airports.Data.Models
 
         public override string ToString()
         {
-            return $"{Id} ; {Ident} ; {Type.ToName()} ; {Name} ;" +
+            return $"{Identificator} ; {Ident} ; {Type.ToName()} ; {Name} ;" +
                 $" {LatitudeDeg} ; {LongitudeDeg} ; {ElevationFt} ; {Continent} ; " +
                 $"{IsoCountry} ; {IsoRegion} ; {Municipality} ; {ScheduledService} ; " +
                 $"{GpsCode} ; {IataCode} ; {LocalCode} ; {HomeLink} ; {WikipediaLink} ; {Keywords}";

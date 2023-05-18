@@ -5,14 +5,14 @@ using Airports.Lib.Enums;
 namespace Airports.Data.Models
 {
     /// <summary>Регион.</summary>
-    public class Region
+    public class RegionInfo
     {
         /// <summary>
         /// Внутренний целочисленный идентификатор OurAirports для региона. 
         /// Это останется постоянным, даже если код региона изменится.
         /// </summary>
         [Csv("id")]
-        public int Id { get; set; }
+        public int Identificator { get; set; }
 
         /// <summary>
         /// local_code с префиксом кода страны для создания глобального уникального идентификатора
@@ -59,7 +59,7 @@ namespace Airports.Data.Models
 
         public override string ToString()
         {
-            return $"{Id} ; {Code} ; {LocalCode} ; {Name} ; {Continent.ToName()} ; {IsoCountry} ; {WikipediaLink} ; {Keywords} ";
+            return $"{Identificator} ; {Code} ; {LocalCode} ; {Name} ; {Continent.ToName()} ; {IsoCountry} ; {WikipediaLink} ; {Keywords} ";
         }
     }
 }

@@ -4,13 +4,13 @@
 namespace Airports.Data.Models
 {
     /// <summary>Взлетно посадочная полоса </summary>
-    public class Runway
+    public class RunwayInfo
     {
         /// <summary>
         /// целочисленный идентификатор взлетно-посадочной полосы в OurAirports. Это останется постоянным, даже если нумерация взлетно-посадочных полос изменится.
         /// </summary>
         [Csv("id")]
-        public int Id { get; set; }
+        public int Identificator { get; set; }
 
         /// <summary>
         /// Внутренний целочисленный внешний ключ, соответствующий столбцу id для связанного аэропорта в airports.csv . ( airport_ident является лучшей альтернативой.)
@@ -128,7 +128,7 @@ namespace Airports.Data.Models
 
         public override string ToString()
         {
-            return $"{Id} ; {AirportRef} ; {AirportIdent} ; {LengthFt} ; {WidthFt} ; {Surface} ; {Lighted} ; {Closed} ; {LeIdent} ; {LeLatitudeDeg} ; " +
+            return $"{Identificator} ; {AirportRef} ; {AirportIdent} ; {LengthFt} ; {WidthFt} ; {Surface} ; {Lighted} ; {Closed} ; {LeIdent} ; {LeLatitudeDeg} ; " +
                 $"{LeLongitudeDeg} ; {LeElevationFt} ; {LeHeadingDegT} ; {LeDisplacedThresholdFt} ; {HeIdent} ; {HeLatitudeDeg} ; {HeLongitudeDeg} ; " +
                 $"{HeElevationFt} ; {HeHeadingDegT} ; {HeDisplacedThresholdFt}";
         }
