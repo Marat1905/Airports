@@ -15,7 +15,10 @@ namespace Airports.Interfaces
         Task<T> GetAsync(int id, CancellationToken Cancel = default);
 
         T Add(T item);
-        Task<T> AddAsync(T item, CancellationToken Cancel = default);
+        Task AddAsync(IEnumerable<T> item, CancellationToken Cancel = default);
+
+        void AddRange(IEnumerable<T> item);
+        Task AddRangeAsync(IEnumerable<T> item, CancellationToken Cancel = default);
 
         void Update(T item);
         Task UpdateAsync(T item, CancellationToken Cancel = default);

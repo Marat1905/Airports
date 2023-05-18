@@ -186,16 +186,18 @@ namespace TestConsole
             Console.ReadLine();
             stopwatch.Start();
             ReadAirportsCsv readAirports = new ReadAirportsCsv(zipPath);
-
+            List<AirportDBModel> airportDBModel = new List<AirportDBModel>();
             // не сохраняем каждую запись
-            repositoryAirport!.AutoSaveChanges = false;
+            //repositoryAirport!.AutoSaveChanges = false;
             foreach (var item in readAirports.GetCsv<AirportInfo>(fileAirports))
             {
                 Counts++;
-                repositoryAirport?.Add(item.ModelMap<AirportInfo, AirportDBModel>());
+                airportDBModel.Add(item.ModelMap<AirportInfo, AirportDBModel>());
+                //repositoryAirport?.Add(item.ModelMap<AirportInfo, AirportDBModel>());
                 Console.WriteLine(item);
             }
-            repositoryAirport.SaveAs();
+            repositoryAirport?.AddRange(airportDBModel);
+            //repositoryAirport.SaveAs();
             stopwatch.Stop();
             ConsoleWrite(Counts, stopwatch);
 

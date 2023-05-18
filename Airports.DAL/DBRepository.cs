@@ -34,6 +34,7 @@ namespace Airports.DAL
         public T Add(T item)
         {
             if(item is null) throw new ArgumentNullException(nameof(item));
+            //_db.Add(item);
             _db.Entry(item).State = EntityState.Added;
             if (AutoSaveChanges)
                 _db.SaveChanges();
@@ -47,6 +48,22 @@ namespace Airports.DAL
             if (AutoSaveChanges)
                 await _db.SaveChangesAsync(Cancel).ConfigureAwait(false);
             return item;
+        }
+
+        public void AddRange(IEnumerable<T> item)
+        {
+            if (item is null) throw new ArgumentNullException(nameof(item));
+            _db.AddRange(item);
+            if (AutoSaveChanges)
+                _db.SaveChanges();
+        }
+
+        public async Task AddRangeAsync(IEnumerable<T> item, CancellationToken Cancel = default)
+        {
+            if (item is null) throw new ArgumentNullException(nameof(item));
+            await _db.AddRangeAsync(item,Cancel).ConfigureAwait(false);
+            if (AutoSaveChanges)
+                await _db.SaveChangesAsync(Cancel).ConfigureAwait(false);
         }
 
         public void Update(T item)
@@ -85,5 +102,12 @@ namespace Airports.DAL
             if (!AutoSaveChanges)
                 _db.SaveChanges();
         }
+
+        public Task AddAsync(IEnumerable<T> item, CancellationToken Cancel = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        
     }
 }
