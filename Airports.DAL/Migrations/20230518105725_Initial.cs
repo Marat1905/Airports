@@ -5,7 +5,7 @@
 namespace Airports.DAL.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -14,27 +14,26 @@ namespace Airports.DAL.Migrations
                 name: "AirportFrequences",
                 columns: table => new
                 {
-                    Identificator = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     AirportRef = table.Column<int>(type: "int", nullable: false),
                     AirportIdent = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FrequencyMhz = table.Column<double>(type: "float", nullable: true),
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Identificator = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AirportFrequences", x => x.Identificator);
+                    table.PrimaryKey("PK_AirportFrequences", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Airports",
                 columns: table => new
                 {
-                    Identificator = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Id = table.Column<int>(type: "int", nullable: false),
                     Ident = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Type = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -51,36 +50,37 @@ namespace Airports.DAL.Migrations
                     LocalCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     HomeLink = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     WikipediaLink = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Keywords = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Keywords = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Identificator = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Airports", x => x.Identificator);
+                    table.PrimaryKey("PK_Airports", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Countries",
                 columns: table => new
                 {
-                    Identificator = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Code = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Continent = table.Column<int>(type: "int", nullable: false),
                     WikipediaLink = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Keywords = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Identificator = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Countries", x => x.Identificator);
+                    table.PrimaryKey("PK_Countries", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Navaids",
                 columns: table => new
                 {
-                    Identificator = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Filename = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Ident = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -101,18 +101,18 @@ namespace Airports.DAL.Migrations
                     UsageType = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Power = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AssociatedAirport = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Identificator = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Navaids", x => x.Identificator);
+                    table.PrimaryKey("PK_Navaids", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Regions",
                 columns: table => new
                 {
-                    Identificator = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Code = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LocalCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -121,18 +121,18 @@ namespace Airports.DAL.Migrations
                     IsoCountry = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     WikipediaLink = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Keywords = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Identificator = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Regions", x => x.Identificator);
+                    table.PrimaryKey("PK_Regions", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Runways",
                 columns: table => new
                 {
-                    Identificator = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     AirportRef = table.Column<int>(type: "int", nullable: false),
                     AirportIdent = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -153,11 +153,11 @@ namespace Airports.DAL.Migrations
                     HeElevationFt = table.Column<int>(type: "int", nullable: true),
                     HeHeadingDegT = table.Column<double>(type: "float", nullable: true),
                     HeDisplacedThresholdFt = table.Column<int>(type: "int", nullable: true),
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Identificator = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Runways", x => x.Identificator);
+                    table.PrimaryKey("PK_Runways", x => x.Id);
                 });
         }
 

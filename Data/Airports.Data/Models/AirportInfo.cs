@@ -41,7 +41,7 @@ namespace Airports.Data.Models
         /// Широта аэропорта в градусах (положительное значение для севера).
         /// </summary>
         [Csv("latitude_deg")]
-        public decimal? LatitudeDeg { get; set; }
+        public double? LatitudeDeg { get; set; }
 
         /// <summary>
         /// Долгота аэропорта в градусах (положительная для востока).

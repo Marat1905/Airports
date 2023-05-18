@@ -78,6 +78,12 @@ namespace Airports.DAL
             _db.Remove(new T { Id = id });
             if (AutoSaveChanges)
                 await _db.SaveChangesAsync(Cancel).ConfigureAwait(false);
-        } 
+        }
+
+        public void SaveAs()
+        {
+            if (!AutoSaveChanges)
+                _db.SaveChanges();
+        }
     }
 }

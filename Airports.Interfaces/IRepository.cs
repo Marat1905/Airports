@@ -10,7 +10,7 @@ namespace Airports.Interfaces
     public interface IRepository<T> where T : class,IEntity,new()
     {
         IQueryable<T> Items { get; }
-
+        bool AutoSaveChanges { get; set; }
         T Get(int id);
         Task<T> GetAsync(int id, CancellationToken Cancel = default);
 
@@ -23,5 +23,6 @@ namespace Airports.Interfaces
         void Remove(int id);
         Task RemoveAsync(int id, CancellationToken Cancel = default);
 
+        void SaveAs();
     }
 }
