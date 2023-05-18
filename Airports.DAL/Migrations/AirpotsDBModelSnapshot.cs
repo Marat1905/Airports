@@ -24,11 +24,11 @@ namespace Airports.DAL.Migrations
 
             modelBuilder.Entity("Airports.DAL.Entityes.Airport", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("Identificator")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Identificator"));
 
                     b.Property<int>("Continent")
                         .HasColumnType("int");
@@ -37,74 +37,65 @@ namespace Airports.DAL.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("GpsCode")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("HomeLink")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("IataCode")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
                     b.Property<string>("Ident")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("IsoCountry")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("IsoRegion")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Keywords")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double?>("LatitudeDeg")
                         .HasColumnType("float");
 
                     b.Property<string>("LocalCode")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double?>("LongitudeDeg")
                         .HasColumnType("float");
 
                     b.Property<string>("Municipality")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ScheduledService")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
                     b.Property<string>("WikipediaLink")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("Identificator");
 
                     b.ToTable("Airports");
                 });
 
             modelBuilder.Entity("Airports.DAL.Entityes.AirportFrequence", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("Identificator")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Identificator"));
 
                     b.Property<string>("AirportIdent")
                         .IsRequired()
@@ -120,28 +111,34 @@ namespace Airports.DAL.Migrations
                     b.Property<double?>("FrequencyMhz")
                         .HasColumnType("float");
 
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
                     b.Property<string>("Type")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("Identificator");
 
                     b.ToTable("AirportFrequences");
                 });
 
             modelBuilder.Entity("Airports.DAL.Entityes.Country", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("Identificator")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Identificator"));
 
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Continent")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Id")
                         .HasColumnType("int");
 
                     b.Property<string>("Keywords")
@@ -156,18 +153,18 @@ namespace Airports.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("Identificator");
 
                     b.ToTable("Countries");
                 });
 
             modelBuilder.Entity("Airports.DAL.Entityes.Navaid", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("Identificator")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Identificator"));
 
                     b.Property<string>("AssociatedAirport")
                         .IsRequired()
@@ -197,6 +194,9 @@ namespace Airports.DAL.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("FrequencyKhz")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Id")
                         .HasColumnType("int");
 
                     b.Property<string>("Ident")
@@ -234,24 +234,27 @@ namespace Airports.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("Identificator");
 
                     b.ToTable("Navaids");
                 });
 
             modelBuilder.Entity("Airports.DAL.Entityes.Region", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("Identificator")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Identificator"));
 
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Continent")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Id")
                         .HasColumnType("int");
 
                     b.Property<string>("IsoCountry")
@@ -274,18 +277,18 @@ namespace Airports.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("Identificator");
 
                     b.ToTable("Regions");
                 });
 
             modelBuilder.Entity("Airports.DAL.Entityes.Runway", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("Identificator")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Identificator"));
 
                     b.Property<string>("AirportIdent")
                         .IsRequired()
@@ -315,6 +318,9 @@ namespace Airports.DAL.Migrations
 
                     b.Property<double?>("HeLongitudeDeg")
                         .HasColumnType("float");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
 
                     b.Property<int?>("LeDisplacedThresholdFt")
                         .HasColumnType("int");
@@ -348,7 +354,7 @@ namespace Airports.DAL.Migrations
                     b.Property<int?>("WidthFt")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("Identificator");
 
                     b.ToTable("Runways");
                 });

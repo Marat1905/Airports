@@ -7,13 +7,19 @@ namespace Airports.DAL.Entityes
     /// <summary>Аэропорт. </summary>
     public class Airport:Entity
     {
+        /// <summary>
+        /// Внутренний целочисленный идентификатор OurAirports для аэропорта.
+        /// Это останется постоянным, даже если код аэропорта изменится.
+        /// </summary>
+        public int Id { get; set; }
+
         /// <summary>Текстовый идентификатор, используемый в URL-адресе OurAirports.
         /// Это будет код ИКАО, если таковой имеется. 
         /// В противном случае это будет местный код аэропорта (если нет конфликта) 
         /// или, если ничего другого не доступно, внутренне с генерированный код, 
         /// начинающийся с кода страны ISO2, за которым следует тире и четырехзначное 
         /// число. </summary>
-        public string Ident { get; set; }
+        public string? Ident { get; set; }
 
         /// <summary>
         /// Тип аэропорта. Допустимые значения: «closed_airport», «heliport»,
@@ -25,7 +31,7 @@ namespace Airports.DAL.Entityes
         /// <summary>
         /// Официальное название аэропорта, включая «Аэропорт», «Взлетно-посадочная полоса» и т. д.
         /// </summary>
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         /// <summary>
         /// Широта аэропорта в градусах (положительное значение для севера).
@@ -54,7 +60,7 @@ namespace Airports.DAL.Entityes
         /// не относящихся к ISO, например «XK» для Косово . 
         /// Указывает на столбец кода в country.csv .
         /// </summary>
-        public string IsoCountry { get; set; }
+        public string? IsoCountry { get; set; }
 
         /// <summary>
         /// Буквенно-цифровой код административной единицы высокого уровня страны,
@@ -64,19 +70,19 @@ namespace Airports.DAL.Entityes
         /// отдавая предпочтение более высоким административным уровням,
         /// но также включают некоторые пользовательские коды. См. документацию по region.csv .
         /// </summary>   
-        public string IsoRegion { get; set; }
+        public string? IsoRegion { get; set; }
 
         /// <summary>
         /// Основной муниципалитет, который обслуживает аэропорт (при наличии). 
         /// Обратите внимание, что это не обязательно муниципалитет, 
         /// в котором физически расположен аэропорт.
         /// </summary>
-        public string Municipality { get; set; }
+        public string? Municipality { get; set; }
 
         /// <summary>
         /// «да», если аэропорт в настоящее время обслуживает регулярные авиалинии; "нет" иначе.
         /// </summary>
-        public string ScheduledService { get; set; }
+        public string? ScheduledService { get; set; }
 
         /// <summary>
         /// Код, который авиационная база данных GPS (например, Jeppesen или Garmin)
@@ -84,28 +90,28 @@ namespace Airports.DAL.Entityes
         /// если он существует. Обратите внимание, что, в отличие от столбца ident ,
         /// глобально уникальность этого столбца не гарантируется.
         /// </summary>
-        public string GpsCode { get; set; }
+        public string? GpsCode { get; set; }
 
         //TODO: Проверить. код IATA
         /// <summary>
         /// Трех буквенный код IATA аэропорта (если он есть).
         /// </summary>
-        public string IataCode { get; set; }
+        public string? IataCode { get; set; }
 
         /// <summary>
         /// Местный код страны для аэропорта, если он отличается от полей gps_code и iata_code (используется в основном для аэропортов США).
         /// </summary>
-        public string LocalCode { get; set; }
+        public string? LocalCode { get; set; }
 
         /// <summary>
         /// URL-адрес официальной домашней страницы аэропорта в Интернете, если таковая существует.
         /// </summary>
-        public string HomeLink { get; set; }
+        public string? HomeLink { get; set; }
 
         /// <summary>
         /// URL-адрес страницы аэропорта в Википедии, если таковая существует.
         /// </summary>
-        public string WikipediaLink { get; set; }
+        public string? WikipediaLink { get; set; }
 
         /// <summary>
         /// Дополнительные ключевые слова/фразы для облегчения поиска, 
@@ -113,7 +119,7 @@ namespace Airports.DAL.Entityes
         /// альтернативные коды, названия на других языках, 
         /// близлежащие туристические направления и т. д.
         /// </summary>
-        public string Keywords { get; set; }
+        public string? Keywords { get; set; }
 
     }
 }

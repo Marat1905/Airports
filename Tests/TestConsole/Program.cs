@@ -133,8 +133,16 @@
 //}
 
 
+using Airports.DAL.Entityes;
+using Airports.Data;
+using Airports.Interfaces;
+using Airports.Lib.Enums;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Reflection.Emit;
+using System.Reflection.Metadata;
 using TestConsole.Data;
 
 internal class Program
@@ -142,6 +150,19 @@ internal class Program
     private static IHost __Host;
     private static async Task Main(string[] args)
     {
+        Console.Title = "MyProg";
+        string exePath = AppDomain.CurrentDomain.BaseDirectory;
+        string zipPath = Path.Combine(exePath, "..\\..\\..\\Airports.zip");
+        //string zipPath = @"C:\Users\Marat\Downloads\Airports.zip";
+
+        string fileCountries = "countries.csv";
+        string fileRegions = "regions.csv";
+        string fileAirports = "airports.csv";
+        string fileAirportFrequencies = "airport-frequencies.csv";
+        string fileNavaids = "navaids.csv";
+        string fileRunways = "runways.csv";
+
+        Stopwatch stopwatch = new Stopwatch();
 
         IHost Host = __Host ??= Program.CreateHostBuilder(Environment.GetCommandLineArgs()).Build();
 
@@ -154,6 +175,39 @@ internal class Program
            await scope.ServiceProvider.GetRequiredService<DbInitializer>().InitializeAsync();
         }
 
+
+        IRepository<Airport>? repositoryAirport= Services.CreateScope().ServiceProvider.GetService<IRepository<Airport>>();
+        
+        Airport air = new Airport { Id= 6523, Ident= "00A", Type= TypeAirport.Heliport, Name="Total Rf Heliport", LatitudeDeg= 40.07080078125m, LongitudeDeg= - 74.93360137939453, ElevationFt= 11, Continent= ContinentCode.NorthAmerica, IsoCountry= "US", IsoRegion= "US-PA", Municipality= "Bensalem", ScheduledService= "no", GpsCode= "00A", LocalCode= "00A" };
+
+        
+
+        Console.Write("Нажмите Enter чтоб продолжить");
+        Console.ReadLine();
+        stopwatch.Start();
+        ReadAirportsCsv readAirports = new ReadAirportsCsv(zipPath);
+        List<Airports.Data.Models.Airport> airpots = new List<Airports.Data.Models.Airport>();
+        foreach (var item in readAirports.GetCsv<Airports.Data.Models.Airport>(fileAirports))
+        {
+           // repositoryAirport?.Add(item);
+            airpots.Add(item);
+            Console.WriteLine(item);
+        }
+        stopwatch.Stop();
+        ConsoleWrite(airpots, stopwatch);
+
+        Console.ReadLine();
+
+
+    }
+
+    static void ConsoleWrite<T>(List<T> newList, Stopwatch stopwatch)
+    {
+        TimeSpan timeTaken = stopwatch.Elapsed;
+        string foo = "Время выполнения: " + timeTaken.ToString(@"m\:ss\.fff");
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine($"Всего записей {newList.Count}: {foo}");
+        Console.ResetColor();
     }
 
     static void ConfigureServices(HostBuilderContext host, IServiceCollection services) => services

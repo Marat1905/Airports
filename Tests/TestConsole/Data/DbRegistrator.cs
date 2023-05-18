@@ -1,4 +1,5 @@
-﻿using Airports.DAL.Context;
+﻿using Airports.DAL;
+using Airports.DAL.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,7 +26,7 @@ namespace TestConsole.Data
                }
            })
            .AddTransient<DbInitializer>()
-          // .AddRepositoriesInDB()
+           .AddRepositoriesInDB()
         ;
     }
 }

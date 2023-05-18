@@ -14,70 +14,73 @@ namespace Airports.DAL.Migrations
                 name: "AirportFrequences",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Identificator = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     AirportRef = table.Column<int>(type: "int", nullable: false),
                     AirportIdent = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FrequencyMhz = table.Column<double>(type: "float", nullable: true)
+                    FrequencyMhz = table.Column<double>(type: "float", nullable: true),
+                    Id = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AirportFrequences", x => x.Id);
+                    table.PrimaryKey("PK_AirportFrequences", x => x.Identificator);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Airports",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Identificator = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Ident = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    Ident = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Type = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LatitudeDeg = table.Column<double>(type: "float", nullable: true),
                     LongitudeDeg = table.Column<double>(type: "float", nullable: true),
                     ElevationFt = table.Column<int>(type: "int", nullable: true),
                     Continent = table.Column<int>(type: "int", nullable: false),
-                    IsoCountry = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IsoRegion = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Municipality = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ScheduledService = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    GpsCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IataCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LocalCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    HomeLink = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    WikipediaLink = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Keywords = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    IsoCountry = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsoRegion = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Municipality = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ScheduledService = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    GpsCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IataCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LocalCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    HomeLink = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    WikipediaLink = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Keywords = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Airports", x => x.Id);
+                    table.PrimaryKey("PK_Airports", x => x.Identificator);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Countries",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Identificator = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Code = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Continent = table.Column<int>(type: "int", nullable: false),
                     WikipediaLink = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Keywords = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Keywords = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Countries", x => x.Id);
+                    table.PrimaryKey("PK_Countries", x => x.Identificator);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Navaids",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Identificator = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Filename = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Ident = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -97,18 +100,19 @@ namespace Airports.DAL.Migrations
                     MagneticVariationDeg = table.Column<double>(type: "float", nullable: true),
                     UsageType = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Power = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AssociatedAirport = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    AssociatedAirport = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Navaids", x => x.Id);
+                    table.PrimaryKey("PK_Navaids", x => x.Identificator);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Regions",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Identificator = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Code = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LocalCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -116,18 +120,19 @@ namespace Airports.DAL.Migrations
                     Continent = table.Column<int>(type: "int", nullable: false),
                     IsoCountry = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     WikipediaLink = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Keywords = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Keywords = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Regions", x => x.Id);
+                    table.PrimaryKey("PK_Regions", x => x.Identificator);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Runways",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Identificator = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     AirportRef = table.Column<int>(type: "int", nullable: false),
                     AirportIdent = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -147,11 +152,12 @@ namespace Airports.DAL.Migrations
                     HeLongitudeDeg = table.Column<double>(type: "float", nullable: true),
                     HeElevationFt = table.Column<int>(type: "int", nullable: true),
                     HeHeadingDegT = table.Column<double>(type: "float", nullable: true),
-                    HeDisplacedThresholdFt = table.Column<int>(type: "int", nullable: true)
+                    HeDisplacedThresholdFt = table.Column<int>(type: "int", nullable: true),
+                    Id = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Runways", x => x.Id);
+                    table.PrimaryKey("PK_Runways", x => x.Identificator);
                 });
         }
 
