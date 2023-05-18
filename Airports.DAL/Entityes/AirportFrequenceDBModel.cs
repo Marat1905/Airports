@@ -1,9 +1,11 @@
 ﻿using Airports.DAL.Entityes.Base;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Airports.DAL.Entityes
 {
     /// <summary>Радионавигационные средства и частоты. </summary>
-    public class AirportFrequence : Entity
+    [Table("AirportFrequences")]
+    public class AirportFrequenceDBModel : Entity
     {
         /// <summary>
         /// Внутренний целочисленный внешний ключ, 

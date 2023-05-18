@@ -1,10 +1,12 @@
 ﻿using Airports.DAL.Entityes.Base;
 using Airports.Lib.Enums;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Airports.DAL.Entityes
 {
     /// <summary>Регион.</summary>
-    public class Region : Entity
+    [Table("Regions")]
+    public class RegionDBModel : Entity
     {
         /// <summary>
         /// local_code с префиксом кода страны для создания глобального уникального идентификатора

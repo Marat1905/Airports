@@ -5,7 +5,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Airports.DAL.Entityes
 {
     /// <summary>Взлетно посадочная полоса </summary>
-    public class Runway : Entity
+    [Table("Runways")]
+    public class RunwayDBModel : Entity
     {
         /// <summary>
         /// Внутренний целочисленный внешний ключ, соответствующий столбцу id для связанного аэропорта в airports.csv . ( airport_ident является лучшей альтернативой.)

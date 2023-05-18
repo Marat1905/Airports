@@ -12,12 +12,12 @@ namespace Airports.DAL
     public static class RepositoryRegistrator
     {
         public static IServiceCollection AddRepositoriesInDB(this IServiceCollection services) => services
-            .AddTransient<IRepository<Airport>, DBRepository<Airport>>()
-             .AddTransient<IRepository<AirportFrequence>, DBRepository<AirportFrequence>>()
-             .AddTransient<IRepository<Country>, DBRepository<Country>>()
-             .AddTransient<IRepository<Navaid>, DBRepository<Navaid>>()
-             .AddTransient<IRepository<Region>, DBRepository<Region>>()
-            .AddTransient<IRepository<Runway>, DBRepository<Runway>>()
+            .AddTransient<IRepository<AirportDBModel>, DBRepository<AirportDBModel>>()
+             .AddTransient<IRepository<AirportFrequenceDBModel>, DBRepository<AirportFrequenceDBModel>>()
+             .AddTransient<IRepository<CountryDBModel>, DBRepository<CountryDBModel>>()
+             .AddTransient<IRepository<NavaidDBModel>, DBRepository<NavaidDBModel>>()
+             .AddTransient<IRepository<RegionDBModel>, DBRepository<RegionDBModel>>()
+            .AddTransient<IRepository<RunwayDBModel>, DBRepository<RunwayDBModel>>()
             ;
 
     }

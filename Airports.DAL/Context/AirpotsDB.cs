@@ -8,17 +8,17 @@ namespace Airports.DAL.Context
 {
     public class AirpotsDB:DbContext
     {
-        public DbSet<Airport> Airports { get; set; }
+        public DbSet<AirportDBModel> Airports { get; set; }
 
-        public DbSet<AirportFrequence> AirportFrequences { get; set; }
+        public DbSet<AirportFrequenceDBModel> AirportFrequences { get; set; }
 
-        public DbSet<Country> Countries { get; set; }
+        public DbSet<CountryDBModel> Countries { get; set; }
 
-        public DbSet<Navaid> Navaids { get; set; }
+        public DbSet<NavaidDBModel> Navaids { get; set; }
 
-        public DbSet<Region> Regions { get; set; }
+        public DbSet<RegionDBModel> Regions { get; set; }
 
-        public DbSet<Runway> Runways { get; set; }
+        public DbSet<RunwayDBModel> Runways { get; set; }
 
 
         public AirpotsDB(DbContextOptions<AirpotsDB> options) : base(options) { }

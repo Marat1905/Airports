@@ -5,13 +5,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Airports.DAL.Entityes
 {
     /// <summary>Аэропорт. </summary>
-    public class Airport:Entity
+    [Table("Airports")]
+    public class AirportDBModel:Entity
     {
-        /// <summary>
-        /// Внутренний целочисленный идентификатор OurAirports для аэропорта.
-        /// Это останется постоянным, даже если код аэропорта изменится.
-        /// </summary>
-        public int Id { get; set; }
 
         /// <summary>Текстовый идентификатор, используемый в URL-адресе OurAirports.
         /// Это будет код ИКАО, если таковой имеется. 

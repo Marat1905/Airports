@@ -1,10 +1,12 @@
 ﻿using Airports.DAL.Entityes.Base;
 using Airports.Lib.Enums;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Airports.DAL.Entityes
 {
     /// <summary>Навигационное средство. </summary>
-    public class Navaid : Entity
+    [Table("Navaids")]
+    public class NavaidDBModel : Entity
     {
         /// <summary>
         /// Это уникальный строковый идентификатор, составленный из названия навигационного средства и страны и используемый в URL-адресе OurAirports.

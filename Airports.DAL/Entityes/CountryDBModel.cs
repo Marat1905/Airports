@@ -1,10 +1,12 @@
 ﻿using Airports.DAL.Entityes.Base;
 using Airports.Lib.Enums;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Airports.DAL.Entityes
 {
     /// <summary>Страна </summary>
-    public class Country : Entity
+    [Table("Countries")]
+    public class CountryDBModel : Entity
     {
         /// <summary>
         /// Двух символьный код страны по стандарту ISO 3166:1-alpha2 . Также используется несколько неофициальных кодов, не относящихся к ISO, например «XK» для Косово .
