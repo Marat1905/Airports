@@ -16,7 +16,7 @@ namespace Airports.DAL.Entityes
         /// <summary>
         /// Видимая извне строка внешнего ключа, соответствующая столбцу ident для связанного аэропорта в airports.csv 
         /// </summary>
-        public string AirportIdent { get; set; }
+        public string? AirportIdent { get; set; }
 
         /// <summary>
         /// Длина всей поверхности взлетно-посадочной полосы (включая смещенные пороги, зоны выбега и т. д.) в футах.
@@ -31,7 +31,7 @@ namespace Airports.DAL.Entityes
         /// <summary>
         /// Код типа покрытия взлетно-посадочной полосы. Это еще не контролируемый словарь, но, вероятно, скоро будет. Некоторые общие значения включают «ASP» (асфальт), «TURF» (дерн), «CON» (бетон), «GRS» (трава), «GRE» (гравий), «WATER» (вода) и «UNK». (неизвестный).
         /// </summary>
-        public string Surface { get; set; }
+        public string? Surface { get; set; }
 
         /// <summary>
         /// 1, если поверхность освещена ночью, 0 в противном случае. (Обратите внимание, что это не соответствует файлу airports.csv, в котором вместо 1 и 0 используются «да» и «нет».)
@@ -46,7 +46,7 @@ namespace Airports.DAL.Entityes
         /// <summary>
         /// Идентификатор конца взлетно-посадочной полосы с меньшим номером.
         /// </summary>
-        public string LeIdent { get; set; }
+        public string? LeIdent { get; set; }
 
         /// <summary>
         /// Широта центра конца взлетно-посадочной полосы с низким номером в десятичных градусах (положительное значение означает север), если доступно.
@@ -76,7 +76,7 @@ namespace Airports.DAL.Entityes
         /// <summary>
         /// Идентификатор конца взлетно-посадочной полосы с большим номером.
         /// </summary>
-        public string HeIdent { get; set; }
+        public string? HeIdent { get; set; }
 
         /// <summary>
         /// Широта центра конца взлетно-посадочной полосы с высоким номером в десятичных градусах (положительное значение означает север), если доступно.
@@ -86,7 +86,6 @@ namespace Airports.DAL.Entityes
         /// <summary>
         /// Долгота центра конца взлетно-посадочной полосы с высоким номером в десятичных градусах (положительное значение означает восток), если доступно.
         /// </summary>
-        [Column(TypeName = "float")]
         public decimal? HeLongitudeDeg { get; set; }
 
         /// <summary>

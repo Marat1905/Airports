@@ -11,17 +11,17 @@ namespace Airports.DAL.Entityes
         /// <summary>
         /// Это уникальный строковый идентификатор, составленный из названия навигационного средства и страны и используемый в URL-адресе OurAirports.
         /// </summary>
-        public string Filename { get; set; }
+        public string? Filename { get; set; }
 
         /// <summary>
         /// Идентификатор из 1-3 символов, который передает навигационное средство.
         /// </summary>
-        public string Ident { get; set; }
+        public string? Ident { get; set; }
 
         /// <summary>
         /// Название навигационного средства, исключая его тип.
         /// </summary>
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         /// <summary>
         /// Тип навигационного средства. 
@@ -51,7 +51,7 @@ namespace Airports.DAL.Entityes
         /// <summary>
         /// Двухсимвольный код ISO 3166:1-alpha2 для страны, в которой эксплуатируется навигационное средство. Также используется несколько неофициальных кодов, не относящихся к ISO, например «XK» для Косово .
         /// </summary>
-        public string IsoCountry { get; set; }
+        public string? IsoCountry { get; set; }
 
         /// <summary>
         /// Парная частота VHF для DME (или TACAN) в килогерцах. Разделите на 1000, чтобы получить парную частоту VHF в мегагерцах (например, 115,3 МГц).
@@ -61,7 +61,7 @@ namespace Airports.DAL.Entityes
         /// <summary>
         /// Канал DME (альтернативный способ настройки дальномерной аппаратуры).
         /// </summary>
-        public string DmeChannel { get; set; }
+        public string? DmeChannel { get; set; }
 
         /// <summary>
         /// Широта соответствующего DME в десятичных градусах (отрицательное значение для юга). Если отсутствует, предположим, что значение такое же, как latitude_deg .
@@ -91,16 +91,16 @@ namespace Airports.DAL.Entityes
         /// <summary>
         /// Основная функция навигационных средств в системе воздушного пространства. Варианты включают «HI» (высотные воздушные трассы, на эшелоне полета 180 или выше), «LO» (низковысотные воздушные трассы), «BOTH» (высотные и малые воздушные трассы), «TERM» (терминальная навигация). только) и "RNAV" (зональная навигация без GPS).
         /// </summary>
-        public string UsageType { get; set; }
+        public string? UsageType { get; set; }
 
         /// <summary>
         /// Уровень выходной мощности навигационного средства. Варианты включают «ВЫСОКИЙ», «СРЕДНИЙ», «НИЗКИЙ» и «НЕИЗВЕСТНО».
         /// </summary>
-        public string Power { get; set; }
+        public string? Power { get; set; }
 
         /// <summary>
         /// Текстовый идентификатор OurAirports (обычно код ИКАО) для аэропорта, связанного с навигационным средством. Ссылки на столбец ident в airports.csv .
         /// </summary>
-        public string AssociatedAirport { get; set; }
+        public string? AssociatedAirport { get; set; }
     }
 }

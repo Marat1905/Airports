@@ -27,6 +27,8 @@ namespace Airports.DAL.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<AirportDBModel>().Property(o => o.LatitudeDeg).HasPrecision(25, 16);
+            modelBuilder.Entity<RunwayDBModel>().Property(o => o.HeLongitudeDeg).HasPrecision(25, 16);
+            
 
             base.OnModelCreating(modelBuilder);
         }

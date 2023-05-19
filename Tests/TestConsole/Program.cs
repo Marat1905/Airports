@@ -138,13 +138,9 @@ using Airports.DAL.Extensions;
 using Airports.Data;
 using Airports.Data.Models;
 using Airports.Interfaces;
-using Airports.Lib.Enums;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Reflection.Emit;
-using System.Reflection.Metadata;
 using TestConsole.Data;
 
 namespace TestConsole
@@ -178,31 +174,60 @@ namespace TestConsole
             {
                 await scope.ServiceProvider.GetRequiredService<DbInitializer>().InitializeAsync();
             }
-
-
-            IRepository<AirportDBModel>? repositoryAirport = Services.CreateScope().ServiceProvider.GetService<IRepository<AirportDBModel>>();
-            int Counts = 0;
-            Console.Write("Нажмите Enter чтоб продолжить");
+            
+            Console.Write("Нажмите Enter чтоб начать читать "+ fileAirports);
             Console.ReadLine();
+            ReadCsvToEntity<AirportDBModel, AirportInfo>(zipPath, fileAirports, stopwatch, Services);
+            
+            
+            Console.Write("Нажмите Enter чтоб начать читать файл: " + fileAirportFrequencies);
+            Console.ReadLine();
+            ReadCsvToEntity<AirportFrequenceDBModel, AirportFrequenceInfo>(zipPath, fileAirportFrequencies, stopwatch, Services);
+
+            Console.Write("Нажмите Enter чтоб начать читать файл: " + fileCountries);
+            Console.ReadLine();
+            ReadCsvToEntity<CountryDBModel, CountryInfo>(zipPath, fileCountries, stopwatch, Services);
+
+
+            Console.Write("Нажмите Enter чтоб начать читать файл: " + fileNavaids);
+            Console.ReadLine();
+            ReadCsvToEntity<NavaidDBModel, NavaidInfo>(zipPath, fileNavaids, stopwatch, Services);
+
+            Console.Write("Нажмите Enter чтоб начать читать файл: " + fileRegions);
+            Console.ReadLine();
+            ReadCsvToEntity<NavaidDBModel, NavaidInfo>(zipPath, fileRegions, stopwatch, Services);
+
+            Console.Write("Нажмите Enter чтоб начать читать файл: " + fileRunways);
+            Console.ReadLine();
+            ReadCsvToEntity<RunwayDBModel, RunwayInfo>(zipPath, fileRunways, stopwatch, Services);
+
+        }
+
+
+
+        private static void ReadCsvToEntity<TDbModel,TInfo>(string zipPath, string fileAirports, Stopwatch stopwatch, IServiceProvider Services)
+            where TInfo: class,new()
+            where TDbModel:class,IEntity,new()
+        {
+            IRepository<TDbModel>? repository = Services.CreateScope().ServiceProvider.GetService<IRepository<TDbModel>>();
+            int Counts = 0;     
             stopwatch.Start();
             ReadAirportsCsv readAirports = new ReadAirportsCsv(zipPath);
-            List<AirportDBModel> airportDBModel = new List<AirportDBModel>();
+            List<TDbModel> DBModel = new List<TDbModel>();
             // не сохраняем каждую запись
             //repositoryAirport!.AutoSaveChanges = false;
-            foreach (var item in readAirports.GetCsv<AirportInfo>(fileAirports))
+            foreach (var item in readAirports.GetCsv<TInfo>(fileAirports))
             {
                 Counts++;
-                airportDBModel.Add(item.ModelMap<AirportInfo, AirportDBModel>());
+                DBModel.Add(item.ModelMap<TInfo, TDbModel>());
                 //repositoryAirport?.Add(item.ModelMap<AirportInfo, AirportDBModel>());
                 Console.WriteLine(item);
             }
-            repositoryAirport?.AddRange(airportDBModel);
+            repository?.AddRange(DBModel);
             //repositoryAirport.SaveAs();
             stopwatch.Stop();
             ConsoleWrite(Counts, stopwatch);
-
-            Console.ReadLine();
-
+            stopwatch.Reset();
         }
 
         static void ConsoleWrite(int count, Stopwatch stopwatch)

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Airports.DAL.Migrations
 {
     [DbContext(typeof(AirpotsDB))]
-    [Migration("20230518162605_Initial")]
+    [Migration("20230519050950_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -102,14 +102,12 @@ namespace Airports.DAL.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("AirportIdent")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("AirportRef")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double?>("FrequencyMhz")
@@ -119,7 +117,6 @@ namespace Airports.DAL.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Type")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -136,7 +133,6 @@ namespace Airports.DAL.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Code")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Continent")
@@ -146,15 +142,12 @@ namespace Airports.DAL.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Keywords")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("WikipediaLink")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -171,11 +164,9 @@ namespace Airports.DAL.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("AssociatedAirport")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DmeChannel")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("DmeElevationFt")
@@ -194,21 +185,18 @@ namespace Airports.DAL.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Filename")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("FrequencyKhz")
                         .HasColumnType("int");
 
                     b.Property<string>("Ident")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Identificator")
                         .HasColumnType("int");
 
                     b.Property<string>("IsoCountry")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double?>("LatitudeDeg")
@@ -221,11 +209,9 @@ namespace Airports.DAL.Migrations
                         .HasColumnType("float");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Power")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double?>("SlavedVariationDeg")
@@ -235,7 +221,6 @@ namespace Airports.DAL.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("UsageType")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -252,7 +237,6 @@ namespace Airports.DAL.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Code")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Continent")
@@ -262,23 +246,18 @@ namespace Airports.DAL.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("IsoCountry")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Keywords")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LocalCode")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("WikipediaLink")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -295,7 +274,6 @@ namespace Airports.DAL.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("AirportIdent")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("AirportRef")
@@ -314,14 +292,14 @@ namespace Airports.DAL.Migrations
                         .HasColumnType("float");
 
                     b.Property<string>("HeIdent")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double?>("HeLatitudeDeg")
                         .HasColumnType("float");
 
-                    b.Property<double?>("HeLongitudeDeg")
-                        .HasColumnType("float");
+                    b.Property<decimal?>("HeLongitudeDeg")
+                        .HasPrecision(25, 16)
+                        .HasColumnType("decimal(25,16)");
 
                     b.Property<int>("Identificator")
                         .HasColumnType("int");
@@ -336,7 +314,6 @@ namespace Airports.DAL.Migrations
                         .HasColumnType("float");
 
                     b.Property<string>("LeIdent")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double?>("LeLatitudeDeg")
@@ -352,7 +329,6 @@ namespace Airports.DAL.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Surface")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("WidthFt")
