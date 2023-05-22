@@ -10,164 +10,42 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Airports.DAL.Extensions;
 using TestConsole.Data;
+using System.Diagnostics;
 
 namespace Airports.DataTests
 {
     [TestClass()]
     public class EntityAirportsTest
     {
-        string zipPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\..\\..\\Tests\\TestConsole\\Airports.zip");
+        static string  zipPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\..\\..\\Tests\\TestConsole\\Airports.zip");
         //string zipPath = @"C:\Users\Marat\Downloads\Airports.zip";
         private static IHost __Host;
-        private IServiceProvider Services;
+        private static IServiceProvider Services;
+
+        [ClassInitialize]
+        public static void TestFixtureSetup(TestContext context)
+        {
+            // _services = Program.CreateHostBuilder(new string[] { }).Build().Services; // one line
+            IHost Host = __Host ??= Program.CreateHostBuilder(Environment.GetCommandLineArgs()).Build();
+            Services = Host.Services;
+            using (var scope = Services.CreateScope())
+            {
+                scope.ServiceProvider.GetRequiredService<DbInitializer>().InitializeAsync().Wait();
+            }
+        }
+
+
 
         [TestInitialize]
         public  void Initialize()
         {
-            // _services = Program.CreateHostBuilder(new string[] { }).Build().Services; // one line
-            IHost Host = __Host ??= Program.CreateHostBuilder(Environment.GetCommandLineArgs()).Build();
-
-            Services = Host.Services;
-            using (var scope = Services.CreateScope())
-            {
-                 scope.ServiceProvider.GetRequiredService<DbInitializer>().InitializeAsync().Wait();
-            }
-        }
-
-        [TestMethod()]
-        public void ReadAirportsEntity()
-        {
-            //Arrange
-            IRepository<AirportDBModel>? repositoryAirport = Services.CreateScope().ServiceProvider.GetService<IRepository<AirportDBModel>>();
-            string fileAirports = "airports.csv"; ;
-            List<string> Expecteds = new List<string>();
-            ReadAirportsCsv readAirports = new ReadAirportsCsv(zipPath);
            
-            // Act
-            foreach (var item in ReadCsv(zipPath, fileAirports))
-            {
-                Expecteds.Add(item);
-            }
-            repositoryAirport!.AutoSaveChanges = false;
-            foreach (var item in readAirports.GetCsv<AirportInfo>(fileAirports))
-            {
-                repositoryAirport?.Add(item.ModelMap<AirportInfo, AirportDBModel>());
-            }
-            repositoryAirport.SaveAs();
-            //Assert
+         
 
-            Assert.AreEqual(Expecteds.Count, repositoryAirport?.Items.Count());
-            
-            for (int i = 0; i < Expecteds.Count; i++)
-            {
-                // Удаляем кавычки потому-что не у всех есть они.
-                var expected = Expecteds[i].Replace("\"", "");
-                var actual = ReadAirportsCsv.ToCsvFields<AirportInfo>(repositoryAirport!.Get(i + 1).ModelMapInfo<AirportDBModel, AirportInfo>());
-                Assert.AreEqual(expected, actual);
-            }
         }
 
         [TestMethod()]
-        public void AirportFrequencesEntity()
-        {
-            //Arrange
-            IRepository<AirportFrequenceDBModel>? repository = Services.CreateScope().ServiceProvider.GetService<IRepository<AirportFrequenceDBModel>>();
-            string file = "airport-frequencies.csv"; ;
-            List<string> Expecteds = new List<string>();
-            ReadAirportsCsv readAirports = new ReadAirportsCsv(zipPath);
-
-            // Act
-            foreach (var item in ReadCsv(zipPath, file))
-            {
-                Expecteds.Add(item);
-            }
-            repository!.AutoSaveChanges = false;
-            foreach (var item in readAirports.GetCsv<AirportFrequenceInfo>(file))
-            {
-                repository?.Add(item.ModelMap<AirportFrequenceInfo, AirportFrequenceDBModel>());
-            }
-            repository.SaveAs();
-            //Assert
-
-            Assert.AreEqual(Expecteds.Count, repository?.Items.Count());
-
-            for (int i = 0; i < Expecteds.Count; i++)
-            {
-                // Удаляем кавычки потому-что не у всех есть они.
-                var expected = Expecteds[i].Replace("\"", "");
-                var actual = ReadAirportsCsv.ToCsvFields<AirportFrequenceInfo>(repository!.Get(i + 1).ModelMapInfo<AirportFrequenceDBModel, AirportFrequenceInfo>());
-                Assert.AreEqual(expected, actual);
-            }
-        }
-
-        [TestMethod()]
-        public void CountriesEntity()
-        {
-            //Arrange
-            IRepository<CountryDBModel>? repository = Services.CreateScope().ServiceProvider.GetService<IRepository<CountryDBModel>>();
-            string file = "countries.csv"; ;
-            List<string> Expecteds = new List<string>();
-            ReadAirportsCsv readAirports = new ReadAirportsCsv(zipPath);
-
-            // Act
-            foreach (var item in ReadCsv(zipPath, file))
-            {
-                Expecteds.Add(item);
-            }
-            repository!.AutoSaveChanges = false;
-            foreach (var item in readAirports.GetCsv<CountryInfo>(file))
-            {
-                repository?.Add(item.ModelMap<CountryInfo, CountryDBModel>());
-            }
-            repository.SaveAs();
-            //Assert
-
-            Assert.AreEqual(Expecteds.Count, repository?.Items.Count());
-
-            for (int i = 0; i < Expecteds.Count; i++)
-            {
-                // Удаляем кавычки потому-что не у всех есть они.
-                var expected = Expecteds[i].Replace("\"", "");
-                var actual = ReadAirportsCsv.ToCsvFields<CountryInfo>(repository!.Get(i + 1).ModelMapInfo<CountryDBModel, CountryInfo>());
-                Assert.AreEqual(expected, actual);
-            }
-        }
-
-        [TestMethod()]
-        public void NavaidsEntity()
-        {
-            //Arrange
-            IRepository<NavaidDBModel>? repository = Services.CreateScope().ServiceProvider.GetService<IRepository<NavaidDBModel>>();
-            string file = "navaids.csv"; ;
-            List<string> Expecteds = new List<string>();
-            ReadAirportsCsv readAirports = new ReadAirportsCsv(zipPath);
-
-            // Act
-            foreach (var item in ReadCsv(zipPath, file))
-            {
-                Expecteds.Add(item);
-            }
-            repository!.AutoSaveChanges = false;
-            foreach (var item in readAirports.GetCsv<NavaidInfo>(file))
-            {
-                repository?.Add(item.ModelMap<NavaidInfo, NavaidDBModel>());
-            }
-            repository.SaveAs();
-            //Assert
-
-            Assert.AreEqual(Expecteds.Count, repository?.Items.Count());
-
-            for (int i = 0; i < Expecteds.Count; i++)
-            {
-                // Удаляем кавычки потому-что не у всех есть они.
-                var expected = Expecteds[i].Replace("\"", "");
-                var actual = ReadAirportsCsv.ToCsvFields<NavaidInfo>(repository!.Get(i + 1).ModelMapInfo<NavaidDBModel, NavaidInfo>());
-                Assert.AreEqual(expected, actual);
-            }
-        }
-
-        [TestMethod()]
-        public void RegionsEntity()
+        public void T01_RegionsEntity()
         {
             //Arrange
             IRepository<RegionDBModel>? repository = Services.CreateScope().ServiceProvider.GetService<IRepository<RegionDBModel>>();
@@ -201,7 +79,142 @@ namespace Airports.DataTests
 
 
         [TestMethod()]
-        public void RunwaysEntity()
+        public void T02_CountriesEntity()
+        {
+            //Arrange
+            IRepository<CountryDBModel>? repository = Services.CreateScope().ServiceProvider.GetService<IRepository<CountryDBModel>>();
+            string file = "countries.csv"; ;
+            List<string> Expecteds = new List<string>();
+            ReadAirportsCsv readAirports = new ReadAirportsCsv(zipPath);
+
+            // Act
+            foreach (var item in ReadCsv(zipPath, file))
+            {
+                Expecteds.Add(item);
+            }
+            repository!.AutoSaveChanges = false;
+            foreach (var item in readAirports.GetCsv<CountryInfo>(file))
+            {
+                repository?.Add(item.ModelMap<CountryInfo, CountryDBModel>());
+            }
+            repository.SaveAs();
+            //Assert
+
+            Assert.AreEqual(Expecteds.Count, repository?.Items.Count());
+
+            for (int i = 0; i < Expecteds.Count; i++)
+            {
+                // Удаляем кавычки потому-что не у всех есть они.
+                var expected = Expecteds[i].Replace("\"", "");
+                var actual = ReadAirportsCsv.ToCsvFields<CountryInfo>(repository!.Get(i + 1).ModelMapInfo<CountryDBModel, CountryInfo>());
+                Assert.AreEqual(expected, actual);
+            }
+        }
+
+        [TestMethod()]
+        public void T03_AirportsEntity()
+        {
+            //Arrange
+            IRepository<AirportDBModel>? repositoryAirport = Services.CreateScope().ServiceProvider.GetService<IRepository<AirportDBModel>>();
+            string fileAirports = "airports.csv"; ;
+            List<string> Expecteds = new List<string>();
+            ReadAirportsCsv readAirports = new ReadAirportsCsv(zipPath);
+
+            // Act
+            foreach (var item in ReadCsv(zipPath, fileAirports))
+            {
+                Expecteds.Add(item);
+            }
+            repositoryAirport!.AutoSaveChanges = false;
+            foreach (var item in readAirports.GetCsv<AirportInfo>(fileAirports))
+            {
+                repositoryAirport?.Add(item.ModelMap<AirportInfo, AirportDBModel>());
+            }
+            repositoryAirport.SaveAs();
+            //Assert
+
+            Assert.AreEqual(Expecteds.Count, repositoryAirport?.Items.Count());
+
+            for (int i = 0; i < Expecteds.Count; i++)
+            {
+                // Удаляем кавычки потому-что не у всех есть они.
+                var expected = Expecteds[i].Replace("\"", "");
+                var actual = ReadAirportsCsv.ToCsvFields<AirportInfo>(repositoryAirport!.Get(i + 1).ModelMapInfo<AirportDBModel, AirportInfo>());
+                Assert.AreEqual(expected, actual);
+            }
+        }
+
+        [TestMethod()]
+        public void T04_AirportFrequencesEntity()
+        {
+            //Arrange
+            IRepository<AirportFrequenceDBModel>? repository = Services.CreateScope().ServiceProvider.GetService<IRepository<AirportFrequenceDBModel>>();
+            string file = "airport-frequencies.csv"; ;
+            List<string> Expecteds = new List<string>();
+            ReadAirportsCsv readAirports = new ReadAirportsCsv(zipPath);
+
+            // Act
+            foreach (var item in ReadCsv(zipPath, file))
+            {
+                Expecteds.Add(item);
+            }
+            repository!.AutoSaveChanges = false;
+            foreach (var item in readAirports.GetCsv<AirportFrequenceInfo>(file))
+            {
+                repository?.Add(item.ModelMap<AirportFrequenceInfo, AirportFrequenceDBModel>());
+            }
+            repository.SaveAs();
+            //Assert
+
+            Assert.AreEqual(Expecteds.Count, repository?.Items.Count());
+
+            for (int i = 0; i < Expecteds.Count; i++)
+            {
+                // Удаляем кавычки потому-что не у всех есть они.
+                var expected = Expecteds[i].Replace("\"", "");
+                var actual = ReadAirportsCsv.ToCsvFields<AirportFrequenceInfo>(repository!.Get(i + 1).ModelMapInfo<AirportFrequenceDBModel, AirportFrequenceInfo>());
+                Assert.AreEqual(expected, actual);
+            }
+        }
+
+        [TestMethod()]
+        public void T05_NavaidsEntity()
+        {
+            //Arrange
+            IRepository<NavaidDBModel>? repository = Services.CreateScope().ServiceProvider.GetService<IRepository<NavaidDBModel>>();
+            string file = "navaids.csv"; ;
+            List<string> Expecteds = new List<string>();
+            ReadAirportsCsv readAirports = new ReadAirportsCsv(zipPath);
+
+            // Act
+            foreach (var item in ReadCsv(zipPath, file))
+            {
+                Expecteds.Add(item);
+            }
+            repository!.AutoSaveChanges = false;
+            foreach (var item in readAirports.GetCsv<NavaidInfo>(file))
+            {
+                repository?.Add(item.ModelMap<NavaidInfo, NavaidDBModel>());
+            }
+            repository.SaveAs();
+            //Assert
+
+            Assert.AreEqual(Expecteds.Count, repository?.Items.Count());
+
+            for (int i = 0; i < Expecteds.Count; i++)
+            {
+                // Удаляем кавычки потому-что не у всех есть они.
+                var expected = Expecteds[i].Replace("\"", "");
+                var actual = ReadAirportsCsv.ToCsvFields<NavaidInfo>(repository!.Get(i + 1).ModelMapInfo<NavaidDBModel, NavaidInfo>());
+                Assert.AreEqual(expected, actual);
+            }
+        }
+
+       
+
+
+        [TestMethod()]
+        public void T06_RunwaysEntity()
         {
             //Arrange
             IRepository<RunwayDBModel>? repository = Services.CreateScope().ServiceProvider.GetService<IRepository<RunwayDBModel>>();
@@ -255,6 +268,25 @@ namespace Airports.DataTests
                     }
                 }
             }
+        }
+
+        private static void ReadCsvToEntity<TDbModel, TInfo>(string zipPath, string fileAirports, IServiceProvider Services)
+           where TInfo : class, new()
+           where TDbModel : class, IEntity, new()
+        {
+            IRepository<TDbModel>? repository = Services.CreateScope().ServiceProvider.GetService<IRepository<TDbModel>>();
+            ReadAirportsCsv readAirports = new ReadAirportsCsv(zipPath);
+            List<TDbModel> DBModel = new List<TDbModel>();
+            // не сохраняем каждую запись
+            //repositoryAirport!.AutoSaveChanges = false;
+            foreach (var item in readAirports.GetCsv<TInfo>(fileAirports))
+            {
+                DBModel.Add(item.ModelMap<TInfo, TDbModel>());
+                //repositoryAirport?.Add(item.ModelMap<AirportInfo, AirportDBModel>());
+                Console.WriteLine(item);
+            }
+            repository?.AddRange(DBModel);
+            //repositoryAirport.SaveAs();
         }
     }
 }

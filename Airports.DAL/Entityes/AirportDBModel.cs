@@ -1,5 +1,7 @@
 ﻿using Airports.DAL.Entityes.Base;
 using Airports.Lib.Enums;
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Airports.DAL.Entityes
@@ -116,6 +118,22 @@ namespace Airports.DAL.Entityes
         /// близлежащие туристические направления и т. д.
         /// </summary>
         public string? Keywords { get; set; }
+
+        /// <summary>Радионавигационные средства и частоты работающие в данном аэропорте </summary>
+        public IEnumerable<AirportFrequenceDBModel> AirportFrequencesDB { get; set; }
+
+        /// <summary>Навигационные средства аэропорта. </summary>
+        public IEnumerable<NavaidDBModel> NavaidsDB { get; set; }
+
+        /// <summary>Взлетно посадочные полосы Аэропорта </summary>
+        public IEnumerable<RunwayDBModel> RunwaysDB { get; set; }
+
+        /// <summary>Страна нахождения аэропорта </summary>
+        public CountryDBModel CountryDB { get; set; }
+       
+        /// <summary>Регион.</summary>
+        public RegionDBModel RegionDB { get; set; }
+
 
     }
 }

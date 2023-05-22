@@ -24,7 +24,7 @@ namespace Airports.DAL
             _Set = db.Set<T>();
         }
 
-        public IQueryable<T> Items => _Set;
+        public virtual IQueryable<T> Items => _Set;
 
         public T Get(int id) => Items.SingleOrDefault(i => i.Id == id);
 

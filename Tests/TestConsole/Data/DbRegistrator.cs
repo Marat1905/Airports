@@ -23,7 +23,8 @@ namespace TestConsole.Data
                    case "SQLite":
                        opt.UseSqlite(Configuration.GetConnectionString(type));
                        break;
-               }
+               };
+               opt.EnableSensitiveDataLogging();
            })
            .AddTransient<DbInitializer>()
            .AddRepositoriesInDB()

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Airports.DAL.Migrations
 {
     [DbContext(typeof(AirpotsDB))]
-    [Migration("20230519050950_Initial")]
+    [Migration("20230522101905_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -49,16 +49,17 @@ namespace Airports.DAL.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Ident")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("Identificator")
                         .HasColumnType("int");
 
                     b.Property<string>("IsoCountry")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("IsoRegion")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Keywords")
                         .HasColumnType("nvarchar(max)");
@@ -90,6 +91,10 @@ namespace Airports.DAL.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("IsoCountry");
+
+                    b.HasIndex("IsoRegion");
+
                     b.ToTable("Airports");
                 });
 
@@ -102,7 +107,7 @@ namespace Airports.DAL.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("AirportIdent")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("AirportRef")
                         .HasColumnType("int");
@@ -121,6 +126,8 @@ namespace Airports.DAL.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AirportIdent");
+
                     b.ToTable("AirportFrequences");
                 });
 
@@ -133,7 +140,8 @@ namespace Airports.DAL.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Code")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("Continent")
                         .HasColumnType("int");
@@ -164,7 +172,7 @@ namespace Airports.DAL.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("AssociatedAirport")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("DmeChannel")
                         .HasColumnType("nvarchar(max)");
@@ -225,6 +233,8 @@ namespace Airports.DAL.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AssociatedAirport");
+
                     b.ToTable("Navaids");
                 });
 
@@ -237,7 +247,8 @@ namespace Airports.DAL.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Code")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("Continent")
                         .HasColumnType("int");
@@ -274,7 +285,7 @@ namespace Airports.DAL.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("AirportIdent")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("AirportRef")
                         .HasColumnType("int");
@@ -336,7 +347,59 @@ namespace Airports.DAL.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AirportIdent");
+
                     b.ToTable("Runways");
+                });
+
+            modelBuilder.Entity("Airports.DAL.Entityes.AirportDBModel", b =>
+                {
+                    b.HasOne("Airports.DAL.Entityes.CountryDBModel", "CountryDB")
+                        .WithMany()
+                        .HasForeignKey("IsoCountry")
+                        .HasPrincipalKey("Code");
+
+                    b.HasOne("Airports.DAL.Entityes.RegionDBModel", "RegionDB")
+                        .WithMany()
+                        .HasForeignKey("IsoRegion")
+                        .HasPrincipalKey("Code");
+
+                    b.Navigation("CountryDB");
+
+                    b.Navigation("RegionDB");
+                });
+
+            modelBuilder.Entity("Airports.DAL.Entityes.AirportFrequenceDBModel", b =>
+                {
+                    b.HasOne("Airports.DAL.Entityes.AirportDBModel", null)
+                        .WithMany("AirportFrequencesDB")
+                        .HasForeignKey("AirportIdent")
+                        .HasPrincipalKey("Ident");
+                });
+
+            modelBuilder.Entity("Airports.DAL.Entityes.NavaidDBModel", b =>
+                {
+                    b.HasOne("Airports.DAL.Entityes.AirportDBModel", null)
+                        .WithMany("NavaidsDB")
+                        .HasForeignKey("AssociatedAirport")
+                        .HasPrincipalKey("Ident");
+                });
+
+            modelBuilder.Entity("Airports.DAL.Entityes.RunwayDBModel", b =>
+                {
+                    b.HasOne("Airports.DAL.Entityes.AirportDBModel", null)
+                        .WithMany("RunwaysDB")
+                        .HasForeignKey("AirportIdent")
+                        .HasPrincipalKey("Ident");
+                });
+
+            modelBuilder.Entity("Airports.DAL.Entityes.AirportDBModel", b =>
+                {
+                    b.Navigation("AirportFrequencesDB");
+
+                    b.Navigation("NavaidsDB");
+
+                    b.Navigation("RunwaysDB");
                 });
 #pragma warning restore 612, 618
         }

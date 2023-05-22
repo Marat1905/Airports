@@ -1,7 +1,9 @@
 ﻿using Airports.DAL.Entityes;
+using Azure;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Reflection.Metadata;
 using System.Security.Claims;
 using System.Text;
 
@@ -26,9 +28,55 @@ namespace Airports.DAL.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<AirportDBModel>().Property(o => o.LatitudeDeg).HasPrecision(25, 16);
-            modelBuilder.Entity<RunwayDBModel>().Property(o => o.HeLongitudeDeg).HasPrecision(25, 16);
-            
+            //Настраиваем точность и масштаб свойства LatitudeDeg
+            modelBuilder.Entity<AirportDBModel>()
+                        .Property(o => o.LatitudeDeg).HasPrecision(25, 16);
+            //Настраиваем точность и масштаб свойства HeLongitudeDeg
+            modelBuilder.Entity<RunwayDBModel>()
+                        .Property(o => o.HeLongitudeDeg).HasPrecision(25, 16);
+
+            //Создаем внешний ключ для связи один ко многим между объектами 
+            modelBuilder.Entity<AirportDBModel>()                      
+                        .HasMany(e => e.AirportFrequencesDB)
+                        .WithOne()
+                        .HasForeignKey(e => e.AirportIdent)
+                        .HasPrincipalKey(e => e.Ident)
+                        ;
+            //Создаем внешний ключ для связи один ко многим между объектами 
+            modelBuilder.Entity<AirportDBModel>()
+                        .HasMany(e => e.RunwaysDB)
+                        .WithOne()
+                        .HasForeignKey(e => e.AirportIdent)
+                        .HasPrincipalKey(e => e.Ident)
+                        ;
+            //Создаем внешний ключ для связи один ко многим между объектами 
+            modelBuilder.Entity<AirportDBModel>()
+                        .HasMany(e => e.NavaidsDB)
+                        .WithOne()
+                        .HasForeignKey(e => e.AssociatedAirport)
+                        .HasPrincipalKey(e => e.Ident)
+                        ;
+
+            //Создаем внешний ключ для связи один ко многим между объектами
+            modelBuilder.Entity<AirportDBModel>()
+                        .HasOne(e => e.RegionDB)
+                        .WithMany()
+                        .HasForeignKey(e => e.IsoRegion)
+                        .HasPrincipalKey(e => e.Code)
+                        ;
+
+
+            ////Создаем внешний ключ для связи один ко многим между объектами
+            modelBuilder.Entity<AirportDBModel>()
+                        .HasOne(e => e.CountryDB)
+                        .WithMany()
+                        .HasForeignKey(e => e.IsoCountry)
+                        .HasPrincipalKey(e => e.Code)
+                        ;
+
+
+
+
 
             base.OnModelCreating(modelBuilder);
         }

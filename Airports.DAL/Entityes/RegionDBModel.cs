@@ -1,5 +1,6 @@
 ﻿using Airports.DAL.Entityes.Base;
 using Airports.Lib.Enums;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Airports.DAL.Entityes
@@ -43,5 +44,6 @@ namespace Airports.DAL.Entityes
         /// Список ключевых слов, разделенных запятыми, для облегчения поиска. Может включать прежние названия региона и/или название региона на других языках.
         /// </summary>
         public string? Keywords { get; set; }
+
     }
 }

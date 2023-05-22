@@ -1,5 +1,7 @@
 ﻿using Airports.DAL.Entityes.Base;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Airports.DAL.Entityes
@@ -102,5 +104,6 @@ namespace Airports.DAL.Entityes
         /// Длина смещенного порога (если есть) конца взлетно-посадочной полосы с большим номером в футах.
         /// </summary>
         public int? HeDisplacedThresholdFt { get; set; }
+
     }
 }

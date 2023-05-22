@@ -174,33 +174,46 @@ namespace TestConsole
             {
                 await scope.ServiceProvider.GetRequiredService<DbInitializer>().InitializeAsync();
             }
-            
-            Console.Write("Нажмите Enter чтоб начать читать "+ fileAirports);
+
+
+            Console.Write("Нажмите Enter чтоб начать читать файл: " + fileRegions);
             Console.ReadLine();
+            ReadCsvToEntity<RegionDBModel, RegionInfo>(zipPath, fileRegions, stopwatch, Services);
+
+            Console.Write("Нажмите Enter чтоб начать читать файл: " + fileCountries);
+            //Console.ReadLine();
+            ReadCsvToEntity<CountryDBModel, CountryInfo>(zipPath, fileCountries, stopwatch, Services);
+
+
+            Console.Write("Нажмите Enter чтоб начать читать "+ fileAirports);
+            //Console.ReadLine();
             ReadCsvToEntity<AirportDBModel, AirportInfo>(zipPath, fileAirports, stopwatch, Services);
             
             
             Console.Write("Нажмите Enter чтоб начать читать файл: " + fileAirportFrequencies);
-            Console.ReadLine();
+            //Console.ReadLine();
             ReadCsvToEntity<AirportFrequenceDBModel, AirportFrequenceInfo>(zipPath, fileAirportFrequencies, stopwatch, Services);
 
-            Console.Write("Нажмите Enter чтоб начать читать файл: " + fileCountries);
-            Console.ReadLine();
-            ReadCsvToEntity<CountryDBModel, CountryInfo>(zipPath, fileCountries, stopwatch, Services);
+            IRepository<AirportDBModel>? repositoryAir = Services.CreateScope().ServiceProvider.GetService<IRepository<AirportDBModel>>();
 
 
             Console.Write("Нажмите Enter чтоб начать читать файл: " + fileNavaids);
-            Console.ReadLine();
+            //Console.ReadLine();
             ReadCsvToEntity<NavaidDBModel, NavaidInfo>(zipPath, fileNavaids, stopwatch, Services);
 
-            Console.Write("Нажмите Enter чтоб начать читать файл: " + fileRegions);
-            Console.ReadLine();
-            ReadCsvToEntity<NavaidDBModel, NavaidInfo>(zipPath, fileRegions, stopwatch, Services);
 
             Console.Write("Нажмите Enter чтоб начать читать файл: " + fileRunways);
-            Console.ReadLine();
+            //Console.ReadLine();
             ReadCsvToEntity<RunwayDBModel, RunwayInfo>(zipPath, fileRunways, stopwatch, Services);
 
+            var t = repositoryAir.Items.ToArray();
+            var ti = t.Where(p => p.RunwaysDB.Count()>1).ToArray();
+            //var tip = t.GroupBy(p => p.RunwaysDB.Select(p => p.AirportIdent)).ToArray();
+            //var c = tip.Where(t=>t.Count()>1);
+            var tii=t.Where(p=>p.RegionDB!=null).ToArray();
+
+           // var til = t.Where(p => p.CountryDB != null).ToArray();
+            await Console.Out.WriteLineAsync();
         }
 
 
