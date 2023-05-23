@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Airports.DAL.Migrations
 {
     [DbContext(typeof(AirpotsDB))]
-    [Migration("20230522101905_Initial")]
+    [Migration("20230523041031_Initial")]
     partial class Initial
     {
         /// <inheritdoc />

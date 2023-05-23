@@ -120,13 +120,13 @@ namespace Airports.DAL.Entityes
         public string? Keywords { get; set; }
 
         /// <summary>Радионавигационные средства и частоты работающие в данном аэропорте </summary>
-        public IEnumerable<AirportFrequenceDBModel> AirportFrequencesDB { get; set; }
+        public ICollection<AirportFrequenceDBModel> AirportFrequencesDB { get; set; }
 
         /// <summary>Навигационные средства аэропорта. </summary>
-        public IEnumerable<NavaidDBModel> NavaidsDB { get; set; }
+        public ICollection<NavaidDBModel> NavaidsDB { get; set; }
 
         /// <summary>Взлетно посадочные полосы Аэропорта </summary>
-        public IEnumerable<RunwayDBModel> RunwaysDB { get; set; }
+        public ICollection<RunwayDBModel> RunwaysDB { get; set; }
 
         /// <summary>Страна нахождения аэропорта </summary>
         public CountryDBModel CountryDB { get; set; }
