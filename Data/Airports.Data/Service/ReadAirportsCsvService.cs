@@ -1,5 +1,6 @@
 ﻿using Airports.Data.Infrastructure.Attributes;
 using Airports.Data.Infrastructure.Helper;
+using Airports.Data.Service.Interfaces;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO.Compression;
@@ -8,9 +9,9 @@ using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Airports.Data
+namespace Airports.Data.Service
 {
-    public class ReadAirportsCsv
+    public class ReadAirportsCsvService:IReadAirportsCsvService
     {
         #region Поля
         private string zipPath;
@@ -31,10 +32,10 @@ namespace Airports.Data
         #endregion
 
         #region Конструкторы
-        /// <summary>Инициализирует новый экземпляр класса <see cref="ReadAirportsCsv"/>. </summary>
+        /// <summary>Инициализирует новый экземпляр класса <see cref="ReadAirportsCsvService"/>. </summary>
         /// <param name="zipPath">Полный путь до архива.</param>
-        public ReadAirportsCsv(string zipPath) => ZipPath = zipPath;
-
+        public ReadAirportsCsvService(string zipPath) => ZipPath = zipPath;
+        public ReadAirportsCsvService() { }
         #endregion
 
         #region Методы
@@ -50,7 +51,7 @@ namespace Airports.Data
                 throw new FileNotFoundException("Не правильно указан путь к архиву", ZipPath);
             //Получаем список файлов в архиве
             using (ZipArchive archive = ZipFile.OpenRead(ZipPath))
-                foreach(var entry in archive.Entries)
+                foreach (var entry in archive.Entries)
                     yield return entry;
         }
 
@@ -62,7 +63,7 @@ namespace Airports.Data
             return ReadZip().Any(x => x.Name == fileName);
         }
 
-       
+
 
         /// <summary> </summary>
         /// <typeparam name="T"></typeparam>
@@ -82,20 +83,20 @@ namespace Airports.Data
                         {
                             // Возвращаем словарь MapProp словарь с информацией о свойствах и атрибутом 
                             Dictionary<PropertyInfo, CsvAttribute> MapProp = MapProperties(typeof(T));
-                                                  
+
                             // Получаем первую строку и делим ее на название столбцов
-                            string pattern = string.Format("{0}(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))", separator);                          
-                            string? header = reader.ReadLine();
+                            string pattern = string.Format("{0}(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))", separator);
+                            string header = reader.ReadLine();
                             string[] headers = Regex.Split(header, pattern);
 
                             //// Создаем словарь 
                             Dictionary<string, int> myMap = MapHeaders(headers);
-                          
+
                             // читаем в цикле до конца файла
                             while (!reader.EndOfStream)
                             {
                                 // Получаем строку и разбиваем на массив
-                                string? line = reader.ReadLine();
+                                string line = reader.ReadLine();
                                 string[] lines = Regex.Split(line, pattern);
                                 lines = lines.Select(x => x.Replace("\"", "")).ToArray();
 
@@ -129,39 +130,7 @@ namespace Airports.Data
             foreach (var temp in GetCsv<T>(fileArhive.Name, separator: separator))
                 yield return temp;
         }
-
-        public static string ToCsvFields<T>(T fields, string separator = ",") where T : class, new()
-        {
-            StringBuilder line = new StringBuilder();
-            PropertyInfo[] propertyInfo = fields.GetType().GetProperties();
-
-            foreach (var p in propertyInfo)
-            {
-                if (line.Length > 0)
-                    line.Append(separator);
-                var x = p.GetValue(fields);
-                // Получаем атрибуты
-                CsvAttribute attribute =
-                                   Attribute.GetCustomAttribute(p, typeof(CsvAttribute)) as CsvAttribute;
-
-                if (p.PropertyType.IsEnum)
-                {
-                    line.Append($"{EnumHelper.GetDescription(p.PropertyType, x)}");
-                }
-                else if (p.PropertyType.IsValueType)
-                {
-                    Type t = Nullable.GetUnderlyingType(p.PropertyType) ?? p.PropertyType;
-                    object safeValue = (string.IsNullOrEmpty(x?.ToString())) ? null : Convert.ChangeType(x, t, CultureInfo.InvariantCulture);
-                    line.Append($"{safeValue?.ToString().Replace(",",".").ToString()}");
-                }
-                else if (x != null)
-                {
-                    line.Append($"{x.ToString()}");
-                }
-
-            }
-            return line.ToString();
-        }
+  
 
         #endregion
 
@@ -182,7 +151,7 @@ namespace Airports.Data
                     else
                     {
                         Type t = Nullable.GetUnderlyingType(mapProp.Key.PropertyType) ?? mapProp.Key.PropertyType;
-                        object safeValue = (string.IsNullOrEmpty(value)) ? null : Convert.ChangeType(value, t, CultureInfo.InvariantCulture);
+                        object safeValue = string.IsNullOrEmpty(value) ? null : Convert.ChangeType(value, t, CultureInfo.InvariantCulture);
                         mapProp.Key.SetValue(result, safeValue, null);
                     }
 
@@ -192,12 +161,12 @@ namespace Airports.Data
         /// <summary>Получаем словарь свойств и атрибутов</summary>
         /// <param name="type">Получаем тип модели</param>
         /// <returns>Возвращаем словарь свойств и атрибутами</returns>
-        private Dictionary<PropertyInfo, CsvAttribute>  MapProperties(Type type)
+        private Dictionary<PropertyInfo, CsvAttribute> MapProperties(Type type)
         {
             //Получаем массив свойств текущего объекта
             var properties = type.GetProperties();
             // Создаем словарь информацией о свойствах и атрибутом
-            Dictionary<PropertyInfo, CsvAttribute>  MapProp = new Dictionary<PropertyInfo, CsvAttribute>();
+            Dictionary<PropertyInfo, CsvAttribute> MapProp = new Dictionary<PropertyInfo, CsvAttribute>();
             // Заполняем словарь свойством и атрибутами
             foreach (PropertyInfo property in properties)
             {

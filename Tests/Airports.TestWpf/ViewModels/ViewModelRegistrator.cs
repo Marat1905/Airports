@@ -6,6 +6,7 @@ namespace Airports.TestWpf.ViewModels
     {
         public static IServiceCollection AddViewModels(this IServiceCollection services) => services
             .AddSingleton<MainWindowViewModel>()
+            .AddSingleton<AirportsViewModel>()
             ;
     }
 }

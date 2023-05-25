@@ -1,4 +1,5 @@
-﻿using Airports.TestWpf.Data;
+﻿using Airports.Data.Service;
+using Airports.TestWpf.Data;
 using Airports.TestWpf.Services;
 using Airports.TestWpf.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
@@ -7,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -18,6 +20,7 @@ namespace Airports.TestWpf
     /// </summary>
     public partial class App : Application
     {
+        static string ZipPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\..\\..\\Tests\\TestConsole\\Airports.zip");
         private static IHost __Host;
         public static IHost Host => __Host 
             ??= Program.CreateHostBuilder(Environment.GetCommandLineArgs()).Build();
@@ -26,6 +29,7 @@ namespace Airports.TestWpf
 
         internal static void ConfigureServices(HostBuilderContext host, IServiceCollection services) => services
             .AddDatabase(host.Configuration.GetSection("Database"))
+            .AddReadCsvServices(ZipPath)
             .AddServices()
             .AddViewModels()
             ;

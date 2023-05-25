@@ -1,5 +1,4 @@
 ﻿using Airports.Data.Models;
-using Airports.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO.Compression;
 using System.Text;
@@ -11,6 +10,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Airports.DAL.Extensions;
 using TestConsole.Data;
 using System.Diagnostics;
+using Airports.Data.Service;
+using Airports.Data.Infrastructure.Extensions;
 
 namespace Airports.DataTests
 {
@@ -51,7 +52,7 @@ namespace Airports.DataTests
             IRepository<RegionDBModel>? repository = Services.CreateScope().ServiceProvider.GetService<IRepository<RegionDBModel>>();
             string file = "regions.csv"; ;
             List<string> Expecteds = new List<string>();
-            ReadAirportsCsv readAirports = new ReadAirportsCsv(zipPath);
+            ReadAirportsCsvService readAirports = new ReadAirportsCsvService(zipPath);
 
             // Act
             foreach (var item in ReadCsv(zipPath, file))
@@ -72,7 +73,8 @@ namespace Airports.DataTests
             {
                 // Удаляем кавычки потому-что не у всех есть они.
                 var expected = Expecteds[i].Replace("\"", "");
-                var actual = ReadAirportsCsv.ToCsvFields<RegionInfo>(repository!.Get(i + 1).ModelMapInfo<RegionDBModel, RegionInfo>());
+                var actual = readAirports.ToCsvFields<RegionInfo>(repository!.Get(i + 1).ModelMapInfo<RegionDBModel, RegionInfo>());
+                //var actual = ReadAirportsCsvService.ToCsvFields<RegionInfo>(repository!.Get(i + 1).ModelMapInfo<RegionDBModel, RegionInfo>());
                 Assert.AreEqual(expected, actual);
             }
         }
@@ -85,7 +87,7 @@ namespace Airports.DataTests
             IRepository<CountryDBModel>? repository = Services.CreateScope().ServiceProvider.GetService<IRepository<CountryDBModel>>();
             string file = "countries.csv"; ;
             List<string> Expecteds = new List<string>();
-            ReadAirportsCsv readAirports = new ReadAirportsCsv(zipPath);
+            ReadAirportsCsvService readAirports = new ReadAirportsCsvService(zipPath);
 
             // Act
             foreach (var item in ReadCsv(zipPath, file))
@@ -106,7 +108,8 @@ namespace Airports.DataTests
             {
                 // Удаляем кавычки потому-что не у всех есть они.
                 var expected = Expecteds[i].Replace("\"", "");
-                var actual = ReadAirportsCsv.ToCsvFields<CountryInfo>(repository!.Get(i + 1).ModelMapInfo<CountryDBModel, CountryInfo>());
+                var actual = readAirports.ToCsvFields<CountryInfo>(repository!.Get(i + 1).ModelMapInfo<CountryDBModel, CountryInfo>());
+                //var actual = ReadAirportsCsvService.ToCsvFields<CountryInfo>(repository!.Get(i + 1).ModelMapInfo<CountryDBModel, CountryInfo>());
                 Assert.AreEqual(expected, actual);
             }
         }
@@ -118,7 +121,7 @@ namespace Airports.DataTests
             IRepository<AirportDBModel>? repositoryAirport = Services.CreateScope().ServiceProvider.GetService<IRepository<AirportDBModel>>();
             string fileAirports = "airports.csv"; ;
             List<string> Expecteds = new List<string>();
-            ReadAirportsCsv readAirports = new ReadAirportsCsv(zipPath);
+            ReadAirportsCsvService readAirports = new ReadAirportsCsvService(zipPath);
 
             // Act
             foreach (var item in ReadCsv(zipPath, fileAirports))
@@ -139,7 +142,7 @@ namespace Airports.DataTests
             {
                 // Удаляем кавычки потому-что не у всех есть они.
                 var expected = Expecteds[i].Replace("\"", "");
-                var actual = ReadAirportsCsv.ToCsvFields<AirportInfo>(repositoryAirport!.Get(i + 1).ModelMapInfo<AirportDBModel, AirportInfo>());
+                var actual = readAirports.ToCsvFields<AirportInfo>(repositoryAirport!.Get(i + 1).ModelMapInfo<AirportDBModel, AirportInfo>());
                 Assert.AreEqual(expected, actual);
             }
         }
@@ -151,7 +154,7 @@ namespace Airports.DataTests
             IRepository<AirportFrequenceDBModel>? repository = Services.CreateScope().ServiceProvider.GetService<IRepository<AirportFrequenceDBModel>>();
             string file = "airport-frequencies.csv"; ;
             List<string> Expecteds = new List<string>();
-            ReadAirportsCsv readAirports = new ReadAirportsCsv(zipPath);
+            ReadAirportsCsvService readAirports = new ReadAirportsCsvService(zipPath);
 
             // Act
             foreach (var item in ReadCsv(zipPath, file))
@@ -172,7 +175,7 @@ namespace Airports.DataTests
             {
                 // Удаляем кавычки потому-что не у всех есть они.
                 var expected = Expecteds[i].Replace("\"", "");
-                var actual = ReadAirportsCsv.ToCsvFields<AirportFrequenceInfo>(repository!.Get(i + 1).ModelMapInfo<AirportFrequenceDBModel, AirportFrequenceInfo>());
+                var actual = readAirports.ToCsvFields<AirportFrequenceInfo>(repository!.Get(i + 1).ModelMapInfo<AirportFrequenceDBModel, AirportFrequenceInfo>());
                 Assert.AreEqual(expected, actual);
             }
         }
@@ -184,7 +187,7 @@ namespace Airports.DataTests
             IRepository<NavaidDBModel>? repository = Services.CreateScope().ServiceProvider.GetService<IRepository<NavaidDBModel>>();
             string file = "navaids.csv"; ;
             List<string> Expecteds = new List<string>();
-            ReadAirportsCsv readAirports = new ReadAirportsCsv(zipPath);
+            ReadAirportsCsvService readAirports = new ReadAirportsCsvService(zipPath);
 
             // Act
             foreach (var item in ReadCsv(zipPath, file))
@@ -205,7 +208,7 @@ namespace Airports.DataTests
             {
                 // Удаляем кавычки потому-что не у всех есть они.
                 var expected = Expecteds[i].Replace("\"", "");
-                var actual = ReadAirportsCsv.ToCsvFields<NavaidInfo>(repository!.Get(i + 1).ModelMapInfo<NavaidDBModel, NavaidInfo>());
+                var actual = readAirports.ToCsvFields<NavaidInfo>(repository!.Get(i + 1).ModelMapInfo<NavaidDBModel, NavaidInfo>());
                 Assert.AreEqual(expected, actual);
             }
         }
@@ -220,7 +223,7 @@ namespace Airports.DataTests
             IRepository<RunwayDBModel>? repository = Services.CreateScope().ServiceProvider.GetService<IRepository<RunwayDBModel>>();
             string file = "runways.csv"; ;
             List<string> Expecteds = new List<string>();
-            ReadAirportsCsv readAirports = new ReadAirportsCsv(zipPath);
+            ReadAirportsCsvService readAirports = new ReadAirportsCsvService(zipPath);
 
             // Act
             foreach (var item in ReadCsv(zipPath, file))
@@ -241,7 +244,7 @@ namespace Airports.DataTests
             {
                 // Удаляем кавычки потому-что не у всех есть они.
                 var expected = Expecteds[i].Replace("\"", "");
-                var actual = ReadAirportsCsv.ToCsvFields<RunwayInfo>(repository!.Get(i + 1).ModelMapInfo<RunwayDBModel, RunwayInfo>());
+                var actual = readAirports.ToCsvFields<RunwayInfo>(repository!.Get(i + 1).ModelMapInfo<RunwayDBModel, RunwayInfo>());
                 Assert.AreEqual(expected, actual);
             }
         }
@@ -275,7 +278,7 @@ namespace Airports.DataTests
            where TDbModel : class, IEntity, new()
         {
             IRepository<TDbModel>? repository = Services.CreateScope().ServiceProvider.GetService<IRepository<TDbModel>>();
-            ReadAirportsCsv readAirports = new ReadAirportsCsv(zipPath);
+            ReadAirportsCsvService readAirports = new ReadAirportsCsvService(zipPath);
             List<TDbModel> DBModel = new List<TDbModel>();
             // не сохраняем каждую запись
             //repositoryAirport!.AutoSaveChanges = false;

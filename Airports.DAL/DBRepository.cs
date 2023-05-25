@@ -103,11 +103,14 @@ namespace Airports.DAL
                 _db.SaveChanges();
         }
 
-        public Task AddAsync(IEnumerable<T> item, CancellationToken Cancel = default)
+        public async Task SaveAsAsync()
         {
-            throw new NotImplementedException();
+            if (!AutoSaveChanges)
+              await  _db.SaveChangesAsync().ConfigureAwait(false);
         }
 
-        
+
+
+
     }
 }

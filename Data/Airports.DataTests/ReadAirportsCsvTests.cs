@@ -1,5 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Airports.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +7,8 @@ using System.Threading.Tasks;
 using Airports.Data.Models;
 using System.IO.Compression;
 using System.Reflection;
+using Airports.Data.Service;
+using Airports.Data.Infrastructure.Extensions;
 
 namespace Airports.Data.Tests
 {
@@ -25,7 +26,7 @@ namespace Airports.Data.Tests
             string fileAirports = "airports.csv"; ;
             List<AirportInfo> Actuals = new List<AirportInfo>();
             List<string> Expecteds = new List<string>();
-            ReadAirportsCsv readAirports = new ReadAirportsCsv(zipPath);
+            ReadAirportsCsvService readAirports = new ReadAirportsCsvService(zipPath);
             // Act
             foreach (var item in ReadCsv(zipPath, fileAirports))
             {
@@ -43,7 +44,7 @@ namespace Airports.Data.Tests
             {
                 // Удаляем кавычки потому-что не у всех есть они.
                 var expected = Expecteds[i].Replace("\"", "");
-                var actual = ReadAirportsCsv.ToCsvFields<AirportInfo>(Actuals[i]);
+                var actual = readAirports.ToCsvFields<AirportInfo>(Actuals[i]);
                 Assert.AreEqual(expected, actual);
             }
         }
@@ -56,7 +57,7 @@ namespace Airports.Data.Tests
             string fileAirportFrequencies = "airport-frequencies.csv";
             List<AirportFrequenceInfo> Actuals = new List<AirportFrequenceInfo>();
             List<string> Expecteds = new List<string>();
-            ReadAirportsCsv readAirportFrequencies = new ReadAirportsCsv(zipPath);
+            ReadAirportsCsvService readAirportFrequencies = new ReadAirportsCsvService(zipPath);
             // Act
             foreach (var item in ReadCsv(zipPath, fileAirportFrequencies))
             {
@@ -74,7 +75,7 @@ namespace Airports.Data.Tests
             {
                 // Удаляем кавычки потому-что не у всех есть они.
                 var expected = Expecteds[i].Replace("\"", "");
-                var actual = ReadAirportsCsv.ToCsvFields<AirportFrequenceInfo>(Actuals[i]);
+                var actual = readAirportFrequencies.ToCsvFields<AirportFrequenceInfo>(Actuals[i]);
                 Assert.AreEqual(expected, actual);
             }
         }
@@ -87,7 +88,7 @@ namespace Airports.Data.Tests
             string fileCountries = "countries.csv";
             List<CountryInfo> Actuals = new List<CountryInfo>();
             List<string> Expecteds = new List<string>();
-            ReadAirportsCsv readCountries = new ReadAirportsCsv(zipPath);
+            ReadAirportsCsvService readCountries = new ReadAirportsCsvService(zipPath);
             // Act
             foreach (var item in ReadCsv(zipPath, fileCountries))
             {
@@ -105,7 +106,7 @@ namespace Airports.Data.Tests
             {
                 // Удаляем кавычки потому-что не у всех есть они.
                 var expected = Expecteds[i].Replace("\"", "");
-                var actual = ReadAirportsCsv.ToCsvFields<CountryInfo>(Actuals[i]);
+                var actual = readCountries.ToCsvFields<CountryInfo>(Actuals[i]);
                 Assert.AreEqual(expected, actual);
             }
         }
@@ -118,7 +119,7 @@ namespace Airports.Data.Tests
             string fileNavaids = "navaids.csv";
             List<NavaidInfo> Actuals = new List<NavaidInfo>();
             List<string> Expecteds = new List<string>();
-            ReadAirportsCsv readNavaids = new ReadAirportsCsv(zipPath);
+            ReadAirportsCsvService readNavaids = new ReadAirportsCsvService(zipPath);
             // Act
             foreach (var item in ReadCsv(zipPath, fileNavaids))
             {
@@ -136,7 +137,7 @@ namespace Airports.Data.Tests
             {
                 // Удаляем кавычки потому-что не у всех есть они.
                 var expected = Expecteds[i].Replace("\"", "");
-                var actual = ReadAirportsCsv.ToCsvFields<NavaidInfo>(Actuals[i]);
+                var actual = readNavaids.ToCsvFields<NavaidInfo>(Actuals[i]);
                 Assert.AreEqual(expected, actual);
             }
         }
@@ -149,7 +150,7 @@ namespace Airports.Data.Tests
             string fileRegions = "regions.csv";
             List<RegionInfo> Actuals = new List<RegionInfo>();
             List<string> Expecteds = new List<string>();
-            ReadAirportsCsv readRegions = new ReadAirportsCsv(zipPath);
+            ReadAirportsCsvService readRegions = new ReadAirportsCsvService(zipPath);
             // Act
             foreach (var item in ReadCsv(zipPath, fileRegions))
             {
@@ -167,7 +168,7 @@ namespace Airports.Data.Tests
             {
                 // Удаляем кавычки потому-что не у всех есть они.
                 var expected = Expecteds[i].Replace("\"", "");
-                var actual = ReadAirportsCsv.ToCsvFields<RegionInfo>(Actuals[i]);
+                var actual = readRegions.ToCsvFields<RegionInfo>(Actuals[i]);
                Assert.AreEqual(expected, actual);
             }
         }
@@ -180,7 +181,7 @@ namespace Airports.Data.Tests
             string fileRunways = "runways.csv";
             List<RunwayInfo> Actuals = new List<RunwayInfo>();
             List<string> Expecteds = new List<string>();
-            ReadAirportsCsv readRunways = new ReadAirportsCsv(zipPath);
+            ReadAirportsCsvService readRunways = new ReadAirportsCsvService(zipPath);
             // Act
             foreach (var item in ReadCsv(zipPath, fileRunways))
             {
@@ -198,7 +199,7 @@ namespace Airports.Data.Tests
             {
                 // Удаляем кавычки потому-что не у всех есть они.
                 var expected = Expecteds[i].Replace("\"", "");
-                var actual = ReadAirportsCsv.ToCsvFields<RunwayInfo>(Actuals[i]);
+                var actual = readRunways.ToCsvFields<RunwayInfo>(Actuals[i]);
                 Assert.AreEqual(expected, actual);
             }
         }
