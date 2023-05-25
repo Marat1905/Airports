@@ -137,6 +137,7 @@ using Airports.DAL.Entityes;
 using Airports.DAL.Extensions;
 using Airports.Data;
 using Airports.Data.Models;
+using Airports.Data.Service;
 using Airports.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -225,7 +226,7 @@ namespace TestConsole
             IRepository<TDbModel>? repository = Services.CreateScope().ServiceProvider.GetService<IRepository<TDbModel>>();
             int Counts = 0;     
             stopwatch.Start();
-            ReadAirportsCsv readAirports = new ReadAirportsCsv(zipPath);
+           ReadAirportsCsvService readAirports = new ReadAirportsCsvService(zipPath);
             List<TDbModel> DBModel = new List<TDbModel>();
             // не сохраняем каждую запись
             //repositoryAirport!.AutoSaveChanges = false;

@@ -1,4 +1,6 @@
-﻿using Airports.Data.Service;
+﻿using Airports.DAL.Entityes;
+using Airports.Data.Service;
+using Airports.Interfaces;
 using Airports.TestWpf.Data;
 using Airports.TestWpf.Services;
 using Airports.TestWpf.ViewModels;
