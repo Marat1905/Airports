@@ -18,7 +18,7 @@ namespace Airports.TestWpf.Models
         public decimal Latitude 
         {
             get => _Latitude;
-            private set 
+             set 
             {
                 if (value > 90.0m || value < -90.0m)
                     throw new ArgumentOutOfRangeException("Широта может задаваться в диапазоне от -90 до +90");
@@ -29,7 +29,7 @@ namespace Airports.TestWpf.Models
         public decimal Longitude
         {
             get => _Longitude;
-            private set
+             set
             {
                 if (value > 180.0m || value < -180.0m)
                     throw new ArgumentOutOfRangeException("Долгота может задаваться в диапазоне от -180 до +180");
