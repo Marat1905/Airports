@@ -60,7 +60,7 @@ namespace Airports.DAL.Migrations
                     Type = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LatitudeDeg = table.Column<decimal>(type: "decimal(25,16)", precision: 25, scale: 16, nullable: true),
-                    LongitudeDeg = table.Column<double>(type: "float", nullable: true),
+                    LongitudeDeg = table.Column<decimal>(type: "decimal(25,16)", precision: 25, scale: 16, nullable: true),
                     ElevationFt = table.Column<int>(type: "int", nullable: true),
                     Continent = table.Column<int>(type: "int", nullable: false),
                     IsoCountry = table.Column<string>(type: "nvarchar(450)", nullable: true),

@@ -68,8 +68,9 @@ namespace Airports.DAL.Migrations
                     b.Property<string>("LocalCode")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double?>("LongitudeDeg")
-                        .HasColumnType("float");
+                    b.Property<decimal?>("LongitudeDeg")
+                        .HasPrecision(25, 16)
+                        .HasColumnType("decimal(25,16)");
 
                     b.Property<string>("Municipality")
                         .HasColumnType("nvarchar(max)");

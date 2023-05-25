@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Airports.DAL.Migrations
 {
     [DbContext(typeof(AirpotsDB))]
-    [Migration("20230523041031_Initial")]
+    [Migration("20230525050220_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -71,8 +71,9 @@ namespace Airports.DAL.Migrations
                     b.Property<string>("LocalCode")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double?>("LongitudeDeg")
-                        .HasColumnType("float");
+                    b.Property<decimal?>("LongitudeDeg")
+                        .HasPrecision(25, 16)
+                        .HasColumnType("decimal(25,16)");
 
                     b.Property<string>("Municipality")
                         .HasColumnType("nvarchar(max)");

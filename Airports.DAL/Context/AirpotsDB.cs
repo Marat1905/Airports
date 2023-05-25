@@ -31,6 +31,10 @@ namespace Airports.DAL.Context
             //Настраиваем точность и масштаб свойства LatitudeDeg
             modelBuilder.Entity<AirportDBModel>()
                         .Property(o => o.LatitudeDeg).HasPrecision(25, 16);
+            //Настраиваем точность и масштаб свойства LongitudeDeg
+            modelBuilder.Entity<AirportDBModel>()
+                        .Property(o => o.LongitudeDeg).HasPrecision(25, 16);
+
             //Настраиваем точность и масштаб свойства HeLongitudeDeg
             modelBuilder.Entity<RunwayDBModel>()
                         .Property(o => o.HeLongitudeDeg).HasPrecision(25, 16);

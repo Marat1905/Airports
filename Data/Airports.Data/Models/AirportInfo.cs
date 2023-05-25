@@ -47,7 +47,7 @@ namespace Airports.Data.Models
         /// Долгота аэропорта в градусах (положительная для востока).
         /// </summary>
         [Csv("longitude_deg")]
-        public double? LongitudeDeg { get; set; }
+        public decimal? LongitudeDeg { get; set; }
 
         /// <summary>
         /// Высота аэропорта над уровнем моря в футах ( не в метрах).
