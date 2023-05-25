@@ -13,6 +13,11 @@ namespace Airports.DAL.Extensions
 {
     public static class EntityExtension
     {
+        /// <summary>Маппинг данных из БД в модель CSV </summary>
+        /// <typeparam name="TSource"> Источник модель БД</typeparam>
+        /// <typeparam name="TTarget">Целевая модель CSV</typeparam>
+        /// <param name="Source">Источник модель БД</param>
+        /// <returns>Возвращаем модель CSV</returns>
         public static TTarget ModelMapInfo<TSource, TTarget>(this TSource Source) where TTarget : class, new()
                                                                               where TSource : class, IEntity, new()
         {
@@ -40,7 +45,11 @@ namespace Airports.DAL.Extensions
             }
             return target;
         }
-
+        /// <summary>Маппинг данных из модели CSV в модель БД</summary>
+        /// <typeparam name="TSource"> Модель CSV</typeparam>
+        /// <typeparam name="TTarget">Целевая модель БД</typeparam>
+        /// <param name="Source">Модель CSV</param>
+        /// <returns>Возвращаем модель БД</returns>
         public static TTarget ModelMap<TSource, TTarget>(this TSource Source) where TSource : class, new()
                                                                              where TTarget : class, IEntity, new()
         {
@@ -62,9 +71,7 @@ namespace Airports.DAL.Extensions
                             break;
                         }
                     }
-
                 }
-
             }
 
             return target;
