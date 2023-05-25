@@ -1,11 +1,5 @@
 ﻿using Airports.DAL.Entityes;
-using Azure;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Reflection.Metadata;
-using System.Security.Claims;
-using System.Text;
 
 namespace Airports.DAL.Context
 {
