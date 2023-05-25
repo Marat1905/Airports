@@ -1,15 +1,26 @@
 ﻿using Airports.DAL.Entityes;
-using System;
+using Airports.TestWpf.Models;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Airports.TestWpf.Services.Interfaces
 {
     public interface IFindAirportsService
     {
+        /// <summary>Перечисление Аэропортов</summary>
         IEnumerable<AirportDBModel> Airports { get; }
+
+        /// <summary>
+        /// Поиск ближайшего аэропорта
+        /// </summary>
+        /// <param name="point">Координаты</param>
+        /// <returns>Возвращаем Аэропорт</returns>
+        AirportDBModel FindТearestAirport(GeoPoint point);
+        /// <summary>Поиск аэропортов в заданном радиусе </summary>
+        /// <param name="point">Координаты центра поиска</param>
+        /// <param name="radius">Радиус поиска(км)</param>
+        /// <returns></returns>
+        IEnumerable<AirportDBModel> FindAirportsRadius(GeoPoint point, int radius);
+
 
     }
 }

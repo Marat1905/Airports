@@ -4,6 +4,7 @@ using Airports.Data.Models;
 using Airports.Data.Service.Interfaces;
 using Airports.Interfaces;
 using Airports.TestWpf.Infrastructure.Commands;
+using Airports.TestWpf.Models;
 using Airports.TestWpf.Services.Interfaces;
 using Airports.TestWpf.ViewModels.Base;
 using System;
@@ -26,7 +27,6 @@ namespace Airports.TestWpf.ViewModels
         private readonly IRepository<NavaidDBModel> _NavaidDB;
         private readonly IRepository<RunwayDBModel> _RunwayDB;
         private readonly IReadAirportsCsvService _ReadAirportsCsv;
-
         string fileCountries = "countries.csv";
         string fileRegions = "regions.csv";
         string fileAirports = "airports.csv";
@@ -77,7 +77,9 @@ namespace Airports.TestWpf.ViewModels
            IRepository<AirportFrequenceDBModel> airportFrequenceDB,
            IRepository<NavaidDBModel> navaidDB,
            IRepository<RunwayDBModel> runwayDB,
-          IReadAirportsCsvService readAirportsCsv
+          IReadAirportsCsvService readAirportsCsv,
+          IFindAirportsService findAirportsService
+          
           )
         {
             _FindAirports = findAirports;
@@ -89,7 +91,7 @@ namespace Airports.TestWpf.ViewModels
             _RunwayDB = runwayDB;
             _ReadAirportsCsv = readAirportsCsv;
 
-
+           
             ReadCsvToSqlDataCommand = new LambdaCommand(OnReadCsvToSqlDataCommandExecuted);
         }
         #endregion
@@ -100,7 +102,8 @@ namespace Airports.TestWpf.ViewModels
         {
            await Load();
             AirportsDBModel = _AirportDB.Items.ToArray();
-            //var t = AirportsDBModel.Where(x => x.NavaidsDB.Count > 0).ToArray();
+            var t = _FindAirports.FindТearestAirport(new GeoPoint(55.944209m, 37.603662m));
+            var tt = _FindAirports.FindAirportsRadius(new GeoPoint(55.944209m, 37.603662m), 50);
         }
 
         async Task Load()
