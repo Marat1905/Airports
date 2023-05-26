@@ -14,19 +14,15 @@ namespace Airports.TestWpf.Services
     {
         private readonly IRepository<AirportDBModel> _Airports;
 
-        /// <inheritdoc />
         public IEnumerable<AirportDBModel> Airports => _Airports.Items;
         public FindAirportsService(IRepository<AirportDBModel> Airports)
         {
             _Airports = Airports;
         }
-       
-        
-        
-        /// <inheritdoc />
+
         public AirportDBModel FindТearestAirport(GeoPoint point)
         {
-            double minDist=10000.0;
+            double minDist=100000.0;
             AirportDBModel result=new AirportDBModel();
             foreach (var Air in Airports)
             {
@@ -40,7 +36,6 @@ namespace Airports.TestWpf.Services
             return result;
         }
        
-        /// <inheritdoc />
         public IEnumerable<AirportDBModel>? FindAirportsRadius(GeoPoint point,int radius)
         {
             List<AirportDBModel>? result=null;
@@ -53,10 +48,9 @@ namespace Airports.TestWpf.Services
                     result.Add(Air);
                 }
             }
-
-
             return result;
         }
+
         /// <summary>Расчет расстояния до точки по формуле гаверсинусов </summary>
         /// <param name="Latitude"> Наш центр широты</param>
         /// <param name="Longitude">Наш центр долготы</param>
@@ -77,14 +71,7 @@ namespace Airports.TestWpf.Services
                 Math.Cos((double)LatitudeDeg * pi180) *
                 Math.Cos(Math.Abs((double)point.Latitude) * pi180) *
                 Math.Pow(Math.Sin(((double)LongitudeDeg - (double)point.Longitude) * pi180 / 2.0), 2.0)));
-
-            var t1 = Math.Pow(Math.Sin(((double)LatitudeDeg - Math.Abs((double)point.Latitude)) * pi180 / 2.0), 2.0);
-            var t2 = Math.Cos((double)LatitudeDeg * pi180);
-            var t3 = Math.Cos(Math.Abs((double)point.Latitude) * pi180);
-            var t4 = Math.Pow(Math.Sin(((double)LongitudeDeg - (double)point.Longitude) * pi180 / 2.0), 2.0);
-            return dist;
-          
+            return dist;        
         }
- 
     }
 }
