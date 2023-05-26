@@ -1,11 +1,9 @@
 ﻿using Airports.Data.Infrastructure.Attributes;
 using Airports.Data.Infrastructure.Helper;
 using Airports.Data.Service.Interfaces;
-using System.Collections.Generic;
 using System.Globalization;
 using System.IO.Compression;
 using System.Reflection;
-using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -117,7 +115,6 @@ namespace Airports.Data.Service
                         }
                     }
                 }
-
             }
         }
         /// <summary></summary>
@@ -130,7 +127,6 @@ namespace Airports.Data.Service
             foreach (var temp in GetCsv<T>(fileArhive.Name, separator: separator))
                 yield return temp;
         }
-  
 
         #endregion
 
