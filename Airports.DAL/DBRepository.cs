@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -31,6 +30,7 @@ namespace Airports.DAL
         public async Task<T> GetAsync(int id, CancellationToken Cancel = default)=> await Items.
             SingleOrDefaultAsync(i=>i.Id== id,Cancel).
             ConfigureAwait(false);
+
         public T Add(T item)
         {
             if(item is null) throw new ArgumentNullException(nameof(item));
@@ -108,9 +108,5 @@ namespace Airports.DAL
             if (!AutoSaveChanges)
               await  _db.SaveChangesAsync().ConfigureAwait(false);
         }
-
-
-
-
     }
 }
