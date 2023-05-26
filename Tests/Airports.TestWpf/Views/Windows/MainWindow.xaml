@@ -32,7 +32,9 @@
             <TabItem Header="Аэропорты" >
                 <view:AirportsView DataContext="{Binding AirportsViewModel}" />
             </TabItem>
-            <TabItem Header="Для расширения"/>
+            <TabItem Header="Для расширения">
+                <view:FindAiroportView DataContext="{Binding FindAirportViewModel}" />
+            </TabItem>
         </TabControl>
 
        
