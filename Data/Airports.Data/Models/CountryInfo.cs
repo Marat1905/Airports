@@ -43,13 +43,9 @@ namespace Airports.Data.Models
         [Csv("keywords")]
         public string Keywords { get; set; }
 
-
-
         public override string ToString()
         {
             return $"{Identificator} ; {Code} ; {Name} ; {Continent.ToName()} ; {WikipediaLink} ; {Keywords} ";
         }
-
-
     }
 }

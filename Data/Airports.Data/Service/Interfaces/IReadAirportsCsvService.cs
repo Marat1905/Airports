@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO.Compression;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO.Compression;
 
 namespace Airports.Data.Service.Interfaces
 {
@@ -35,7 +30,5 @@ namespace Airports.Data.Service.Interfaces
         /// <param name="separator">Разделитель</param>
         /// <returns></returns>
         public IEnumerable<T> GetCsv<T>(ZipArchiveEntry fileArhive, string separator = ",") where T : class, new();
-
-
     }
 }

@@ -1,6 +1,5 @@
 ﻿using Airports.Data.Infrastructure.Attributes;
 
-
 namespace Airports.Data.Models
 {
     /// <summary>Взлетно посадочная полоса </summary>
