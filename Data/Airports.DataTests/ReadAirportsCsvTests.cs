@@ -22,7 +22,6 @@ namespace Airports.Data.Tests
         public void ReadAirportsCsvTest()
         {
             //Arrange
-
             string fileAirports = "airports.csv"; ;
             List<AirportInfo> Actuals = new List<AirportInfo>();
             List<string> Expecteds = new List<string>();
@@ -37,7 +36,6 @@ namespace Airports.Data.Tests
                 Actuals.Add(item);
             }
             //Assert
-
             Assert.AreEqual(Expecteds.Count, Actuals.Count);
 
             for (int i = 0; i < Expecteds.Count; i++)
@@ -53,7 +51,6 @@ namespace Airports.Data.Tests
         public void ReadAirportFrequenciesCsvTest()
         {
             //Arrange
-
             string fileAirportFrequencies = "airport-frequencies.csv";
             List<AirportFrequenceInfo> Actuals = new List<AirportFrequenceInfo>();
             List<string> Expecteds = new List<string>();
@@ -84,7 +81,6 @@ namespace Airports.Data.Tests
         public void ReadCountriesCsvTest()
         {
             //Arrange
-
             string fileCountries = "countries.csv";
             List<CountryInfo> Actuals = new List<CountryInfo>();
             List<string> Expecteds = new List<string>();
@@ -115,7 +111,6 @@ namespace Airports.Data.Tests
         public void ReadNavaidsCsvTest()
         {
             //Arrange
-
             string fileNavaids = "navaids.csv";
             List<NavaidInfo> Actuals = new List<NavaidInfo>();
             List<string> Expecteds = new List<string>();
@@ -146,7 +141,6 @@ namespace Airports.Data.Tests
         public void ReadRegionsCsvTest()
         {
             //Arrange
-
             string fileRegions = "regions.csv";
             List<RegionInfo> Actuals = new List<RegionInfo>();
             List<string> Expecteds = new List<string>();
@@ -177,7 +171,6 @@ namespace Airports.Data.Tests
         public void ReadRunwaysCsvTest()
         {
             //Arrange
-
             string fileRunways = "runways.csv";
             List<RunwayInfo> Actuals = new List<RunwayInfo>();
             List<string> Expecteds = new List<string>();
@@ -204,7 +197,6 @@ namespace Airports.Data.Tests
             }
         }
 
-
         public static IEnumerable<string> ReadCsv(string zipPath, string fileName, string separator = ",")
         {
             using (ZipArchive archive = ZipFile.OpenRead(zipPath))
@@ -227,6 +219,5 @@ namespace Airports.Data.Tests
                 }
             }
         }
-
     }
 }

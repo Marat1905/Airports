@@ -1,17 +1,16 @@
-﻿using Airports.Data.Models;
+﻿using Airports.DAL.Entityes;
+using Airports.DAL.Extensions;
+using Airports.Data.Infrastructure.Extensions;
+using Airports.Data.Models;
+using Airports.Data.Service;
+using Airports.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO.Compression;
 using System.Text;
 using TestConsole;
-using Airports.DAL.Entityes;
-using Airports.Interfaces;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.DependencyInjection;
-using Airports.DAL.Extensions;
 using TestConsole.Data;
-using System.Diagnostics;
-using Airports.Data.Service;
-using Airports.Data.Infrastructure.Extensions;
 
 namespace Airports.DataTests
 {
@@ -33,16 +32,6 @@ namespace Airports.DataTests
             {
                 scope.ServiceProvider.GetRequiredService<DbInitializer>().InitializeAsync().Wait();
             }
-        }
-
-
-
-        [TestInitialize]
-        public  void Initialize()
-        {
-           
-         
-
         }
 
         [TestMethod()]
@@ -78,7 +67,6 @@ namespace Airports.DataTests
                 Assert.AreEqual(expected, actual);
             }
         }
-
 
         [TestMethod()]
         public void T02_CountriesEntity()
@@ -213,9 +201,6 @@ namespace Airports.DataTests
             }
         }
 
-       
-
-
         [TestMethod()]
         public void T06_RunwaysEntity()
         {
@@ -248,7 +233,6 @@ namespace Airports.DataTests
                 Assert.AreEqual(expected, actual);
             }
         }
-
 
         public static IEnumerable<string> ReadCsv(string zipPath, string fileName, string separator = ",")
         {
