@@ -1,17 +1,10 @@
-﻿using System;
-using Airports.DAL.Entityes;
-using Airports.Data.Service;
-using Airports.Data.Service.Interfaces;
-using Airports.Interfaces;
-using Airports.TestWpf.Services.Interfaces;
-using Airports.TestWpf.ViewModels.Base;
+﻿using Airports.TestWpf.ViewModels.Base;
 
 
 namespace Airports.TestWpf.ViewModels
 {
     internal class MainWindowViewModel:ViewModel
-    {
-        
+    {   
         #region Заголовок окна. 
         private string _Title="Главное окно";
        
@@ -37,16 +30,14 @@ namespace Airports.TestWpf.ViewModels
         public int SelectedPageIndex
         {get => _SelectedPageIndex;set => Set(ref _SelectedPageIndex, value); }
         public AirportsViewModel AirportsViewModel { get; }
+        public FindAirportViewModel FindAirportViewModel { get; }
 
         #endregion
 
-        public MainWindowViewModel(AirportsViewModel airportsViewModel)
+        public MainWindowViewModel(AirportsViewModel airportsViewModel,FindAirportViewModel findAirportViewModel)
         {
              AirportsViewModel = airportsViewModel;
+            FindAirportViewModel = findAirportViewModel;
         }
-
-
-
-
     }
 }

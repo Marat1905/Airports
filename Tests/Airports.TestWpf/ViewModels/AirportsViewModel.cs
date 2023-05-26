@@ -4,11 +4,8 @@ using Airports.Data.Models;
 using Airports.Data.Service.Interfaces;
 using Airports.Interfaces;
 using Airports.TestWpf.Infrastructure.Commands;
-using Airports.TestWpf.Models;
 using Airports.TestWpf.Services.Interfaces;
 using Airports.TestWpf.ViewModels.Base;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,7 +16,6 @@ namespace Airports.TestWpf.ViewModels
     internal class AirportsViewModel:ViewModel
     {
         #region Поля
-        private readonly IFindAirportsService _FindAirports;
         private readonly IRepository<AirportDBModel> _AirportDB;
         private readonly IRepository<RegionDBModel> _RegionDB;
         private readonly IRepository<CountryDBModel> _CountryDB;
@@ -33,15 +29,9 @@ namespace Airports.TestWpf.ViewModels
         string fileAirportFrequencies = "airport-frequencies.csv";
         string fileNavaids = "navaids.csv";
         string fileRunways = "runways.csv";
-        #endregion
-
-
-        #region Команды
-
-        public ICommand ReadCsvToSqlDataCommand { get; }
-
 
         #endregion
+
 
         #region Свойства
         #region AirportsDBModel : IEnumerable<AirportsDBModel> - Список аэропортов
@@ -58,7 +48,7 @@ namespace Airports.TestWpf.ViewModels
 
         #endregion
 
-        #region SelectedAirport : AirportsDBModel - Выбранный аэропорт
+        #region SelectedAirport : AirportDBModel - Выбранный аэропорт
 
         /// <summary>Выбранный аэропорт</summary>
         private AirportDBModel _SelectedAirport;
@@ -67,22 +57,33 @@ namespace Airports.TestWpf.ViewModels
         public AirportDBModel SelectedAirport { get => _SelectedAirport; set => Set(ref _SelectedAirport, value); }
 
         #endregion
+
+        #endregion
+
+        #region Команды
+
+        public ICommand ReadCsvToSqlDataCommand { get; }
+
+        private async void OnReadCsvToSqlDataCommandExecuted(object p)
+        {
+            await Load();
+            AirportsDBModel = _AirportDB.Items.ToArray();
+        }
+
         #endregion
 
         #region Конструкторы
-        public AirportsViewModel(IFindAirportsService findAirports,
-          IRepository<AirportDBModel> airportDB,
+
+        public AirportsViewModel(IRepository<AirportDBModel> airportDB,
            IRepository<RegionDBModel> regionDB,
            IRepository<CountryDBModel> countryDB,
            IRepository<AirportFrequenceDBModel> airportFrequenceDB,
            IRepository<NavaidDBModel> navaidDB,
            IRepository<RunwayDBModel> runwayDB,
           IReadAirportsCsvService readAirportsCsv,
-          IFindAirportsService findAirportsService
-          
+          IFindAirportsService findAirportsService   
           )
         {
-            _FindAirports = findAirports;
             _AirportDB = airportDB;
             _RegionDB = regionDB;
             _CountryDB = countryDB;
@@ -95,17 +96,7 @@ namespace Airports.TestWpf.ViewModels
             ReadCsvToSqlDataCommand = new LambdaCommand(OnReadCsvToSqlDataCommandExecuted);
         }
         #endregion
-
-
-
-        private async void OnReadCsvToSqlDataCommandExecuted(object p)
-        {
-           await Load();
-            AirportsDBModel = _AirportDB.Items.ToArray();
-            var t = _FindAirports.FindТearestAirport(new GeoPoint(55.944209m, 37.603662m));
-            var tt = _FindAirports.FindAirportsRadius(new GeoPoint(55.944209m, 37.603662m), 50);
-        }
-
+  
         async Task Load()
         {
             await ReadCsvWriteSql<RegionInfo, RegionDBModel>(_ReadAirportsCsv, _RegionDB, fileRegions).ConfigureAwait(false);
@@ -128,7 +119,5 @@ namespace Airports.TestWpf.ViewModels
             if (!model.AutoSaveChanges)
               await  model.SaveAsAsync().ConfigureAwait(false);
         }
-
-       
     }
 }
