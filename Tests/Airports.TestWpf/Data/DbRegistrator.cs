@@ -25,7 +25,7 @@ namespace Airports.TestWpf.Data
                        opt.UseSqlite(Configuration.GetConnectionString(type));
                        break;
                };
-               opt.EnableSensitiveDataLogging();
+              // opt.EnableSensitiveDataLogging();
            })
            .AddTransient<DbInitializer>()
            .AddRepositoriesInDB()

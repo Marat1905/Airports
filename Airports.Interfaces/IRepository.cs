@@ -67,5 +67,8 @@ namespace Airports.Interfaces
 
         /// <summary>Сохранение данных в БД если не было авто сохранения асинхронно</summary>
         Task SaveAsAsync();
+       
+        /// <summary> Очистка таблицы </summary>
+        Task ClearAsync();
     }
 }

@@ -66,6 +66,15 @@ namespace Airports.TestWpf.ViewModels
 
         private async void OnReadCsvToSqlDataCommandExecuted(object p)
         {
+            if (_AirportDB.Items.Count() != 0)
+            {
+                await _AirportDB.ClearAsync();
+                await _CountryDB.ClearAsync();
+                await _NavaidDB.ClearAsync();
+                await _RunwayDB.ClearAsync();
+                await _RegionDB.ClearAsync();
+                await _AirportFrequenceDB.ClearAsync();
+            }
             await Load();
             AirportsDBModel = _AirportDB.Items.ToArray();
         }
