@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Airports.Data.Infrastructure.Attributes
+﻿namespace Airports.Data.Infrastructure.Attributes
 {
     // <summary>
     /// Представляет атрибут для сериализации полей и свойств экземпляра объекта CSV.

@@ -1,13 +1,9 @@
 ﻿using Airports.Data.Infrastructure.Attributes;
 using Airports.Data.Infrastructure.Helper;
 using Airports.Data.Service.Interfaces;
-using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Airports.Data.Infrastructure.Extensions
 {
