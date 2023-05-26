@@ -108,5 +108,11 @@ namespace Airports.DAL
             if (!AutoSaveChanges)
               await  _db.SaveChangesAsync().ConfigureAwait(false);
         }
+
+        public async Task ClearAsync()
+        {
+            _db.RemoveRange(Items);
+           await  _db.SaveChangesAsync().ConfigureAwait(false);
+        }
     }
 }
