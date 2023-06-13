@@ -1,0 +1,225 @@
+﻿<UserControl x:Class="Airports.TestWpf.Views.FindAiroportView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Airports.TestWpf.Views" 
+             xmlns:vm="clr-namespace:Airports.TestWpf.ViewModels"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800"
+             d:DataContext="{d:DesignInstance vm:FindAirportViewModel, d:IsDesignTimeCreatable=True}">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <GroupBox Grid.Column="0" Grid.Row="0" Header="Поиск ближайшего аэропорта">
+            <DockPanel>
+                <Button DockPanel.Dock="Bottom" Content="Поиск" Margin="5"
+                        Command="{Binding SearchNearestCommand}"/>
+                <Grid Margin="3">
+                    <Grid.Resources>
+                        <Style TargetType="TextBlock">
+                            <Style.Triggers>
+                                <Trigger Property="Grid.Column" Value="0">
+                                    <Setter Property="HorizontalAlignment" Value="Right"/>
+                                    <Setter Property="Margin" Value="0,0,2,0"/>
+                                    <Setter Property="FontWeight" Value="Bold"/>
+                                </Trigger>
+                                <Trigger Property="Grid.Column" Value="1">
+                                    <Setter Property="Margin" Value="2,0,0,0"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Resources>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                   
+                    <TextBlock Grid.Column="0" Grid.Row="0" Text="Широта:"/>
+                    <TextBlock Grid.Column="0" Grid.Row="1" Text="Долгота:"/>
+
+
+
+                    <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding PointSearchNearest.Latitude}"/>
+                    <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding PointSearchNearest.Longitude}"/>
+
+                </Grid>
+            </DockPanel>
+        </GroupBox>
+        <GroupBox Grid.Column="0" Grid.Row="1" Header="Поиск аэропортов в радиусе">
+            <DockPanel>
+                <Button DockPanel.Dock="Bottom" Content="Поиск" Margin="5"
+                        Command="{Binding SearchRadiusCommand}"/>
+                <Grid Margin="3">
+                    <Grid.Resources>
+                        <Style TargetType="TextBlock">
+                            <Style.Triggers>
+                                <Trigger Property="Grid.Column" Value="0">
+                                    <Setter Property="HorizontalAlignment" Value="Right"/>
+                                    <Setter Property="Margin" Value="0,0,2,0"/>
+                                    <Setter Property="FontWeight" Value="Bold"/>
+                                </Trigger>
+                                <Trigger Property="Grid.Column" Value="1">
+                                    <Setter Property="Margin" Value="2,0,0,0"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Resources>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Column="0" Grid.Row="0" Text="Широта:"/>
+                    <TextBlock Grid.Column="0" Grid.Row="1" Text="Долгота:"/>
+                    <TextBlock Grid.Column="0" Grid.Row="2" Text="Радиус поиска:"/>
+
+
+                    <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding PointSearchRadius.Latitude}"/>
+                    <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding PointSearchRadius.Longitude}"/>
+                    <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Radius}"/>
+                </Grid>
+            </DockPanel>
+        </GroupBox>
+        <GroupBox Grid.Column="1" Grid.Row="0" Header="Результат поиска" DataContext="{Binding AirportDBSearchNearest}">
+            <Grid Margin="3">
+                <Grid.Resources>
+                    <Style TargetType="TextBlock">
+                        <Style.Triggers>
+                            <Trigger Property="Grid.Column" Value="0">
+                                <Setter Property="HorizontalAlignment" Value="Right"/>
+                                <Setter Property="Margin" Value="0,0,2,0"/>
+                                <Setter Property="FontWeight" Value="Bold"/>
+                            </Trigger>
+                            <Trigger Property="Grid.Column" Value="1">
+                                <Setter Property="Margin" Value="2,0,0,0"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Resources>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Column="0" Grid.Row="0" Text="Континент:"/>
+                <TextBlock Grid.Column="0" Grid.Row="1" Text="Страна:"/>
+                <TextBlock Grid.Column="0" Grid.Row="2" Text="Регион:"/>
+                <TextBlock Grid.Column="0" Grid.Row="3" Text="Тип:"/>
+                <TextBlock Grid.Column="0" Grid.Row="4" Text="Имя аэропорта:"/>
+                <TextBlock Grid.Column="0" Grid.Row="5" Text="Широта:"/>
+                <TextBlock Grid.Column="0" Grid.Row="6" Text="Долгота:"/>
+
+
+
+                <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding CountryDB.Continent}"/>
+                <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding CountryDB.Name}"/>
+                <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding RegionDB.Name}"/>
+                <TextBlock Grid.Column="1" Grid.Row="3" Text="{Binding Type}"/>
+                <TextBlock Grid.Column="1" Grid.Row="4" Text="{Binding Name}"/>
+                <TextBlock Grid.Column="1" Grid.Row="5" Text="{Binding LatitudeDeg}"/>
+                <TextBlock Grid.Column="1" Grid.Row="6" Text="{Binding LongitudeDeg}"/>
+
+            </Grid>
+        </GroupBox>
+        <GroupBox Grid.Column="1" Grid.Row="1" Header="Результат поиска">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition  Width="2*"/>
+                </Grid.ColumnDefinitions>
+
+                <ListBox Grid.Column="0" Margin="3"  ItemsSource="{Binding AirportDBSearchRadius}" SelectedItem="{Binding SelectedAirportDB}" SelectedIndex="0">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate DataType="m:AirportDBModel">
+                            <TextBlock>
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="{}{0} - {1}">
+                                        <Binding Path="Continent" />
+                                        <Binding Path="Name" />
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+                <Grid Grid.Column="1" Margin="3" DataContext="{Binding SelectedAirportDB}">
+                    <Grid.Resources>
+                        <Style TargetType="TextBlock">
+                            <Style.Triggers>
+                                <Trigger Property="Grid.Column" Value="0">
+                                    <Setter Property="HorizontalAlignment" Value="Right"/>
+                                    <Setter Property="Margin" Value="0,0,2,0"/>
+                                    <Setter Property="FontWeight" Value="Bold"/>
+                                </Trigger>
+                                <Trigger Property="Grid.Column" Value="1">
+                                    <Setter Property="Margin" Value="2,0,0,0"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Resources>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Column="0" Grid.Row="0" Text="Континент:"/>
+                    <TextBlock Grid.Column="0" Grid.Row="1" Text="Страна:"/>
+                    <TextBlock Grid.Column="0" Grid.Row="2" Text="Регион:"/>
+                    <TextBlock Grid.Column="0" Grid.Row="3" Text="Тип:"/>
+                    <TextBlock Grid.Column="0" Grid.Row="4" Text="Имя аэропорта:"/>
+                    <TextBlock Grid.Column="0" Grid.Row="5" Text="Широта:"/>
+                    <TextBlock Grid.Column="0" Grid.Row="6" Text="Долгота:"/>
+
+
+
+                    <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding CountryDB.Continent}"/>
+                    <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding CountryDB.Name}"/>
+                    <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding RegionDB.Name}"/>
+                    <TextBlock Grid.Column="1" Grid.Row="3" Text="{Binding Type}"/>
+                    <TextBlock Grid.Column="1" Grid.Row="4" Text="{Binding Name}"/>
+                    <TextBlock Grid.Column="1" Grid.Row="5" Text="{Binding LatitudeDeg}"/>
+                    <TextBlock Grid.Column="1" Grid.Row="6" Text="{Binding LongitudeDeg}"/>
+
+                </Grid>
+                
+            </Grid>
+            
+        </GroupBox>
+    </Grid>
+</UserControl>
