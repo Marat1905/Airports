@@ -194,6 +194,18 @@ namespace Airports.DAL.Migrations
                 column: "AirportIdent");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AirportFrequences_Identificator",
+                table: "AirportFrequences",
+                column: "Identificator",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Airports_Identificator",
+                table: "Airports",
+                column: "Identificator",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Airports_IsoCountry",
                 table: "Airports",
                 column: "IsoCountry");
@@ -204,14 +216,38 @@ namespace Airports.DAL.Migrations
                 column: "IsoRegion");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Countries_Identificator",
+                table: "Countries",
+                column: "Identificator",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Navaids_AssociatedAirport",
                 table: "Navaids",
                 column: "AssociatedAirport");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Navaids_Identificator",
+                table: "Navaids",
+                column: "Identificator",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Regions_Identificator",
+                table: "Regions",
+                column: "Identificator",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Runways_AirportIdent",
                 table: "Runways",
                 column: "AirportIdent");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Runways_Identificator",
+                table: "Runways",
+                column: "Identificator",
+                unique: true);
         }
 
         /// <inheritdoc />
