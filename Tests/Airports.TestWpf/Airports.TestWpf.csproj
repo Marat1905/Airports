@@ -26,6 +26,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Airports.DAL\Airports.DAL.csproj" />
     <ProjectReference Include="..\..\Data\Airports.Data\Airports.Data.csproj" />
+    <ProjectReference Include="..\..\YandexAPI\YandexAPI.csproj" />
   </ItemGroup>
 
   <ItemGroup>

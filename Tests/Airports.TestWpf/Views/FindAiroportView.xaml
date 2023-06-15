@@ -10,6 +10,7 @@
              d:DataContext="{d:DesignInstance vm:FindAirportViewModel, d:IsDesignTimeCreatable=True}">
     <Grid>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1.3*"/>
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
@@ -218,6 +219,17 @@
 
                 </Grid>
                 
+            </Grid>
+            
+        </GroupBox>
+        <GroupBox Grid.Column="2" Grid.RowSpan="2" Header="Карта Яндекс">
+            <Grid>
+                <Slider Panel.ZIndex="1" Width="100" Minimum="0" Maximum="17" SelectionStart="10" Value="{Binding PosinionScroll}">
+                    <Slider.LayoutTransform>
+                        <RotateTransform CenterX="0" CenterY="0" Angle="90" />
+                    </Slider.LayoutTransform>
+                </Slider>
+                <Image Panel.ZIndex="0" Source="{Binding ImageSelectMap}" Stretch="Fill"/>
             </Grid>
             
         </GroupBox>

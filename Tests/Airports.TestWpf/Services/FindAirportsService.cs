@@ -2,6 +2,7 @@
 using Airports.Interfaces;
 using Airports.TestWpf.Models;
 using Airports.TestWpf.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ namespace Airports.TestWpf.Services
     {
         private readonly IRepository<AirportDBModel> _Airports;
 
-        public IEnumerable<AirportDBModel> Airports => _Airports.Items;
+        public IQueryable<AirportDBModel> Airports => _Airports.Items;
         public FindAirportsService(IRepository<AirportDBModel> Airports)
         {
             _Airports = Airports;
@@ -36,6 +37,7 @@ namespace Airports.TestWpf.Services
             return result;
         }
        
+
         public IEnumerable<AirportDBModel>? FindAirportsRadius(GeoPoint point,int radius)
         {
             List<AirportDBModel>? result=null;
@@ -44,10 +46,25 @@ namespace Airports.TestWpf.Services
                 var dist = Distance(point, Air.LatitudeDeg, Air.LongitudeDeg);
                 if (dist < radius)
                 {
-                    result = result?? new List<AirportDBModel>();
+                    result ??= new List<AirportDBModel>();
                     result.Add(Air);
                 }
             }
+            return result;
+        }
+
+        public IEnumerable<AirportDBModel>? FindAirportsRadiusSql(GeoPoint point, int distance)
+        {
+            IEnumerable<AirportDBModel>? result = null;
+            result = _Airports.SqlRawQuery($"SELECT * FROM (SELECT * ," +
+                $"(6371.0 * 2.0 * ASIN(" +
+                $" SQRT(" +
+                $" POWER(" +
+                $"SIN(([LatitudeDeg] - ABS({point.Latitude})) * PI() / 180 / 2), 2 ) +" +
+                $"COS([LatitudeDeg] * PI() / 180) *" +
+                $"COS(ABS({point.Latitude}) * PI() / 180) *" +
+                $" POWER(SIN(([LongitudeDeg] - {point.Longitude}) * PI() / 180 / 2),2)))) as distance" +
+                $" FROM[dbo].[Airports] ) p where distance < {distance}").ToList();
             return result;
         }
 
@@ -73,5 +90,7 @@ namespace Airports.TestWpf.Services
                 Math.Pow(Math.Sin(((double)LongitudeDeg - (double)point.Longitude) * pi180 / 2.0), 2.0)));
             return dist;        
         }
+
+      
     }
 }
