@@ -57,7 +57,15 @@ namespace Airports.TestWpf.ViewModels
         private AirportDBModel _AirportDBSearchNearest;
 
         /// <summary>Модель поиска ближайшего аэропорта </summary>
-        public AirportDBModel AirportDBSearchNearest { get => _AirportDBSearchNearest; set => Set(ref _AirportDBSearchNearest, value); }
+        public AirportDBModel AirportDBSearchNearest 
+        { 
+            get => _AirportDBSearchNearest;
+            set
+            {
+                Set(ref _AirportDBSearchNearest, value);
+                AirportDBMaps = AirportDBSearchNearest;
+            } 
+        }
 
         #endregion
 
@@ -83,9 +91,27 @@ namespace Airports.TestWpf.ViewModels
             set 
             {
                 Set(ref _SelectedAirportDB, value);
-                UpdateSelectMap(SelectedAirportDB);
+                AirportDBMaps = SelectedAirportDB;
             }  
         }
+
+        #region AirportDBMaps : AirportDBModel - Модель показа на карте
+
+        /// <summary>Модель поиска ближайшего аэропорта </summary>
+        private AirportDBModel _AirportDBMaps;
+
+        /// <summary>Модель поиска ближайшего аэропорта </summary>
+        public AirportDBModel AirportDBMaps
+        { 
+            get => _AirportDBMaps;
+            set 
+            {
+                Set(ref _AirportDBMaps, value);
+                UpdateSelectMap(AirportDBMaps);
+            } 
+        }
+
+        #endregion
         #endregion
 
         #region PosinionScroll : int - Положение ползунка
@@ -100,7 +126,7 @@ namespace Airports.TestWpf.ViewModels
             set
             {
                 Set(ref _PosinionScroll, value);
-                UpdateSelectMap(SelectedAirportDB,PosinionScroll);
+                UpdateSelectMap(AirportDBMaps, PosinionScroll);
             }
         }
 
@@ -137,7 +163,6 @@ namespace Airports.TestWpf.ViewModels
         private void OnSearchNearestCommandExecuted(object p)
         {
             AirportDBSearchNearest = _FindAirports.FindТearestAirport(PointSearchNearest);
-            UpdateSelectMap(AirportDBSearchNearest);
         }
 
         #endregion
