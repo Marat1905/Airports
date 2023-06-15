@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -70,5 +71,10 @@ namespace Airports.Interfaces
        
         /// <summary> Очистка таблицы </summary>
         Task ClearAsync();
+
+        /// <summary>Для получения данных вычисленных в БД </summary>
+        /// <param name="sql"> SQL выражение </param>
+        /// <returns> Возвращаем список</returns>
+        IEnumerable<T> SqlRawQuery(string sql);
     }
 }
