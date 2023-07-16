@@ -114,5 +114,10 @@ namespace Airports.DAL
             _db.RemoveRange(Items);
            await  _db.SaveChangesAsync().ConfigureAwait(false);
         }
+
+        public IEnumerable<T> SqlRawQuery(string sql)
+        {
+            return _Set.FromSqlRaw(sql);
+        }
     }
 }

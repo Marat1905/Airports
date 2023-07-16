@@ -89,6 +89,9 @@ namespace Airports.DAL.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Identificator")
+                        .IsUnique();
+
                     b.HasIndex("IsoCountry");
 
                     b.HasIndex("IsoRegion");
@@ -126,6 +129,9 @@ namespace Airports.DAL.Migrations
 
                     b.HasIndex("AirportIdent");
 
+                    b.HasIndex("Identificator")
+                        .IsUnique();
+
                     b.ToTable("AirportFrequences");
                 });
 
@@ -157,6 +163,9 @@ namespace Airports.DAL.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Identificator")
+                        .IsUnique();
 
                     b.ToTable("Countries");
                 });
@@ -233,6 +242,9 @@ namespace Airports.DAL.Migrations
 
                     b.HasIndex("AssociatedAirport");
 
+                    b.HasIndex("Identificator")
+                        .IsUnique();
+
                     b.ToTable("Navaids");
                 });
 
@@ -270,6 +282,9 @@ namespace Airports.DAL.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Identificator")
+                        .IsUnique();
 
                     b.ToTable("Regions");
                 });
@@ -346,6 +361,9 @@ namespace Airports.DAL.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AirportIdent");
+
+                    b.HasIndex("Identificator")
+                        .IsUnique();
 
                     b.ToTable("Runways");
                 });

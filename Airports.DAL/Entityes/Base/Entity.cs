@@ -1,10 +1,13 @@
 ﻿using Airports.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 
 namespace Airports.DAL.Entityes.Base
 {
+    [Index(nameof(Identificator), IsUnique = true)]
     public abstract class Entity:IEntity
     {
         public int Id { get; set; }
