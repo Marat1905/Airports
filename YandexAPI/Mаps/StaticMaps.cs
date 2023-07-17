@@ -11,23 +11,15 @@ namespace YandexAPI.Mаps
     internal class StaticMaps : IStaticMaps
     {
         
-        /// <summary>Возвращает URL на статический рисунок карты с точкой поиска в центре </summary>
-        /// <param name="type">Слои и типы карт</param>
-        /// <param name="Latitude">Широта</param>
-        /// <param name="Longitude">Долгота</param>
-        /// <param name="zPosition">Уровень масштабирования. Может быть от 1 до 17</param>
-        /// <param name="width">Ширина. Может быть от 1 до 650</param>
-        /// <param name="height">Высота. Может быть от 1 до 450</param>
-        /// <returns>Url на Image</returns>
         public string GetUrlMapImage(TypeMapEnum type, double Latitude, double Longitude, int zPosition, int width, int height)
         {
-            if (Longitude > 180.0 || Longitude < -180.0)
-                throw new ArgumentOutOfRangeException("Долгота может задаваться в диапазоне от -180 до +180");
+            GeoPoint point = new GeoPoint(Latitude,Longitude);
+            return GetUrlMapImage(type, point, zPosition, width, height);
+        }
 
-            if (Latitude > 90.0 || Latitude < -90.0)
-                throw new ArgumentOutOfRangeException("Широта может задаваться в диапазоне от -90 до +90");
-
-            if (zPosition < 0 || zPosition >17)
+        public string GetUrlMapImage(TypeMapEnum type, GeoPoint CentrPoint, int zPosition, int width, int height)
+        {
+            if (zPosition < 0 || zPosition > 17)
                 throw new ArgumentOutOfRangeException("Уровень масштабирования. Может быть от 1 до 17");
 
             if (width < 1 || width > 650)
@@ -36,23 +28,13 @@ namespace YandexAPI.Mаps
             if (height < 1 || height > 450)
                 throw new ArgumentOutOfRangeException("Высота. Может быть от 1 до 450");
 
-
-            string point = GetPoint(Latitude,Longitude);
-
             return String.Format("https://static-maps.yandex.ru/1.x/?ll={0}&size={1},{2}&z={3}&l={4}&pt={0},pm2rdm",
-                point, 
-                width, 
-                height, 
-                zPosition, 
-                type.ToString().ToLower());
+              CentrPoint.ToString(),
+              width,
+              height,
+              zPosition,
+              type.ToString().ToLower());
         }
-
-        /// <summary>Для меток на карте </summary>
-        /// <param name="Latitude">Широта</param>
-        /// <param name="Longitude">Долгота</param>
-        /// <returns>Строковое значение</returns>
-        private string GetPoint(double Latitude, double Longitude) => FormattableString.Invariant($"{Longitude},{Latitude}");
-        
 
 
         /// <summary>

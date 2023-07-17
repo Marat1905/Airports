@@ -17,6 +17,16 @@ namespace YandexAPI.Mаps.Interfaces
         /// <returns>Url на Image</returns>
         string GetUrlMapImage(TypeMapEnum type, double Latitude, double Longitude, int zPosition, int width, int height);
 
+        /// <summary>Возвращает URL на статический рисунок карты с точкой поиска в центре </summary>
+        /// <param name="type">Слои и типы карт</param>
+        /// <param name="CentrPoint">Географические координаты</param>
+        /// <param name="zPosition">Уровень масштабирования. Может быть от 1 до 17</param>
+        /// <param name="width">Ширина. Может быть от 1 до 650</param>
+        /// <param name="height">Высота. Может быть от 1 до 450</param>
+        /// <returns>Url на Image</returns>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        string GetUrlMapImage(TypeMapEnum type, GeoPoint CentrPoint, int zPosition, int width, int height)
+
         /// <summary>
         /// Метод для скачивания Image из интернета
         /// </summary>
