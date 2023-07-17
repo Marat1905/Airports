@@ -41,5 +41,8 @@ namespace YandexAPI.Mаps
             Latitude = latitude;
             Longitude = longitude;
         }
+
+        public override string ToString()=> FormattableString.Invariant($"{Longitude},{Latitude}");
+        
     }
 }
