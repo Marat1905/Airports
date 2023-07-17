@@ -1,13 +1,10 @@
 ﻿using Airports.DAL.Entityes;
 using Airports.Interfaces;
-using Airports.TestWpf.Models;
 using Airports.TestWpf.Services.Interfaces;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
+using YandexAPI.Mаps;
 
 namespace Airports.TestWpf.Services
 {

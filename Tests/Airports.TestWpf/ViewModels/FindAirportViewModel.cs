@@ -1,13 +1,13 @@
 ﻿using Airports.DAL.Entityes;
 using Airports.TestWpf.Infrastructure.Commands;
 using Airports.TestWpf.Infrastructure.Extensions;
-using Airports.TestWpf.Models;
 using Airports.TestWpf.Services.Interfaces;
 using Airports.TestWpf.ViewModels.Base;
 using System.Collections.Generic;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using YandexAPI.Enums;
+using YandexAPI.Mаps;
 using YandexAPI.Mаps.Interfaces;
 
 namespace Airports.TestWpf.ViewModels

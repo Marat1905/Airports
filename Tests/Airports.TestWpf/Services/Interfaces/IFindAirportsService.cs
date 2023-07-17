@@ -1,7 +1,7 @@
 ﻿using Airports.DAL.Entityes;
-using Airports.TestWpf.Models;
 using System.Collections.Generic;
 using System.Linq;
+using YandexAPI.Mаps;
 
 namespace Airports.TestWpf.Services.Interfaces
 {
