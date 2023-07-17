@@ -39,26 +39,20 @@ namespace YandexAPI.Mаps
 
             string point = GetPoint(Latitude,Longitude);
 
-            return String.Format("https://static-maps.yandex.ru/1.x/?ll={0},{1}&size={2},{3}&z={4}&l={5}&pt={6}"
-                , Longitude.ToString().Replace(",", "."), 
-                Latitude.ToString().Replace(",", "."), 
+            return String.Format("https://static-maps.yandex.ru/1.x/?ll={0}&size={1},{2}&z={3}&l={4}&pt={0},pm2rdm",
+                point, 
                 width, 
                 height, 
                 zPosition, 
-                type.ToString().ToLower(),
-                point);
+                type.ToString().ToLower());
         }
 
         /// <summary>Для меток на карте </summary>
         /// <param name="Latitude">Широта</param>
         /// <param name="Longitude">Долгота</param>
         /// <returns>Строковое значение</returns>
-        private string GetPoint(double Latitude, double Longitude)
-        {
-            return string.Format("{1},{0},pm2rdm",
-                Latitude.ToString().Replace(",", "."),
-                Longitude.ToString().Replace(",", "."));
-        }
+        private string GetPoint(double Latitude, double Longitude) => FormattableString.Invariant($"{Longitude},{Latitude}");
+        
 
 
         /// <summary>
