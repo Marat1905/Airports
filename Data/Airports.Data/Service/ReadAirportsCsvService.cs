@@ -1,6 +1,7 @@
 ﻿using Airports.Data.Infrastructure.Attributes;
 using Airports.Data.Infrastructure.Helper;
 using Airports.Data.Service.Interfaces;
+using Microsoft.VisualBasic.FileIO;
 using System.Globalization;
 using System.IO.Compression;
 using System.Reflection;
@@ -83,9 +84,10 @@ namespace Airports.Data.Service
                             Dictionary<PropertyInfo, CsvAttribute> MapProp = MapProperties(typeof(T));
 
                             // Получаем первую строку и делим ее на название столбцов
-                            string pattern = string.Format("{0}(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))", separator);
-                            string header = reader.ReadLine();
-                            string[] headers = Regex.Split(header, pattern);
+                            // string pattern = string.Format("{0}(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))", separator);
+                            var pattern = new Regex($"""{separator}(?=(?:[^"]*"[^"]*")*(?![^"]*"))""", RegexOptions.Compiled);
+                            var header = reader.ReadLine();
+                            var headers = pattern.Split(header);
 
                             //// Создаем словарь 
                             Dictionary<string, int> myMap = MapHeaders(headers);
@@ -95,7 +97,7 @@ namespace Airports.Data.Service
                             {
                                 // Получаем строку и разбиваем на массив
                                 string line = reader.ReadLine();
-                                string[] lines = Regex.Split(line, pattern);
+                                string[] lines = pattern.Split(line);
                                 lines = lines.Select(x => x.Replace("\"", "")).ToArray();
 
                                 var result = new T();
@@ -109,8 +111,32 @@ namespace Airports.Data.Service
                                     // Устанавливаем значение
                                     SetPropertyValue(result, value, map, mapProp);
                                 }
-                                //Thread.Sleep(100);
                                 yield return result;
+
+                                //var result = new T();
+                                //StringReader sr= new StringReader(reader.ReadLine());
+                                //using (TextFieldParser parser = new TextFieldParser(sr))
+                                //{
+                                //    parser.TextFieldType = FieldType.Delimited;
+                                //    parser.SetDelimiters(",");
+
+                                //    while (!parser.EndOfData)
+                                //    {
+                                //        var fields = parser.ReadFields();
+                                //        for (var i = 0; i < headers.Length; i++)
+                                //        {
+                                //            var value = fields[i].Replace("\"", "");
+
+                                //            // зная индекс массива получаем с словаря его KeyValuePair 
+                                //            var map = myMap.Where(x => x.Value == i).FirstOrDefault();
+                                //            // из полученного KeyValuePair словаря получаем KeyValuePair второго словаря
+                                //            var mapProp = MapProp.Where(x => x.Value.Name == map.Key).FirstOrDefault();
+                                //            // Устанавливаем значение
+                                //            SetPropertyValue(result, value, map, mapProp);
+                                //        }
+                                //    }
+                                //}
+                                //yield return result;
                             }
                         }
                     }
