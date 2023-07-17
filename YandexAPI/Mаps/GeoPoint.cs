@@ -43,6 +43,6 @@ namespace YandexAPI.Mаps
         }
 
         public override string ToString()=> FormattableString.Invariant($"{Longitude},{Latitude}");
-        
+    
     }
 }
