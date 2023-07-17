@@ -4,31 +4,29 @@
     public enum ColorMarker
     {
         /// <summary>Белый (по умолчанию)</summary>
-        wtM,
-        /// <summary>Темно-оранжевый</summary>
-        doM,
+        wt,
         /// <summary>Темно-синий</summary>
-        dbM,
+        db,
         /// <summary>Синий</summary>
-        blM,
+        bl,
         /// <summary>Зеленый</summary>
-        gnM,
+        gn,
         /// <summary>Серый</summary>
-        grM,
+        gr,
         /// <summary>Светло-синий</summary>
-        lbM,
+        lb,
         /// <summary>Темная ночь</summary>
-        ntM,
+        nt,
         /// <summary>Оранжевый</summary>
-        orM,
+        or,
         /// <summary>Розовый</summary>
-        pnM,
+        pn,
         /// <summary>Красный</summary>
-        rdM,
+        rd,
         /// <summary>Фиолетовый</summary>
-        vvM,
+        vv,
         /// <summary>Желтый</summary>
-        ywM,
+        yw,
         /// <summary>С буквой "А" (без указания контента и размера)</summary>
         a,
         /// <summary>С буквой "Б" (без указания контента и размера)</summary>
@@ -41,7 +39,5 @@
         blyw,
         /// <summary>Черная кнопка</summary>
         bk,
-        /// <summary>Серая кнопка</summary>
-        gr
     }
 }
