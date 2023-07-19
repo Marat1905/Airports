@@ -25,7 +25,7 @@ namespace YandexAPI.Mаps.Interfaces
         /// <param name="height">Высота. Может быть от 1 до 450</param>
         /// <returns>Url на Image</returns>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        string GetUrlMapImage(TypeMapEnum type, GeoPoint CentrPoint, int zPosition, int width, int height)
+        string GetUrlMapImage(TypeMapEnum type, GeoPoint CentrPoint, int zPosition, int width, int height);
 
         /// <summary>
         /// Метод для скачивания Image из интернета
