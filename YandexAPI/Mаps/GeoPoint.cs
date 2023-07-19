@@ -43,6 +43,20 @@ namespace YandexAPI.Mаps
         }
 
         public override string ToString()=> FormattableString.Invariant($"{Longitude},{Latitude}");
-    
+
+        public static bool operator == (GeoPoint point1, GeoPoint point2)
+        {
+           if(point1.Longitude==point2.Longitude && point1.Latitude == point2.Latitude)
+                return true;
+            else
+                return false;          
+        }
+        public static bool operator !=(GeoPoint point1, GeoPoint point2)
+        {
+            if (point1.Longitude == point2.Longitude && point1.Latitude == point2.Latitude)
+                return false;
+            else
+                return true;
+        }
     }
 }
