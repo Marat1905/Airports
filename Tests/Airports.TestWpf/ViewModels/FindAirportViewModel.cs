@@ -4,6 +4,7 @@ using Airports.TestWpf.Infrastructure.Extensions;
 using Airports.TestWpf.Services.Interfaces;
 using Airports.TestWpf.ViewModels.Base;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using YandexAPI.Enums;
@@ -91,7 +92,7 @@ namespace Airports.TestWpf.ViewModels
             set 
             {
                 Set(ref _SelectedAirportDB, value);
-                AirportDBMaps = SelectedAirportDB;
+               AirportDBMaps = SelectedAirportDB;
             }  
         }
 
@@ -107,7 +108,10 @@ namespace Airports.TestWpf.ViewModels
             set 
             {
                 Set(ref _AirportDBMaps, value);
-                UpdateSelectMap(AirportDBMaps);
+                if (SelectSearch == 1)
+                    UpdateSelectMap(AirportDBMaps);
+                else
+                    UpdateSelectMaps(AirportDBSearchRadius, AirportDBMaps, PosinionScroll);
             } 
         }
 
@@ -126,9 +130,15 @@ namespace Airports.TestWpf.ViewModels
             set
             {
                 Set(ref _PosinionScroll, value);
-                UpdateSelectMap(AirportDBMaps, PosinionScroll);
+                if(SelectSearch == 1)
+                    UpdateSelectMap(AirportDBMaps, PosinionScroll);
+                else
+                    UpdateSelectMaps(AirportDBSearchRadius, SelectedAirportDB, PosinionScroll);
             }
         }
+
+        /// <summary>Вспомогательное свойство</summary>
+        public int SelectSearch { get; set; }
 
         #endregion
 
@@ -162,6 +172,7 @@ namespace Airports.TestWpf.ViewModels
         /// <summary>Логика выполнения - Поиск ближайшего аэропорта команда</summary>
         private void OnSearchNearestCommandExecuted(object p)
         {
+            SelectSearch = 1;
             AirportDBSearchNearest = _FindAirports.FindТearestAirport(PointSearchNearest);
         }
 
@@ -182,8 +193,14 @@ namespace Airports.TestWpf.ViewModels
         /// <summary>Логика выполнения - Поиск аэропортов радиусе команда</summary>
         private void OnSearchRadiusCommandCommandExecuted(object p)
         {
+            SelectSearch = 2;
             // AirportDBSearchRadius = _FindAirports.FindAirportsRadius(PointSearchRadius, Radius);
+            AirportDBSearchRadius=null;
             AirportDBSearchRadius = _FindAirports.FindAirportsRadiusSql(PointSearchRadius, Radius);
+            if (AirportDBSearchRadius!=null)
+            {
+                SelectedAirportDB = AirportDBSearchRadius.FirstOrDefault();
+            }
 
         }
 
@@ -211,13 +228,39 @@ namespace Airports.TestWpf.ViewModels
         {
             if(airport != null)
             {
+                var point = new GeoPoint((double)airport.LatitudeDeg, (double)airport.LongitudeDeg);
+                string Marker = _StaticMaps.MarkerSplit(point, StyleMarker.pm2,SizeMarker.l,ColorMarker.rd,"1");
+
                 ImageSelectMap = BitmapConversion.BitmapToBitmapSource(_StaticMaps.DownloadMapImage(_StaticMaps.GetUrlMapImage(TypeMapEnum.Map,
                                                                                                                          (double)airport.LatitudeDeg,
-                                                                                                                         (double)airport.LongitudeDeg,
-                                                                                                                         position,
+                                                                                                                         (double)airport.LongitudeDeg,                                                                                                                         
                                                                                                                          500,
-                                                                                                                         450)));
+                                                                                                                         450, 
+                                                                                                                         Marker, position)));
             }        
+        }
+
+        /// <summary>Обновление карты </summary>
+        /// <param name="airport">Объект аэропорта</param>
+        /// <param name="position">Уровень масштабирования</param>
+        private void UpdateSelectMaps(IEnumerable<AirportDBModel> Airports,AirportDBModel selectAirport, int position = 0)
+        {
+            if (selectAirport != null && Airports!=null)
+            {
+                var selectPoint = new GeoPoint((double)selectAirport.LatitudeDeg, (double)selectAirport.LongitudeDeg);
+                List<GeoPoint> points = new List<GeoPoint>();
+
+                foreach (var airport in Airports)
+                {
+                    var point = new GeoPoint((double)airport.LatitudeDeg, (double)airport.LongitudeDeg);
+                    points.Add(point);
+                }
+
+                string marker = _StaticMaps.MarkerSplits(points, selectPoint, StyleMarker.pm2, SizeMarker.l, ColorMarker.bl, ColorMarker.rd);
+
+                ImageSelectMap = BitmapConversion.BitmapToBitmapSource(_StaticMaps.DownloadMapImage(_StaticMaps.GetUrlMapImage(TypeMapEnum.Map,
+                                                                                                                          selectPoint, 500,450,marker, position)));
+            }
         }
         #endregion
     }
