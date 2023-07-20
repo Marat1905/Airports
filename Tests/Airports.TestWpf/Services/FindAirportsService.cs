@@ -1,6 +1,7 @@
 ﻿using Airports.DAL.Entityes;
 using Airports.Interfaces;
 using Airports.TestWpf.Services.Interfaces;
+using Microsoft.SqlServer.Server;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,15 +54,19 @@ namespace Airports.TestWpf.Services
         public IEnumerable<AirportDBModel>? FindAirportsRadiusSql(GeoPoint point, int distance)
         {
             IEnumerable<AirportDBModel>? result = null;
+            var latitude= FormattableString.Invariant($"{point.Latitude}");
+            var longitude = FormattableString.Invariant($"{point.Longitude}");
+            //CAST({point.Latitude} as DECIMAL(25,16))
+            //CAST({point.Longitude} as DECIMAL(25,16))
             result = _Airports.SqlRawQuery($"SELECT * FROM (SELECT * ," +
                 $"(6371.0 * 2.0 * ASIN(" +
                 $" SQRT(" +
                 $" POWER(" +
-                $"SIN(([LatitudeDeg] - ABS({(decimal)point.Latitude})) * PI() / 180 / 2), 2 ) +" +
+                $"SIN(([LatitudeDeg] - ABS(CAST({latitude} as DECIMAL(25,16)))) * PI() / 180 / 2), 2 ) +" +
                 $"COS([LatitudeDeg] * PI() / 180) *" +
-                $"COS(ABS({(decimal)point.Latitude}) * PI() / 180) *" +
-                $" POWER(SIN(([LongitudeDeg] - {(decimal)point.Longitude}) * PI() / 180 / 2),2)))) as distance" +
-                $" FROM[dbo].[Airports] ) p where distance < {distance}").ToList();
+                $"COS(ABS(CAST({latitude} as DECIMAL(25,16))) * PI() / 180) *" +
+                $" POWER(SIN(([LongitudeDeg] - CAST({longitude} as DECIMAL(25,16))) * PI() / 180 / 2),2)))) as distance" +
+                $" FROM[dbo].[Airports] ) p where distance < {distance} ORDER BY abs(distance), distance desc").ToList();
             return result;
         }
 
