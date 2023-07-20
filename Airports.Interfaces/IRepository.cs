@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Microsoft.Data.SqlClient;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -73,8 +73,9 @@ namespace Airports.Interfaces
         Task ClearAsync();
 
         /// <summary>Для получения данных вычисленных в БД </summary>
-        /// <param name="sql"> SQL выражение </param>
-        /// <returns> Возвращаем список</returns>
-        IEnumerable<T> SqlRawQuery(string sql);
+        /// <param name="sql">SQL выражение</param>
+        /// <param name="param">Набор параметров в запрос</param>
+        /// <returns>Возвращаем список</returns>
+        IEnumerable<T> SqlRawQuery(string sql,SqlParameter[] param);
     }
 }
