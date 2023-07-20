@@ -1,10 +1,13 @@
 ﻿using Airports.DAL.Entityes;
 using Airports.Interfaces;
 using Airports.TestWpf.Services.Interfaces;
+using Microsoft.Data.SqlClient;
 using Microsoft.SqlServer.Server;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Controls.Primitives;
+using System.Windows.Controls;
 using YandexAPI.Mаps;
 
 namespace Airports.TestWpf.Services
@@ -54,19 +57,41 @@ namespace Airports.TestWpf.Services
         public IEnumerable<AirportDBModel>? FindAirportsRadiusSql(GeoPoint point, int distance)
         {
             IEnumerable<AirportDBModel>? result = null;
-            var latitude= FormattableString.Invariant($"{point.Latitude}");
-            var longitude = FormattableString.Invariant($"{point.Longitude}");
-            //CAST({point.Latitude} as DECIMAL(25,16))
-            //CAST({point.Longitude} as DECIMAL(25,16))
-            result = _Airports.SqlRawQuery($"SELECT * FROM (SELECT * ," +
-                $"(6371.0 * 2.0 * ASIN(" +
-                $" SQRT(" +
-                $" POWER(" +
-                $"SIN(([LatitudeDeg] - ABS(CAST({latitude} as DECIMAL(25,16)))) * PI() / 180 / 2), 2 ) +" +
-                $"COS([LatitudeDeg] * PI() / 180) *" +
-                $"COS(ABS(CAST({latitude} as DECIMAL(25,16))) * PI() / 180) *" +
-                $" POWER(SIN(([LongitudeDeg] - CAST({longitude} as DECIMAL(25,16))) * PI() / 180 / 2),2)))) as distance" +
-                $" FROM[dbo].[Airports] ) p where distance < {distance} ORDER BY abs(distance), distance desc").ToList();
+
+            var param = new SqlParameter[] {
+                        new SqlParameter() {
+                            ParameterName = "@latitude",
+
+                            SqlDbType =  System.Data.SqlDbType.Decimal,
+                            Precision = 25,
+                            Scale = 16,
+                            Direction = System.Data.ParameterDirection.Input,
+                            Value = (decimal)point.Latitude
+                        },
+                        new SqlParameter() {
+                            ParameterName = "@longitude",
+                            SqlDbType =  System.Data.SqlDbType.Decimal,
+                            Precision = 25,
+                            Scale = 16,
+                            Direction = System.Data.ParameterDirection.Input,
+                            Value = (decimal)point.Longitude
+                        },
+                        new SqlParameter() {
+                            ParameterName = "@distance",
+                            SqlDbType =  System.Data.SqlDbType.Int,
+                            Direction = System.Data.ParameterDirection.Input,
+                            Value = distance
+                        }};
+
+            result = _Airports.SqlRawQuery("SELECT * FROM(SELECT* ," +
+                "(6371.0 * 2.0 * ASIN(" +
+                "SQRT(" +
+                "POWER(" +
+                "SIN(([LatitudeDeg] - ABS(@latitude)) * PI() / 180 / 2), 2) +" +
+                "COS([LatitudeDeg] * PI() / 180) *" +
+                "COS(ABS(@latitude) * PI() / 180) *" +
+                "POWER(SIN(([LongitudeDeg] - @longitude) * PI() / 180 / 2), 2)))) as distance" +
+                " FROM[dbo].[Airports] ) p where distance < @distance ORDER BY abs(distance), distance desc", param).ToList();
             return result;
         }
 
