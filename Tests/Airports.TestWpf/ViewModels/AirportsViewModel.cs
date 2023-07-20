@@ -107,12 +107,11 @@ namespace Airports.TestWpf.ViewModels
         }
         #endregion
   
-        async Task Load()
+        private async Task Load()
         {
             var timer = Stopwatch.StartNew();
 
-            //await ReadCsvWriteSql<RegionInfo, RegionDBModel>(_ReadAirportsCsv, _RegionDB, FILE_REGIONS).ConfigureAwait(false);
-
+            await ReadCsvWriteSql<RegionInfo, RegionDBModel>(_ReadAirportsCsv, _RegionDB, FILE_REGIONS).ConfigureAwait(false);
             await ReadCsvWriteSql<CountryInfo, CountryDBModel>(_ReadAirportsCsv, _CountryDB, FILE_COUNTRIES).ConfigureAwait(false);
             await ReadCsvWriteSql<AirportInfo, AirportDBModel>(_ReadAirportsCsv, _AirportDB, FILE_AIRPORTS).ConfigureAwait(false);
             await ReadCsvWriteSql<AirportFrequenceInfo, AirportFrequenceDBModel>(_ReadAirportsCsv, _AirportFrequenceDB, FILE_AIRPORT_FREQUENCIES).ConfigureAwait(false);
