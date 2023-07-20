@@ -194,8 +194,9 @@ namespace Airports.TestWpf.ViewModels
         private void OnSearchRadiusCommandCommandExecuted(object p)
         {
             SelectSearch = 2;
-            // AirportDBSearchRadius = _FindAirports.FindAirportsRadius(PointSearchRadius, Radius);
+            
             AirportDBSearchRadius=null;
+            //AirportDBSearchRadius = _FindAirports.FindAirportsRadius(PointSearchRadius, Radius);
             AirportDBSearchRadius = _FindAirports.FindAirportsRadiusSql(PointSearchRadius, Radius);
             if (AirportDBSearchRadius!=null)
             {

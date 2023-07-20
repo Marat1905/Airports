@@ -57,10 +57,10 @@ namespace Airports.TestWpf.Services
                 $"(6371.0 * 2.0 * ASIN(" +
                 $" SQRT(" +
                 $" POWER(" +
-                $"SIN(([LatitudeDeg] - ABS({point.Latitude})) * PI() / 180 / 2), 2 ) +" +
+                $"SIN(([LatitudeDeg] - ABS({(decimal)point.Latitude})) * PI() / 180 / 2), 2 ) +" +
                 $"COS([LatitudeDeg] * PI() / 180) *" +
-                $"COS(ABS({point.Latitude}) * PI() / 180) *" +
-                $" POWER(SIN(([LongitudeDeg] - {point.Longitude}) * PI() / 180 / 2),2)))) as distance" +
+                $"COS(ABS({(decimal)point.Latitude}) * PI() / 180) *" +
+                $" POWER(SIN(([LongitudeDeg] - {(decimal)point.Longitude}) * PI() / 180 / 2),2)))) as distance" +
                 $" FROM[dbo].[Airports] ) p where distance < {distance}").ToList();
             return result;
         }
