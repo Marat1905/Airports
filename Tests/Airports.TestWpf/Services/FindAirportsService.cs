@@ -9,6 +9,9 @@ using System.Linq;
 using System.Windows.Controls.Primitives;
 using System.Windows.Controls;
 using YandexAPI.Mаps;
+using System.Threading.Tasks;
+using System.Threading;
+using System.Net.Http.Headers;
 
 namespace Airports.TestWpf.Services
 {
@@ -57,8 +60,24 @@ namespace Airports.TestWpf.Services
         public IEnumerable<AirportDBModel>? FindAirportsRadiusSql(GeoPoint point, int distance)
         {
             IEnumerable<AirportDBModel>? result = null;
+            Query(out SqlParameter[] param, out string query, point, distance);
+           
+            result = _Airports.SqlRawQuery(query, param).ToList();
+            return result;
+        }
 
-            var param = new SqlParameter[] {
+        public async Task<IEnumerable<AirportDBModel>?> FindAirportsRadiusSqlAsync(GeoPoint point, int distance, CancellationToken Cancel = default)
+        {
+            IEnumerable<AirportDBModel>? result = null;
+
+            Query(out SqlParameter[] param, out string query, point, distance);
+          
+            result = await _Airports.SqlRawQueryAsync(query, param).ConfigureAwait(false);
+            return result;
+        }
+        private void Query(out SqlParameter[] param, out string query, GeoPoint point, int distance) 
+        {
+             param = new SqlParameter[] {
                         new SqlParameter() {
                             ParameterName = "@latitude",
 
@@ -83,7 +102,7 @@ namespace Airports.TestWpf.Services
                             Value = distance
                         }};
 
-            result = _Airports.SqlRawQuery("SELECT * FROM(SELECT* ," +
+            query = "SELECT * FROM(SELECT * , " +
                 "(6371.0 * 2.0 * ASIN(" +
                 "SQRT(" +
                 "POWER(" +
@@ -91,8 +110,7 @@ namespace Airports.TestWpf.Services
                 "COS([LatitudeDeg] * PI() / 180) *" +
                 "COS(ABS(@latitude) * PI() / 180) *" +
                 "POWER(SIN(([LongitudeDeg] - @longitude) * PI() / 180 / 2), 2)))) as distance" +
-                " FROM[dbo].[Airports] ) p where distance < @distance ORDER BY abs(distance), distance desc", param).ToList();
-            return result;
+                " FROM[dbo].[Airports] ) p where distance < @distance ORDER BY abs(distance), distance desc";
         }
 
         /// <summary>Расчет расстояния до точки по формуле гаверсинусов </summary>
