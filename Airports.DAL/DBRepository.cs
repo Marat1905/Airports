@@ -105,21 +105,26 @@ namespace Airports.DAL
                 _db.SaveChanges();
         }
 
-        public async Task SaveAsAsync()
+        public async Task SaveAsAsync(CancellationToken Cancel = default)
         {
             if (!AutoSaveChanges)
-              await  _db.SaveChangesAsync().ConfigureAwait(false);
+              await  _db.SaveChangesAsync(Cancel).ConfigureAwait(false);
         }
 
-        public async Task ClearAsync()
+        public async Task ClearAsync(CancellationToken Cancel = default)
         {
             _db.RemoveRange(Items);
-           await  _db.SaveChangesAsync().ConfigureAwait(false);
+           await  _db.SaveChangesAsync(Cancel).ConfigureAwait(false);
         }
 
         public IEnumerable<T> SqlRawQuery(string sql, SqlParameter[] param)
         {
             return _Set.FromSqlRaw(sql, param);
+        }
+
+        public async Task<IEnumerable<T>> SqlRawQueryAsync(string sql, SqlParameter[] param, CancellationToken Cancel = default)
+        {
+            return await _Set.FromSqlRaw(sql, param).ToListAsync(cancellationToken: Cancel).ConfigureAwait(false);
         }
     }
 }
