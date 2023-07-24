@@ -75,6 +75,12 @@ namespace Airports.TestWpf.Services
             result = await _Airports.SqlRawQueryAsync(query, param).ConfigureAwait(false);
             return result;
         }
+
+        /// <summary>Возвращаем набор параметров и само тело запроса</summary>
+        /// <param name="param">Набор входных параметров</param>
+        /// <param name="query">Сам запрос в виде текста</param>
+        /// <param name="point">Координата точки</param>
+        /// <param name="distance">Радиус поиска</param>
         private void Query(out SqlParameter[] param, out string query, GeoPoint point, int distance) 
         {
              param = new SqlParameter[] {
