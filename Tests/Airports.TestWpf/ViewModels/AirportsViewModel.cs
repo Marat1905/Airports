@@ -6,9 +6,11 @@ using Airports.Interfaces;
 using Airports.TestWpf.Infrastructure.Commands;
 using Airports.TestWpf.Services.Interfaces;
 using Airports.TestWpf.ViewModels.Base;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -107,7 +109,7 @@ namespace Airports.TestWpf.ViewModels
         }
         #endregion
   
-        private async Task Load()
+        private async Task Load(CancellationToken Cancel = default)
         {
             var timer = Stopwatch.StartNew();
 
@@ -122,16 +124,17 @@ namespace Airports.TestWpf.ViewModels
 
         }
         
-        async Task ReadCsvWriteSql<Tinfo, TDbModel>(IReadAirportsCsvService info, IRepository<TDbModel> model,string files) where Tinfo : class,new()
+        async Task ReadCsvWriteSql<Tinfo, TDbModel>(IReadAirportsCsvService info, IRepository<TDbModel> model,string files, CancellationToken Cancel = default) where Tinfo : class,new()
                                                                                                                             where TDbModel : class,IEntity,new()
         {
             model.AutoSaveChanges = false;
             foreach (var item in info.GetCsv<Tinfo>(files))
             {
-                model?.Add(item.ModelMap<Tinfo, TDbModel>());
+               // model?.Add(item.ModelMap<Tinfo, TDbModel>());
+                await model.AddAsync(item.ModelMap<Tinfo, TDbModel>(), Cancel);
             }
             if (!model.AutoSaveChanges)
-              await  model.SaveAsAsync().ConfigureAwait(false);
+              await  model.SaveAsAsync(Cancel).ConfigureAwait(false);
         }
     }
 }
