@@ -9,6 +9,7 @@ namespace Airports.TestWpf.Services
     {
         public static IServiceCollection AddServices(this IServiceCollection services) => services
             .AddTransient<IFindAirportsService,FindAirportsService>()
+            .AddTransient<IUserDialogService, WindowsUserDialogService>()
            ;
     }
 }
