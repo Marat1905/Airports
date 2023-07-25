@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Airports.TestWpf.Views" 
              xmlns:vm="clr-namespace:Airports.TestWpf.ViewModels"
+             xmlns:cmd="clr-namespace:Airports.TestWpf.Infrastructure.Commands"
              xmlns:m="clr-namespace:Airports.DAL.Entityes;assembly=Airports.DAL"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800"
@@ -19,7 +20,8 @@
         HorizontalAlignment="Center" VerticalAlignment="Stretch" />
         <GroupBox Grid.Column="0" Header="Список аэропортов">
             <DockPanel>
-                <Button DockPanel.Dock="Top" Command="{Binding ReadCsvToSqlDataCommand}">
+
+                <Button DockPanel.Dock="Top" Command="{Binding OpenProgressCommand}">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Загрузить данные"/>
                     </StackPanel>
