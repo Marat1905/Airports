@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using Airports.DAL;
+using System.Threading;
 
 namespace Airports.TestWpf.Data
 {
@@ -19,7 +20,12 @@ namespace Airports.TestWpf.Data
                    default: throw new InvalidOperationException($"Тип подключения {type} не поддерживается");
 
                    case "MSSQL":
-                       opt.UseSqlServer(Configuration.GetConnectionString(type));
+                       opt.UseSqlServer(Configuration.GetConnectionString(type),              
+                                                                providerOptions =>
+                                                                             {
+                                                                              providerOptions.CommandTimeout(180);
+                                                                             }
+                                        );
                        break;
                    case "SQLite":
                        opt.UseSqlite(Configuration.GetConnectionString(type));
