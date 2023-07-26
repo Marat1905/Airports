@@ -28,6 +28,8 @@ namespace Airports.Data.Service
                 zipPath = value;
             }
         }
+
+     
         #endregion
 
         #region Конструкторы
@@ -62,7 +64,25 @@ namespace Airports.Data.Service
             return ReadZip().Any(x => x.Name == fileName);
         }
 
-
+        public int Count(string filename)
+        {
+            int countOfLines = 0;
+            using (ZipArchive archive = ZipFile.OpenRead(ZipPath))
+            {
+                var sample = archive.GetEntry(filename);
+                if (sample != null)
+                {
+                    using (var zipEntryStream = sample.Open())
+                    {
+                        string file = new StreamReader(zipEntryStream).ReadToEnd();
+                        string[] lines = file.Split('\n');
+                        countOfLines = lines.GetLength(0);
+                       
+                    }
+                }
+            }
+            return countOfLines;
+        }
 
         /// <summary> </summary>
         /// <typeparam name="T"></typeparam>
@@ -215,6 +235,8 @@ namespace Airports.Data.Service
             }
             return myMap;
         }
+
+       
         #endregion
     }
 }

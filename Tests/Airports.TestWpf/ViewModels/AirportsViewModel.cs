@@ -5,6 +5,7 @@ using Airports.Data.Service.Interfaces;
 using Airports.Interfaces;
 using Airports.TestWpf.Data;
 using Airports.TestWpf.Infrastructure.Commands;
+using Airports.TestWpf.Model;
 using Airports.TestWpf.Services.Interfaces;
 using Airports.TestWpf.ViewModels.Base;
 using Microsoft.Identity.Client;
@@ -101,8 +102,16 @@ namespace Airports.TestWpf.ViewModels
             //готовим токен отмены
             _TokenSource = new CancellationTokenSource();
             CancellationToken cancelToken = _TokenSource.Token;
-            ProgressLoad = new ProgressLoadViewModel(_UserDialog, _TokenSource);
-            Task.Run(() => Start(cancelToken));
+            ProgressLoad = new ProgressLoadViewModel(_UserDialog, _TokenSource,6);
+            // через него будем оповещать о ходе выполнения задачи
+            Progress<ProgressLoadModel> progress = new Progress<ProgressLoadModel>(val =>
+            {
+                ProgressLoad.ProgressCount = val.ProgressCount;
+                ProgressLoad.CountRows=val.CountRows;
+                ProgressLoad.CountDownloadFiles=val.CountDownloadFiles;
+                ProgressLoad.FileDownload = val.File;
+            });
+            Task.Run(() => Start(cancelToken,progress));
             _UserDialog.Open(ProgressLoad);
            
         }
@@ -139,7 +148,7 @@ namespace Airports.TestWpf.ViewModels
         }
         #endregion
   
-        private async Task Start(CancellationToken Cancel = default)
+        private async Task Start(CancellationToken Cancel = default, IProgress<ProgressLoadModel>? Progress = null)
         {
             AirportsDBModel= Enumerable.Empty<AirportDBModel>();
             await _DbInit.InitializeAsync();
@@ -153,30 +162,31 @@ namespace Airports.TestWpf.ViewModels
                 //await _RegionDB.ClearAsync(Cancel);
                 //await _AirportFrequenceDB.ClearAsync(Cancel);
             }
-            await Load(Cancel);
+            await Load(Progress,Cancel);
            
             _UserDialog.Close(ProgressLoad);
             AirportsDBModel = _AirportDB.Items.ToArray();
         }
 
-        private async Task Load(CancellationToken Cancel = default)
+        private async Task Load(IProgress<ProgressLoadModel>? Progress = null, CancellationToken Cancel = default)
         {
             var timer = Stopwatch.StartNew();
-
-            await ReadCsvWriteSql<RegionInfo, RegionDBModel>(_ReadAirportsCsv, _RegionDB, FILE_REGIONS,Cancel).ConfigureAwait(false);
-            await ReadCsvWriteSql<CountryInfo, CountryDBModel>(_ReadAirportsCsv, _CountryDB, FILE_COUNTRIES, Cancel).ConfigureAwait(false);
-            await ReadCsvWriteSql<AirportInfo, AirportDBModel>(_ReadAirportsCsv, _AirportDB, FILE_AIRPORTS, Cancel).ConfigureAwait(false);
-            await ReadCsvWriteSql<AirportFrequenceInfo, AirportFrequenceDBModel>(_ReadAirportsCsv, _AirportFrequenceDB, FILE_AIRPORT_FREQUENCIES, Cancel).ConfigureAwait(false);
-            await ReadCsvWriteSql<NavaidInfo, NavaidDBModel>(_ReadAirportsCsv, _NavaidDB, FILE_NAVAIDS, Cancel).ConfigureAwait(false);
-            await ReadCsvWriteSql<RunwayInfo, RunwayDBModel>(_ReadAirportsCsv, _RunwayDB, FILE_RUNWAYS, Cancel).ConfigureAwait(false);
+            await ReadCsvWriteSql<RegionInfo, RegionDBModel>(1, _ReadAirportsCsv, _RegionDB, FILE_REGIONS, Cancel, Progress).ConfigureAwait(false);
+            await ReadCsvWriteSql<CountryInfo, CountryDBModel>(2, _ReadAirportsCsv, _CountryDB, FILE_COUNTRIES, Cancel, Progress).ConfigureAwait(false);
+            await ReadCsvWriteSql<AirportInfo, AirportDBModel>(3, _ReadAirportsCsv, _AirportDB, FILE_AIRPORTS, Cancel, Progress).ConfigureAwait(false);
+            await ReadCsvWriteSql<AirportFrequenceInfo, AirportFrequenceDBModel>(4, _ReadAirportsCsv, _AirportFrequenceDB, FILE_AIRPORT_FREQUENCIES, Cancel, Progress).ConfigureAwait(false);
+            await ReadCsvWriteSql<NavaidInfo, NavaidDBModel>(5, _ReadAirportsCsv, _NavaidDB, FILE_NAVAIDS, Cancel, Progress).ConfigureAwait(false);
+            await ReadCsvWriteSql<RunwayInfo, RunwayDBModel>(6, _ReadAirportsCsv, _RunwayDB, FILE_RUNWAYS, Cancel, Progress).ConfigureAwait(false);
             Debug.WriteLine("Writing completed at {0}", timer.Elapsed);
 
         }
         
-        async Task ReadCsvWriteSql<Tinfo, TDbModel>(IReadAirportsCsvService info, IRepository<TDbModel> model,string files, CancellationToken Cancel = default) where Tinfo : class,new()
-                                                                                                                            where TDbModel : class,IEntity,new()
+        async Task ReadCsvWriteSql<Tinfo, TDbModel>( int count,IReadAirportsCsvService info, IRepository<TDbModel> model,string files, CancellationToken Cancel = default, IProgress<ProgressLoadModel>? Progress = null) where Tinfo : class,new()
+                                                                                                                           where TDbModel : class,IEntity,new()
         {
             model.AutoSaveChanges = false;
+            int countRows = info.Count(files);
+            int i=0;
             foreach (var item in info.GetCsv<Tinfo>(files))
             {
                 if (Cancel.IsCancellationRequested)  // проверяем наличие сигнала отмены задачи
@@ -185,12 +195,13 @@ namespace Airports.TestWpf.ViewModels
                     break;     //  выходим из метода и тем самым завершаем задачу
                 }
                 // model?.Add(item.ModelMap<Tinfo, TDbModel>());
+                if (Progress != null)
+                     Progress.Report(new ProgressLoadModel(countRows,i++, count,files));
+
                 await model.AddAsync(item.ModelMap<Tinfo, TDbModel>(), Cancel);
             }
             if (!model.AutoSaveChanges)
               await  model.SaveAsAsync(Cancel).ConfigureAwait(false);
         }
-
-       
     }
 }
