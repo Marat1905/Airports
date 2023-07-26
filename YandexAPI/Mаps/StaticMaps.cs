@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text;
 using YandexAPI.Enums;
@@ -60,6 +61,9 @@ namespace YandexAPI.Mаps
 
         public string MarkerSplits(IEnumerable<GeoPoint> points, GeoPoint SetPoint, StyleMarker styleMarker, SizeMarker sizeMarker, ColorMarker colorMarker, ColorMarker setColorMarker)
         {
+            if(points.Count()>100)
+                throw new ArgumentOutOfRangeException(nameof(points), "Точек на карте не может быть больше 100");
+
             StringBuilder sb = new StringBuilder();
             int i = 0;
             string txt = "";
