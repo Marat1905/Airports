@@ -23,6 +23,11 @@ namespace Airports.Data.Service.Interfaces
         /// <param name="separator">Разделитель</param>
         /// <returns></returns>
         IEnumerable<T> GetCsv<T>(string fileName, string separator = ",") where T : class, new();
+        
+        /// <summary>Количество строк в файле</summary>
+        /// <param name="filename"></param>
+        /// <returns></returns>
+        int Count(string filename);
 
         /// <summary></summary>
         /// <typeparam name="T"></typeparam>
