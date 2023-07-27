@@ -84,5 +84,9 @@ namespace Airports.Interfaces
         /// <param name="Cancel">Токен отмены операции</param>
         /// <returns>Возвращаем список</returns>
         Task<IEnumerable<T>> SqlRawQueryAsync(string sql, SqlParameter[] param, CancellationToken Cancel = default);
+
+        /// <summary>Метод для управления транзакциями</summary>
+        /// <returns>Возвращает объект с интерфейсом IRepositoryTransaction</returns>
+        IRepositoryTransaction BeginTransaction();
     }
 }
