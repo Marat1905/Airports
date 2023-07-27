@@ -1,7 +1,6 @@
 ﻿using Airports.DAL.Context;
 using Airports.DAL.Entityes.Base;
 using Airports.Interfaces;
-using Azure.Core.GeoJson;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -125,6 +124,11 @@ namespace Airports.DAL
         public async Task<IEnumerable<T>> SqlRawQueryAsync(string sql, SqlParameter[] param, CancellationToken Cancel = default)
         {
             return await _Set.FromSqlRaw(sql, param).ToListAsync(cancellationToken: Cancel).ConfigureAwait(false);
+        }
+
+        public IRepositoryTransaction BeginTransaction()
+        {
+            return new EntityDatabaseTransaction(_db);
         }
     }
 }
