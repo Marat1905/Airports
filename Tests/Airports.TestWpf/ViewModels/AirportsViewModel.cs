@@ -171,6 +171,7 @@ namespace Airports.TestWpf.ViewModels
         private async Task Load(IProgress<ProgressLoadModel>? Progress = null, CancellationToken Cancel = default)
         {
             var timer = Stopwatch.StartNew();
+
             await ReadCsvWriteSql<RegionInfo, RegionDBModel>(1, _ReadAirportsCsv, _RegionDB, FILE_REGIONS, Cancel, Progress).ConfigureAwait(false);
             await ReadCsvWriteSql<CountryInfo, CountryDBModel>(2, _ReadAirportsCsv, _CountryDB, FILE_COUNTRIES, Cancel, Progress).ConfigureAwait(false);
             await ReadCsvWriteSql<AirportInfo, AirportDBModel>(3, _ReadAirportsCsv, _AirportDB, FILE_AIRPORTS, Cancel, Progress).ConfigureAwait(false);
@@ -184,24 +185,31 @@ namespace Airports.TestWpf.ViewModels
         async Task ReadCsvWriteSql<Tinfo, TDbModel>( int count,IReadAirportsCsvService info, IRepository<TDbModel> model,string files, CancellationToken Cancel = default, IProgress<ProgressLoadModel>? Progress = null) where Tinfo : class,new()
                                                                                                                            where TDbModel : class,IEntity,new()
         {
-            model.AutoSaveChanges = false;
-            int countRows = info.Count(files);
-            int i=0;
-            foreach (var item in info.GetCsv<Tinfo>(files))
+            using(var transaction =  model.BeginTransaction()) 
             {
-                if (Cancel.IsCancellationRequested)  // проверяем наличие сигнала отмены задачи
-                {
-                    Debug.WriteLine("Операция прервана");
-                    break;     //  выходим из метода и тем самым завершаем задачу
-                }
-                // model?.Add(item.ModelMap<Tinfo, TDbModel>());
-                if (Progress != null)
-                     Progress.Report(new ProgressLoadModel(countRows,i++, count,files));
+                    model.AutoSaveChanges = false;
+                    int countRows = info.Count(files);
+                    int i = 0;
+                    foreach (var item in info.GetCsv<Tinfo>(files))
+                    {
+                        if (Cancel.IsCancellationRequested)  // проверяем наличие сигнала отмены задачи
+                        {
+                            Debug.WriteLine("Операция прервана");
+                            throw new OperationCanceledException(Cancel);
+                        }
+                        // model?.Add(item.ModelMap<Tinfo, TDbModel>());
+                        if (Progress != null)
+                            Progress.Report(new ProgressLoadModel(countRows, i++, count, files));
 
-                await model.AddAsync(item.ModelMap<Tinfo, TDbModel>(), Cancel);
+                        await model.AddAsync(item.ModelMap<Tinfo, TDbModel>(), Cancel);
+                    }
+                    if (!model.AutoSaveChanges)
+                        await model.SaveAsAsync(Cancel).ConfigureAwait(false);
+
+                  transaction.Commit();
             }
-            if (!model.AutoSaveChanges)
-              await  model.SaveAsAsync(Cancel).ConfigureAwait(false);
+
+           
         }
     }
 }
