@@ -9,7 +9,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Styles\" />
+    <Compile Remove="Models\**" />
+    <Compile Remove="Styles\**" />
+    <EmbeddedResource Remove="Models\**" />
+    <EmbeddedResource Remove="Styles\**" />
+    <None Remove="Models\**" />
+    <None Remove="Styles\**" />
+    <Page Remove="Models\**" />
+    <Page Remove="Styles\**" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,7 +1,9 @@
 ﻿using Airports.DAL.Entityes;
-using Airports.TestWpf.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Threading;
+using YandexAPI.Mаps;
 
 namespace Airports.TestWpf.Services.Interfaces
 {
@@ -28,5 +30,11 @@ namespace Airports.TestWpf.Services.Interfaces
         /// <returns>Возврат списков аэропортов</returns>
         IEnumerable<AirportDBModel>? FindAirportsRadiusSql(GeoPoint point, int radius);
 
+        /// <summary>Поиск аэропортов в заданном радиусе прямой запрос к БД асинхронно</summary>
+        /// <param name="point">Координаты центра поиска</param>
+        /// <param name="radius">Радиус поиска(км)</param>
+        /// <param name="Cancel">Токен отмены операции</param>
+        /// <returns>Возврат списков аэропортов</returns>
+        Task<IEnumerable<AirportDBModel>?> FindAirportsRadiusSqlAsync(GeoPoint point, int distance, CancellationToken Cancel = default);
     }
 }

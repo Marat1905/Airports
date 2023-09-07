@@ -4,10 +4,16 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Airports.TestWpf.Views" 
-             xmlns:vm="clr-namespace:Airports.TestWpf.ViewModels"
+             xmlns:vm="clr-namespace:Airports.TestWpf.ViewModels" 
+             xmlns:c="clr-namespace:Airports.TestWpf.Infrastructure.Converters"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800"
              d:DataContext="{d:DesignInstance vm:FindAirportViewModel, d:IsDesignTimeCreatable=True}">
+    <UserControl.Resources>
+        <c:LocationPointToStr x:Key="LocationConverter"/>
+      
+    </UserControl.Resources>
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1.3*"/>
@@ -45,15 +51,19 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                    
                     <TextBlock Grid.Column="0" Grid.Row="0" Text="Широта:"/>
                     <TextBlock Grid.Column="0" Grid.Row="1" Text="Долгота:"/>
+                    <TextBlock Grid.Column="0" Grid.Row="2" Text=""/>
+                    <TextBlock Grid.Column="0" Grid.Row="3" Text="Широта,долгота:"/>
 
 
 
-                    <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding PointSearchNearest.Latitude}"/>
+                    <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding PointSearchNearest.Latitude}" />
                     <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding PointSearchNearest.Longitude}"/>
+                    <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding PointSearchNearest, Converter={StaticResource LocationConverter}, Mode=TwoWay}"/>
 
                 </Grid>
             </DockPanel>
@@ -85,16 +95,21 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
                     <TextBlock Grid.Column="0" Grid.Row="0" Text="Широта:"/>
                     <TextBlock Grid.Column="0" Grid.Row="1" Text="Долгота:"/>
                     <TextBlock Grid.Column="0" Grid.Row="2" Text="Радиус поиска:"/>
+                    <TextBlock Grid.Column="0" Grid.Row="3" Text=""/>
+                    <TextBlock Grid.Column="0" Grid.Row="4" Text="Широта,долгота:"/>
 
 
                     <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding PointSearchRadius.Latitude}"/>
                     <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding PointSearchRadius.Longitude}"/>
                     <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Radius}"/>
+                    <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding PointSearchRadius, Converter={StaticResource LocationConverter}, Mode=TwoWay}"/>
                 </Grid>
             </DockPanel>
         </GroupBox>

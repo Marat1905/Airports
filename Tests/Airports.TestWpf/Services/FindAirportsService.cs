@@ -1,13 +1,17 @@
 ﻿using Airports.DAL.Entityes;
 using Airports.Interfaces;
-using Airports.TestWpf.Models;
 using Airports.TestWpf.Services.Interfaces;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.Data.SqlClient;
+using Microsoft.SqlServer.Server;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
+using System.Windows.Controls.Primitives;
+using System.Windows.Controls;
+using YandexAPI.Mаps;
+using System.Threading.Tasks;
+using System.Threading;
+using System.Net.Http.Headers;
 
 namespace Airports.TestWpf.Services
 {
@@ -56,16 +60,63 @@ namespace Airports.TestWpf.Services
         public IEnumerable<AirportDBModel>? FindAirportsRadiusSql(GeoPoint point, int distance)
         {
             IEnumerable<AirportDBModel>? result = null;
-            result = _Airports.SqlRawQuery($"SELECT * FROM (SELECT * ," +
-                $"(6371.0 * 2.0 * ASIN(" +
-                $" SQRT(" +
-                $" POWER(" +
-                $"SIN(([LatitudeDeg] - ABS({point.Latitude})) * PI() / 180 / 2), 2 ) +" +
-                $"COS([LatitudeDeg] * PI() / 180) *" +
-                $"COS(ABS({point.Latitude}) * PI() / 180) *" +
-                $" POWER(SIN(([LongitudeDeg] - {point.Longitude}) * PI() / 180 / 2),2)))) as distance" +
-                $" FROM[dbo].[Airports] ) p where distance < {distance}").ToList();
+            Query(out SqlParameter[] param, out string query, point, distance);
+           
+            result = _Airports.SqlRawQuery(query, param).ToList();
             return result;
+        }
+
+        public async Task<IEnumerable<AirportDBModel>?> FindAirportsRadiusSqlAsync(GeoPoint point, int distance, CancellationToken Cancel = default)
+        {
+            IEnumerable<AirportDBModel>? result = null;
+
+            Query(out SqlParameter[] param, out string query, point, distance);
+          
+            result = await _Airports.SqlRawQueryAsync(query, param).ConfigureAwait(false);
+            return result;
+        }
+
+        /// <summary>Возвращаем набор параметров и само тело запроса</summary>
+        /// <param name="param">Набор входных параметров</param>
+        /// <param name="query">Сам запрос в виде текста</param>
+        /// <param name="point">Координата точки</param>
+        /// <param name="distance">Радиус поиска</param>
+        private void Query(out SqlParameter[] param, out string query, GeoPoint point, int distance) 
+        {
+             param = new SqlParameter[] {
+                        new SqlParameter() {
+                            ParameterName = "@latitude",
+
+                            SqlDbType =  System.Data.SqlDbType.Decimal,
+                            Precision = 25,
+                            Scale = 16,
+                            Direction = System.Data.ParameterDirection.Input,
+                            Value = (decimal)point.Latitude
+                        },
+                        new SqlParameter() {
+                            ParameterName = "@longitude",
+                            SqlDbType =  System.Data.SqlDbType.Decimal,
+                            Precision = 25,
+                            Scale = 16,
+                            Direction = System.Data.ParameterDirection.Input,
+                            Value = (decimal)point.Longitude
+                        },
+                        new SqlParameter() {
+                            ParameterName = "@distance",
+                            SqlDbType =  System.Data.SqlDbType.Int,
+                            Direction = System.Data.ParameterDirection.Input,
+                            Value = distance
+                        }};
+
+            query = "SELECT * FROM(SELECT * , " +
+                "(6371.0 * 2.0 * ASIN(" +
+                "SQRT(" +
+                "POWER(" +
+                "SIN(([LatitudeDeg] - ABS(@latitude)) * PI() / 180 / 2), 2) +" +
+                "COS([LatitudeDeg] * PI() / 180) *" +
+                "COS(ABS(@latitude) * PI() / 180) *" +
+                "POWER(SIN(([LongitudeDeg] - @longitude) * PI() / 180 / 2), 2)))) as distance" +
+                " FROM[dbo].[Airports] ) p where distance < @distance ORDER BY abs(distance), distance desc";
         }
 
         /// <summary>Расчет расстояния до точки по формуле гаверсинусов </summary>
