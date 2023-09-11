@@ -1,22 +1,20 @@
 ﻿using Airports.DAL.Entityes;
+using Airports.DAL.Interfaces;
 using Airports.Interfaces;
 using Airports.TestWpf.Services.Interfaces;
 using Microsoft.Data.SqlClient;
-using Microsoft.SqlServer.Server;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Controls.Primitives;
-using System.Windows.Controls;
-using YandexAPI.Mаps;
-using System.Threading.Tasks;
 using System.Threading;
-using System.Net.Http.Headers;
+using System.Threading.Tasks;
+using YandexAPI.Mаps;
 
 namespace Airports.TestWpf.Services
 {
     internal class FindAirportsService:IFindAirportsService
     {
+        //private readonly ISqlRepository<AirportDBModel> _Airports;
         private readonly IRepository<AirportDBModel> _Airports;
 
         public IQueryable<AirportDBModel> Airports => _Airports.Items;
@@ -61,8 +59,9 @@ namespace Airports.TestWpf.Services
         {
             IEnumerable<AirportDBModel>? result = null;
             Query(out SqlParameter[] param, out string query, point, distance);
-           
-            result = _Airports.SqlRawQuery(query, param).ToList();
+
+            //result = _Airports.SqlRawQuery(query, param).ToList();
+            result = ((ISqlRepository<AirportDBModel>)_Airports).SqlRawQuery(query, param).ToList();
             return result;
         }
 
@@ -71,8 +70,9 @@ namespace Airports.TestWpf.Services
             IEnumerable<AirportDBModel>? result = null;
 
             Query(out SqlParameter[] param, out string query, point, distance);
-          
-            result = await _Airports.SqlRawQueryAsync(query, param).ConfigureAwait(false);
+
+            //result = await _Airports.SqlRawQueryAsync(query, param).ConfigureAwait(false);
+            result = await ((ISqlRepository<AirportDBModel>)_Airports).SqlRawQueryAsync(query, param).ConfigureAwait(false);
             return result;
         }
 
