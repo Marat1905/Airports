@@ -185,31 +185,29 @@ namespace Airports.TestWpf.ViewModels
         async Task ReadCsvWriteSql<Tinfo, TDbModel>( int count,IReadAirportsCsvService info, IRepository<TDbModel> model,string files, CancellationToken Cancel = default, IProgress<ProgressLoadModel>? Progress = null) where Tinfo : class,new()
                                                                                                                            where TDbModel : class,IEntity,new()
         {
-            using(var transaction =  model.BeginTransaction()) 
+            await using (var transaction = model.BeginTransaction())
             {
-                    model.AutoSaveChanges = false;
-                    int countRows = info.Count(files);
-                    int i = 0;
-                    foreach (var item in info.GetCsv<Tinfo>(files))
+                model.AutoSaveChanges = false;
+                int countRows = info.Count(files);
+                int i = 0;
+                foreach (var item in info.GetCsv<Tinfo>(files))
+                {
+                    if (Cancel.IsCancellationRequested)  // проверяем наличие сигнала отмены задачи
                     {
-                        if (Cancel.IsCancellationRequested)  // проверяем наличие сигнала отмены задачи
-                        {
-                            Debug.WriteLine("Операция прервана");
-                            throw new OperationCanceledException(Cancel);
-                        }
-                        // model?.Add(item.ModelMap<Tinfo, TDbModel>());
-                        if (Progress != null)
-                            Progress.Report(new ProgressLoadModel(countRows, i++, count, files));
-
-                        await model.AddAsync(item.ModelMap<Tinfo, TDbModel>(), Cancel);
+                        Debug.WriteLine("Операция прервана");
+                        throw new OperationCanceledException(Cancel);
                     }
-                    if (!model.AutoSaveChanges)
-                        await model.SaveAsAsync(Cancel).ConfigureAwait(false);
+                    // model?.Add(item.ModelMap<Tinfo, TDbModel>());
+                    if (Progress != null)
+                        Progress.Report(new ProgressLoadModel(countRows, i++, count, files));
 
-                  transaction.Commit();
+                    await model.AddAsync(item.ModelMap<Tinfo, TDbModel>(), Cancel);
+                }
+                if (!model.AutoSaveChanges)
+                    await model.SaveAsAsync(Cancel).ConfigureAwait(false);
+
+               await transaction.CommitAsync();
             }
-
-           
         }
     }
 }
