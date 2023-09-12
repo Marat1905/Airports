@@ -3,6 +3,7 @@ using Airports.Data.Infrastructure.Helper;
 using Airports.Data.Service.Interfaces;
 using Microsoft.VisualBasic.FileIO;
 using System.Globalization;
+using System.IO;
 using System.IO.Compression;
 using System.Reflection;
 using System.Text;
@@ -73,12 +74,9 @@ namespace Airports.Data.Service
                 if (sample != null)
                 {
                     using (var zipEntryStream = sample.Open())
-                    {
-                        string file = new StreamReader(zipEntryStream).ReadToEnd();
-                        string[] lines = file.Split('\n');
-                        countOfLines = lines.GetLength(0);
-                       
-                    }
+                        using (StreamReader reader = new StreamReader(zipEntryStream))
+                            while (reader.ReadLine()!= null)
+                                countOfLines++;
                 }
             }
             return countOfLines;
