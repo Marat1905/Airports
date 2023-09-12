@@ -58,9 +58,7 @@ namespace Airports.TestWpf.Services
                 WindowStartupLocation = WindowStartupLocation.CenterOwner
             };
 
-            if (dlg.ShowDialog() != true) return false;
-
-            return true;
+            return dlg.ShowDialog() ?? false;
         }
 
         private void CloseDialog(ProgressLoadViewModel vm)
