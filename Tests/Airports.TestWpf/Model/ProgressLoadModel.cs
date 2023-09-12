@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Airports.TestWpf.Model
+﻿namespace Airports.TestWpf.Model
 {
-    public class ProgressLoadModel
+    public record struct ProgressLoadModel
     {
         /// <summary>Общее количество итераций</summary>
         public int CountRows { get; set; }
