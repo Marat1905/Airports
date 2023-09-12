@@ -202,6 +202,7 @@ namespace Airports.TestWpf.ViewModels
             //AirportDBSearchRadius = _FindAirports.FindAirportsRadius(PointSearchRadius, Radius);
             //AirportDBSearchRadius = _FindAirports.FindAirportsRadiusSql(PointSearchRadius, Radius);
             AirportDBSearchRadius  = await Task.Run( async() => await _FindAirports.FindAirportsRadiusSqlAsync(PointSearchRadius, Radius).ConfigureAwait(false));
+            //AirportDBSearchRadius = await _FindAirports.FindAirportsRadiusSqlAsync(PointSearchRadius, Radius);
             if (AirportDBSearchRadius!=null)
             {
                 SelectedAirportDB =  AirportDBSearchRadius.FirstOrDefault();
