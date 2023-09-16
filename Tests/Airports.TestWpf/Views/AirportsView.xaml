@@ -21,7 +21,7 @@
         <GroupBox Grid.Column="0" Header="Список аэропортов">
             <DockPanel>
 
-                <Button DockPanel.Dock="Top" Command="{Binding OpenProgressCommand}">
+                <Button Style="{DynamicResource CustomButtonStyle}" DockPanel.Dock="Top" Command="{Binding OpenProgressCommand}">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Загрузить данные"/>
                     </StackPanel>
