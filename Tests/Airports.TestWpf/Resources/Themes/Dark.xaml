@@ -1,0 +1,18 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:p="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options">
+
+    <SolidColorBrush Color="#1c1b21" x:Key="Backdrop"/>
+    <SolidColorBrush Color="#dfe6e9" x:Key="Text"/>
+    <SolidColorBrush Color="#353b48" x:Key="Card"/>
+
+
+    <SolidColorBrush x:Key="Button.Background" Color="#FF2F2F2F" p:Freeze="True" />
+    <SolidColorBrush x:Key="Button.BorderBrush" Color="#FFCCCCCC" p:Freeze="True" />
+    <SolidColorBrush x:Key="Button.Foreground" Color="{Binding Source={StaticResource Text},Path=Color}" p:Freeze="True" />
+    <SolidColorBrush x:Key="Button.Background.MouseOver" Color="#FF454545" p:Freeze="True" />
+    <SolidColorBrush x:Key="Button.Background.Pressed" Color="#FF7E7E7E" p:Freeze="True" />
+    <SolidColorBrush x:Key="Button.Foreground.Pressed" Color="#FF000000" p:Freeze="True" />
+    <SolidColorBrush x:Key="Button.Foreground.IsEnabled" Color="#FF7F7F7F" p:Freeze="True" />
+
+</ResourceDictionary>
