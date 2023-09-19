@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using System.Security.Cryptography;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Airports.DAL
 {
@@ -22,9 +24,21 @@ namespace Airports.DAL
            _Transaction.Commit();
            _disposing = false;
         }
+
+        public async Task CommitAsync(CancellationToken Cancel = default)
+        {
+           await _Transaction.CommitAsync(Cancel);
+            _disposing = false;
+        }
+
         public void Rollback()
         {
             _Transaction.Rollback();
+        }
+
+        public async Task RollbackAsync()
+        {
+           await _Transaction.RollbackAsync();
         }
 
         public void Dispose()
@@ -33,6 +47,14 @@ namespace Airports.DAL
                 Dispose(_disposing);
             else
                 _Transaction.Dispose();
+        }
+
+        public async ValueTask DisposeAsync()
+        {
+            if (_disposing)
+               await DisposeAsync(_disposing);
+            else
+               await _Transaction.DisposeAsync();
         }
 
         private void Dispose(bool disposing)
@@ -44,5 +66,17 @@ namespace Airports.DAL
                 _Transaction.Dispose();
             }
         }
+
+        private async Task DisposeAsync(bool disposing, CancellationToken Cancel = default)
+        {
+            if (disposing && (_Transaction != null))
+            {
+                _disposing = true;
+               await RollbackAsync();
+                _Transaction.Dispose();
+            }
+        }
+
+       
     }
 }

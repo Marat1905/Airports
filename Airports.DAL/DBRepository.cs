@@ -1,5 +1,6 @@
 ﻿using Airports.DAL.Context;
 using Airports.DAL.Entityes.Base;
+using Airports.DAL.Interfaces;
 using Airports.Interfaces;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Airports.DAL
 {
-    internal class DBRepository<T> : IRepository<T> where T : Entity, new()
+    internal class DBRepository<T> : ISqlRepository<T> where T : Entity, new()
     {
         private readonly AirpotsDB _db;
         private readonly DbSet<T> _Set;

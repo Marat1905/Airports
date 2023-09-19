@@ -1,0 +1,31 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+   
+    <ResourceDictionary.MergedDictionaries>
+        <!--<ResourceDictionary Source="Themes/Dark.xaml"/>-->
+        <ResourceDictionary Source="Themes/Light.xaml"/>
+        <ResourceDictionary Source="Styles/Buttons.xaml"/>
+        <ResourceDictionary Source="Styles/GroupBoxs.xaml"/>
+        <ResourceDictionary Source="Styles/TabControl.xaml"/>
+        <ResourceDictionary Source="Styles/ListBox.xaml"/>
+        <ResourceDictionary Source="Styles/Menu.xaml"/>
+        <ResourceDictionary Source="Styles/MenuItem.xaml"/>
+        <ResourceDictionary Source="Styles/TextBox.xaml"/>
+        <ResourceDictionary Source="Styles/ScrollBar.xaml"/>
+
+
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style BasedOn="{StaticResource CustomGroupBoxStyle}" TargetType="GroupBox" />
+    <Style BasedOn="{StaticResource CustomButtonStyle}" TargetType="Button" />
+    <Style BasedOn="{StaticResource CustomTabControlStyle}" TargetType="TabControl" />
+    <Style BasedOn="{StaticResource CustomTabItemStyle}" TargetType="TabItem" />
+    <Style BasedOn="{StaticResource CustomListBoxStyle}" TargetType="ListBox" />
+    <Style BasedOn="{StaticResource CustomListBoxItemStyle}" TargetType="ListBoxItem" />
+    <Style BasedOn="{StaticResource CustomMenuStyle}" TargetType="Menu" />
+    <Style BasedOn="{StaticResource CustomScrollBar }" TargetType="ScrollBar" />
+    <Style BasedOn="{StaticResource CustomTextBoxStyle}" TargetType="TextBox" />
+    
+
+
+</ResourceDictionary>

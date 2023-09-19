@@ -21,12 +21,12 @@
         <GroupBox Grid.Column="0" Header="Список аэропортов">
             <DockPanel>
 
-                <Button DockPanel.Dock="Top" Command="{Binding OpenProgressCommand}">
+                <Button DockPanel.Dock="Top" Command="{Binding OpenProgressCommand}" Margin="5">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Загрузить данные"/>
                     </StackPanel>
                 </Button>
-                <ListBox ItemsSource="{Binding AirportsDBModel}" SelectedItem="{Binding SelectedAirport }" SelectedIndex="0">
+                <ListBox ItemsSource="{Binding AirportsDBModel}" SelectedItem="{Binding SelectedAirport }" SelectedIndex="0" d:ItemsSource="{d:SampleData ItemCount=5}">
                     <ListBox.ItemTemplate>
                         <DataTemplate DataType="m:AirportDBModel">
                             <TextBlock>
@@ -42,7 +42,7 @@
                 </ListBox>
             </DockPanel>
         </GroupBox>
-        <GroupBox Grid.Column="2" Header="Информация">
+        <GroupBox  Grid.Column="2" Header="Информация">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
@@ -54,8 +54,8 @@
                     <RowDefinition/>
                     
                 </Grid.RowDefinitions>
-                <GroupBox Grid.Row="0" Grid.Column="0" Header="Радионавигационные средства">
-                    <ListBox ItemsSource="{Binding SelectedAirport.AirportFrequencesDB}">
+                <GroupBox  Grid.Row="0" Grid.Column="0" Header="Радионавигационные средства">
+                    <ListBox ItemsSource="{Binding SelectedAirport.AirportFrequencesDB}" d:ItemsSource="{d:SampleData ItemCount=5}">
                         <ListBox.ItemTemplate>
                             <DataTemplate DataType="m:AirportFrequenceDBModel">
                                 <TextBlock>
@@ -101,7 +101,7 @@
                     </ListBox>
 
                 </GroupBox>
-                <GroupBox Grid.Row="0" Grid.Column="1" Header="Страна нахождения аэропорта" DataContext="{Binding SelectedAirport.CountryDB}">
+                <GroupBox  Grid.Row="0" Grid.Column="1"  Header="Страна нахождения аэропорта" DataContext="{Binding SelectedAirport.CountryDB}">
                     <Grid Margin="3">
                         <Grid.Resources>
                             <Style TargetType="TextBlock">
@@ -138,7 +138,7 @@
 
                     </Grid>
                 </GroupBox>
-                <GroupBox Grid.Row="1" Grid.Column="1" Header="Регион" DataContext="{Binding SelectedAirport.RegionDB}">
+                <GroupBox  Grid.Row="1" Grid.Column="1" Header="Регион" DataContext="{Binding SelectedAirport.RegionDB}">
                     <Grid Margin="3">
                         <Grid.Resources>
                             <Style TargetType="TextBlock">
@@ -175,7 +175,7 @@
 
                     </Grid>
                 </GroupBox>
-                <GroupBox Grid.Row="2" Grid.Column="1" Header="Информация аэропорта" DataContext="{Binding SelectedAirport}">
+                <GroupBox  Grid.Row="2" Grid.Column="1" Header="Информация аэропорта" DataContext="{Binding SelectedAirport}">
                     <Grid Margin="3">
                         <Grid.Resources>
                             <Style TargetType="TextBlock">

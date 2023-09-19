@@ -46,17 +46,11 @@ namespace YandexAPI.Mаps
 
         public static bool operator == (GeoPoint point1, GeoPoint point2)
         {
-           if(point1.Longitude==point2.Longitude && point1.Latitude == point2.Latitude)
-                return true;
-            else
-                return false;          
+            return point1.Longitude == point2.Longitude && point1.Latitude == point2.Latitude;
         }
         public static bool operator !=(GeoPoint point1, GeoPoint point2)
         {
-            if (point1.Longitude == point2.Longitude && point1.Latitude == point2.Latitude)
-                return false;
-            else
-                return true;
+            return !(point1 == point2);
         }
     }
 }

@@ -13,13 +13,37 @@
     <Window.Resources>
         <cmd:CloseApplicationCommand x:Key="CloseApplicationCommand"/>
     </Window.Resources>
-    <DockPanel>
+    <DockPanel Background="{DynamicResource Backdrop}">
+
+        <DockPanel.ContextMenu>
+            <ContextMenu>
+                <MenuItem Header="LightTheme" Command="{Binding LightThemeCommand}"/>
+                <MenuItem Header="DarkTheme" Command="{Binding DarkThemeCommand}"/>
+            </ContextMenu>
+        </DockPanel.ContextMenu>
+
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="Файл">
                 <MenuItem Header="Выход" Command="{StaticResource CloseApplicationCommand}"/>
+                <MenuItem Header="Тест">
+                    <MenuItem Header="Тест1"/>
+                    <MenuItem Header="Тест2"/>
+                    <MenuItem Header="Тест3">
+                        <MenuItem Header="Тест1"/>
+                        <MenuItem Header="Тест2" IsEnabled="False"/>
+                    </MenuItem>
+                    <MenuItem Header="Тест4" IsEnabled="False">
+                        <MenuItem Header="Тест1"/>
+                        <MenuItem Header="Тест2" IsEnabled="False"/>
+                    </MenuItem>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="Стиль">
+                <MenuItem Header="Светлая тема" Command="{Binding LightThemeCommand}"/>
+                <MenuItem Header="Тёмная тема" Command="{Binding DarkThemeCommand}"/>
             </MenuItem>
         </Menu>
-        <StatusBar DockPanel.Dock="Bottom">
+        <!--<StatusBar DockPanel.Dock="Bottom">
             <StatusBarItem MinWidth="150" MaxWidth="350">
                 <TextBlock Text="{Binding Status}"/>
             </StatusBarItem>
@@ -27,8 +51,8 @@
                 <ProgressBar Width="120" Height="14" Value="30"/>
             </StatusBarItem>
             <StatusBarItem Content="{Binding SelectedPageIndex}"/>
-        </StatusBar>
-        <TabControl >
+        </StatusBar>-->
+        <TabControl Background="{DynamicResource Backdrop}">
             <TabItem Header="Аэропорты" >
                 <view:AirportsView DataContext="{Binding AirportsViewModel}" />
             </TabItem>
